@@ -6,7 +6,8 @@ const Event = defineTable({
         name: column.text(),
         description: column.text({ optional: true }),
         icon: column.text({ optional: true }),
-        date: column.date()
+        date: column.date(),
+        createdDate: column.date({ default: new Date() })
     }
 });
 
@@ -16,7 +17,8 @@ const Participant = defineTable({
         eventId: column.text({ references: () => Event.columns.id }),
         name: column.text({ optional: true }),
         isAdmin: column.boolean(),
-        willParticipate: column.boolean()
+        willParticipate: column.boolean(),
+        createdDate: column.date({ default: new Date() })
     }
 });
 
