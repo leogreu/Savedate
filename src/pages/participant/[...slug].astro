@@ -1,5 +1,6 @@
 ---
 import "@/styles/globals.css";
+import { CircleCheck, X } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow, } from "@/components/ui/table";
@@ -77,6 +78,7 @@ const participants = await db.select().from(Participant).where(eq(Participant.ev
                             <TableRow>
                                 <TableHead>Name</TableHead>
                                 <TableHead>Antwort vom</TableHead>
+                                <TableHead>Teilname</TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
@@ -90,7 +92,15 @@ const participants = await db.select().from(Participant).where(eq(Participant.ev
                                                 : (entry.name || "Kein Name")
                                         }
                                     </TableCell>
-                                    <TableCell>{entry.createdDate.toLocaleString()}</TableCell>
+                                    <TableCell>
+                                        {entry.createdDate.toLocaleString()}
+                                        </TableCell>
+                                    <TableCell>
+                                        {entry.willParticipate
+                                            ? <CircleCheck size={20}></CircleCheck>
+                                            : <X size={20}></X>
+                                        }
+                                    </TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>

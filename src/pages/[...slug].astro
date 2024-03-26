@@ -14,15 +14,15 @@ if (!event) return;
 if (Astro.request.method === "POST") {
     try {
         const data = await Astro.request.formData();
-        const { name } = Object.fromEntries(data.entries());
+        const { name, willParticipate } = Object.fromEntries(data.entries());
         
-        if (typeof name === "string") {
+        if (typeof name === "string" && typeof willParticipate === "string") {
             const participant = await db.insert(Participant).values({
                 id: crypto.randomUUID(),
                 eventId: event.id,
                 name: name,
                 isAdmin: false,
-                willParticipate: false,
+                willParticipate: JSON.parse(willParticipate),
                 createdDate: new Date()
             }).returning().get();
 
@@ -64,8 +64,12 @@ if (Astro.request.method === "POST") {
                 <Input name="name" />
             </label>
             <div class="flex gap-2">
-                <Button type="submit">Teilnehmen</Button>
-                <Button variant="secondary">Nicht teilnehmen</Button>
+                <Button type="submit" name="willParticipate" value="true">
+                    Teilnehmen
+                </Button>
+                <Button type="submit" name="willParticipate" value="false" variant="secondary">
+                    Nicht teilnehmen
+                </Button>
             </div>
         </form>
     </body>
