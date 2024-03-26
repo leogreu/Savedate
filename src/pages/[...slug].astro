@@ -51,18 +51,18 @@ if (Astro.request.method === "POST") {
                 <span class="absolute bottom-0 text-6xl translate-y-[50%]">🎉</span>
             </div>
         </header>
-        <form class="flex flex-col gap-10 mt-16 mx-auto px-6 max-w-xl" method="POST">
-            <header class="flex flex-col gap-4">
+        <form class="flex flex-col gap-8 mt-16 mx-auto px-6 max-w-xl" method="POST">
+            <header class="flex flex-col gap-6">
                 <div>
+                    <div class="flex text-gray-400">
+                        <p>{new Date(event.startDate).toLocaleDateString(Astro.preferredLocale)}</p>
+                        {event.startTime &&
+                            <p>, {event.startTime}</p>
+                        }
+                    </div>
                     <h1 class="text-4xl font-medium text-gray-700">
                         {event.name}
                     </h1>
-                    <div class="flex text-gray-400">
-                        <p>Am {new Date(event.startDate).toLocaleDateString(Astro.preferredLocale)}</p>
-                        {event.startTime &&
-                            <p>, um {event.startTime}h</p>
-                        }
-                    </div>
                 </div>
                 {event.description &&
                     <p class="text-lg text-gray-500">

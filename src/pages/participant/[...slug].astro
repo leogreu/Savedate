@@ -41,18 +41,18 @@ const participants = await db.select().from(Participant).where(eq(Participant.ev
         </header>
         <main class="flex flex-col gap-12 my-16 mx-auto px-6 max-w-xl">
             <section class="flex flex-col gap-8">
-                <header class="flex flex-col gap-4">
+                <header class="flex flex-col gap-6">
                     <div>
+                        <!-- TODO: Add reusable component to show time, and probably reuse for add-to-calendar -->
+                        <div class="flex text-gray-400">
+                            <p>{new Date(event.startDate).toLocaleDateString(Astro.preferredLocale)}</p>
+                            {event.startTime &&
+                                <p>, {event.startTime}</p>
+                            }
+                        </div>
                         <h1 class="text-4xl font-medium text-gray-700">
                             {event.name}
                         </h1>
-                        <!-- TODO: Add reusable component to show time, and probably reuse for add-to-calendar -->
-                        <div class="flex text-gray-400">
-                            <p>Am {new Date(event.startDate).toLocaleDateString(Astro.preferredLocale)}</p>
-                            {event.startTime &&
-                                <p>, um {event.startTime}h</p>
-                            }
-                        </div>
                     </div>
                     <p class="text-lg text-gray-500">
                         {participant.isAdmin
