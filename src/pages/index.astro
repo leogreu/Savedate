@@ -70,7 +70,7 @@ if (Astro.request.method === "POST") {
             </header>
             <label class="flex flex-col gap-2">
                 <p>Name</p>
-                <Input name="name" required/>
+                <Input name="name" required />
             </label>
             <label class="flex flex-col gap-2">
                 <p>Beschreibung</p>
@@ -79,7 +79,7 @@ if (Astro.request.method === "POST") {
             <div class="flex gap-2">
                 <label class="flex flex-col gap-2 w-full">
                     <p>Datum</p>
-                    <Input name="date" type="date" value={new Date().toISOString().split("T").at(0)} />
+                    <Input name="date" type="date" required />
                 </label>
                 <label class="flex flex-col gap-2">
                     <p>Uhrzeit</p>
@@ -90,8 +90,14 @@ if (Astro.request.method === "POST") {
                 <p>Teilnehmer dürfen andere Teilnehmer sehen</p>
                 <Switch client:load disabled></Switch>
             </label>
-            <input class="hidden" name="timezone" value={Intl.DateTimeFormat().resolvedOptions().timeZone} />
+            <input class="hidden" name="timezone" />
             <Button type="submit">Speichern</Button>
         </form>
     </body>
 </html>
+
+<script>
+    // Set the timezone client-side to get the actual user timezone
+    const timezoneInput = document.querySelector<HTMLInputElement>("[name='timezone']");
+    if (timezoneInput) timezoneInput.value = Intl.DateTimeFormat().resolvedOptions().timeZone;
+</script>
