@@ -4,6 +4,17 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea"
 import { DatePicker } from "@/components/ui/date-picker";
+
+if (Astro.request.method === "POST") {
+    try {
+        const data = await Astro.request.formData();
+        console.log(data);
+    } catch (error) {
+        if (error instanceof Error) {
+            console.error(error.message);
+        }
+    }
+}
 ---
 
 <html lang="en">
@@ -20,26 +31,26 @@ import { DatePicker } from "@/components/ui/date-picker";
                 <span class="absolute bottom-0 text-6xl translate-y-[50%]">🎉</span>
             </div>
         </header>
-        <form class="flex flex-col gap-8 mt-16 mx-auto px-4 max-w-lg">
+        <form class="flex flex-col gap-8 mt-16 mx-auto px-4 max-w-lg" method="POST">
             <label class="flex flex-col gap-2">
                 <p>Name</p>
-                <Input/>
+                <Input name="event" required/>
             </label>
             <label class="flex flex-col gap-2">
                 <p>Beschreibung</p>
-                <Textarea></Textarea>
+                <Textarea name="description"></Textarea>
             </label>
             <div class="flex gap-2">
                 <label class="flex flex-col gap-2 w-full">
                     <p>Datum</p>
-                    <DatePicker client:load></DatePicker>
+                    <DatePicker name="date" client:load></DatePicker>
                 </label>
                 <label class="flex flex-col gap-2">
                     <p>Uhrzeit</p>
-                    <Input placeholder="Optional" />
+                    <Input name="time" placeholder="Optional" />
                 </label>
             </div>
-            <Button>Speichern</Button>
+            <Button type="submit">Speichern</Button>
         </form>
     </body>
 </html>

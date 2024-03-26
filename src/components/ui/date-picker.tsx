@@ -10,8 +10,8 @@ import {
     PopoverTrigger,
 } from "@/components/ui/popover"
 
-export function DatePicker() {
-    const [date, setDate] = React.useState<Date>()
+export function DatePicker({ name } = { name: String() }) {
+    const [date, setDate] = React.useState<Date>();
 
     return (
         <Popover>
@@ -35,6 +35,8 @@ export function DatePicker() {
                     initialFocus
                 />
             </PopoverContent>
+            {/* Hidden input to store the date value */}
+            <input type="hidden" name={name} value={date?.toLocaleDateString('en-CA')} />
         </Popover>
     )
 }
