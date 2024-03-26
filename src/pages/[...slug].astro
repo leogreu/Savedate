@@ -1,0 +1,71 @@
+---
+import "@/styles/globals.css";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+
+import { db, eq, Event, Participant } from "astro:db";
+
+const { slug } = Astro.params;
+if (!slug) return;
+
+const event = await db.select().from(Event).where(eq(Event.id, slug)).get();
+if (!event) return;
+
+if (Astro.request.method === "POST") {
+    try {
+        const data = await Astro.request.formData();
+        const { name } = Object.fromEntries(data.entries());
+        
+        if (typeof name === "string") {
+            const participant = await db.insert(Participant).values({
+                id: crypto.randomUUID(),
+                eventId: event.id,
+                name: name,
+                isAdmin: false,
+                willParticipate: false
+            }).returning().get();
+
+            return Astro.redirect(`/participant/${participant.id}`);
+        }
+    } catch (error) {
+        if (error instanceof Error) {
+            console.error(error.message);
+        }
+    }
+}
+---
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <meta name="viewport" content="width=device-width" />
+        <meta name="generator" content={Astro.generator} />
+        <title>{event.name}</title>
+    </head>
+    <body>
+        <header class="relative block w-full h-40 bg-slate-50">
+            <div class="mx-auto px-4 max-w-lg">
+                <span class="absolute bottom-0 text-6xl translate-y-[50%]">🎉</span>
+            </div>
+        </header>
+        <form class="flex flex-col gap-12 mt-16 mx-auto px-4 max-w-lg" method="POST">
+            <header class="flex flex-col gap-4">
+                <h1 class="text-4xl font-medium text-gray-700">
+                    {event.name}
+                </h1>
+                <p class="text-lg text-gray-500">
+                    {event.description}
+                </p>
+            </header>
+            <label class="flex flex-col gap-2">
+                <p>Dein Name</p>
+                <Input name="name" />
+            </label>
+            <div class="flex gap-2">
+                <Button type="submit">Teilnehmen</Button>
+                <Button variant="secondary">Nicht teilnehmen</Button>
+            </div>
+        </form>
+    </body>
+</html>
