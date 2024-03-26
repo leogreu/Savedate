@@ -1,6 +1,7 @@
 ---
 import "@/styles/globals.css";
 import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow, } from "@/components/ui/table";
 
 import { db, eq, Event, Participant } from "astro:db";
@@ -24,6 +25,7 @@ const participants = await db.select().from(Participant).where(eq(Participant.ev
 <html lang="en">
     <head>
         <meta charset="utf-8" />
+        <meta name="description" content={event.description}>
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
         <meta name="viewport" content="width=device-width" />
         <meta name="generator" content={Astro.generator} />
@@ -42,13 +44,19 @@ const participants = await db.select().from(Participant).where(eq(Participant.ev
                         {event.name}
                     </h1>
                     <p class="text-lg text-gray-500">
-                        Dein Termin wurde erfolgreich erstellt! Du kannst nun den Link oder QR-Code unten verschicken.
+                        {participant.isAdmin
+                            ? "Dein Termin wurde erfolgreich erstellt! Du kannst nun den Link oder QR-Code unten verschicken."
+                            : "Deine Antwort wurde erfolgreich übermittelt."
+                        }
                     </p>
                 </header>
-                <label class="flex flex-col gap-2">
-                    <p>Link</p>
-                    <Input value={`${Astro.url.origin}/${event.id}`} readOnly />
-                </label>
+                {participant.isAdmin &&
+                    <label class="flex flex-col gap-2">
+                        <p>Link</p>
+                        <Input value={`${Astro.url.origin}/${event.id}`} readOnly />
+                    </label>
+                }
+                <Button id="add-to-calendar">In Kalender speichern</Button>
             </section>
             <hr>
             <section>
@@ -84,3 +92,21 @@ const participants = await db.select().from(Participant).where(eq(Participant.ev
         </main>
     </body>
 </html>
+
+<script>
+    import { atcb_action } from "add-to-calendar-button";
+
+    const config = {
+        name: document.title,
+        description: document.querySelector('meta[name="description"]')?.getAttribute("content") ?? "",
+        startDate: "2024-03-23",
+        startTime: "10:15",
+        endTime: "23:30",
+        timeZone: "America/Los_Angeles"
+    };
+
+    const button = document.querySelector<HTMLElement>("#add-to-calendar");
+    button?.addEventListener("click", () => {
+        atcb_action(config, button);
+    });
+</script>
