@@ -12,6 +12,7 @@ const Event = defineTable({
 
 const Participant = defineTable({
     columns: {
+        id: column.text({ primaryKey: true }),
         eventId: column.text({ references: () => Event.columns.id }),
         name: column.text({ optional: true }),
         isAdmin: column.boolean(),

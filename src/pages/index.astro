@@ -14,7 +14,7 @@ if (Astro.request.method === "POST") {
         
         if (typeof name === "string" && typeof date === "string") {
             const eventId = crypto.randomUUID();
-            const event = await db.insert(Event).values({
+            await db.insert(Event).values({
                 id: eventId,
                 name: name,
                 description: typeof description === "string" ? description : null,
@@ -23,8 +23,9 @@ if (Astro.request.method === "POST") {
             });
 
             const participantId = crypto.randomUUID();
-            const participant = await db.insert(Participant).values({
-                eventId,
+            await db.insert(Participant).values({
+                id: participantId,
+                eventId: eventId,
                 isAdmin: true,
                 willParticipate: true
             });
