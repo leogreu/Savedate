@@ -3,7 +3,6 @@ import "@/styles/globals.css";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea"
-import { DatePicker } from "@/components/ui/date-picker";
 import { Switch } from "@/components/ui/switch";
 import { db, Event, Participant } from "astro:db";
 
@@ -80,11 +79,11 @@ if (Astro.request.method === "POST") {
             <div class="flex gap-2">
                 <label class="flex flex-col gap-2 w-full">
                     <p>Datum</p>
-                    <DatePicker name="date" client:load></DatePicker>
+                    <Input name="date" type="date" value={new Date().toISOString().split("T").at(0)} />
                 </label>
                 <label class="flex flex-col gap-2">
                     <p>Uhrzeit</p>
-                    <Input name="time" placeholder="Optional" />
+                    <Input name="time" type="time" />
                 </label>
             </div>
             <label class="flex justify-between">
