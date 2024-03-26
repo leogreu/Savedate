@@ -1,6 +1,8 @@
 ---
 import "@/styles/globals.css";
 import { Input } from "@/components/ui/input";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow, } from "@/components/ui/table";
+
 import { db, eq, Event, Participant } from "astro:db";
 
 const { slug } = Astro.params;
@@ -11,6 +13,8 @@ if (!participant) return;
 
 const event = await db.select().from(Event).where(eq(Event.id, participant.eventId)).get();
 if (!event) return;
+
+const participants = await db.select().from(Participant).where(eq(Participant.eventId, event.id));
 
 // TODO: Add reusable Layout component
 // TODO: Evaluate whether to use Container for main component (also for creation form)
@@ -31,20 +35,48 @@ if (!event) return;
                 <span class="absolute bottom-0 text-6xl translate-y-[50%]">🎉</span>
             </div>
         </header>
-        <main class="flex flex-col gap-8 mt-16 mx-auto px-4 max-w-lg">
-            <header class="flex flex-col gap-4">
-                <h1 class="text-4xl font-medium text-gray-700">
-                    {event.name}
-                </h1>
-                <p class="text-gray-500">
-                    Dein Termin wurde erfolgreich erstellt! Du kannst nun den Link oder QR-Code unten verschicken.
-                </p>
-            </header>
+        <main class="flex flex-col gap-12 mt-16 mx-auto px-4 max-w-lg">
+            <section class="flex flex-col gap-8">
+                <header class="flex flex-col gap-4">
+                    <h1 class="text-4xl font-medium text-gray-700">
+                        {event.name}
+                    </h1>
+                    <p class="text-lg text-gray-500">
+                        Dein Termin wurde erfolgreich erstellt! Du kannst nun den Link oder QR-Code unten verschicken.
+                    </p>
+                </header>
+                <label class="flex flex-col gap-2">
+                    <p>Link</p>
+                    <Input value={`${Astro.url.origin}/${event.id}`} readOnly />
+                </label>
+            </section>
             <hr>
-            <label class="flex flex-col gap-2">
-                <p>Link</p>
-                <Input value={`${Astro.url.origin}/${event.id}`} />
-            </label>
+            <section>
+                <header class="flex flex-col gap-4">
+                    <h2 class="text-2xl font-medium text-gray-700">
+                        Teilnehmer
+                    </h2>
+                    <p class="text-base text-gray-500">
+                        Hier siehst du eine Liste aller Personen, die deine Einladung angenommen oder abgelehnt haben.
+                    </p>
+                    <Table>
+                        <TableHeader>
+                            <TableRow>
+                                <TableHead>Name</TableHead>
+                                <TableHead>Datum</TableHead>
+                            </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                            {participants.map((entry) => (
+                                <TableRow key={entry.id}>
+                                    <TableCell>{entry.id === participant.id ? "Du" : participant.name}</TableCell>
+                                    <TableCell>TODO</TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </header>
+            </section>
         </main>
     </body>
 </html>
