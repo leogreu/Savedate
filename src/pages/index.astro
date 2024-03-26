@@ -2,6 +2,7 @@
 import "@/styles/globals.css";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea"
 import { DatePicker } from "@/components/ui/date-picker";
 ---
 
@@ -14,8 +15,20 @@ import { DatePicker } from "@/components/ui/date-picker";
         <title>Savedate</title>
     </head>
     <body>
-        <Input/>
-        <DatePicker client:load></DatePicker>
-        <Button>Save</Button>
+        <form class="flex flex-col mx-auto gap-y-8 max-w-lg">
+            <label class="flex flex-col gap-y-2">
+                <p>Name</p>
+                <Input/>
+            </label>
+            <label class="flex flex-col gap-y-2">
+                <p>Beschreibung</p>
+                <Textarea></Textarea>
+            </label>
+            <label class="flex flex-col gap-y-2">
+                <p>Datum</p>
+                <DatePicker client:load></DatePicker>
+            </label>
+            <Button>Speichern</Button>
+        </form>
     </body>
 </html>
