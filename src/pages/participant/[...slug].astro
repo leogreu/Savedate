@@ -103,7 +103,7 @@ const participants = await db.select().from(Participant).where(eq(Participant.ev
                                         }
                                     </TableCell>
                                     <TableCell>
-                                        {entry.createdDate.toLocaleString()}
+                                        {entry.createdDate.toLocaleString(Astro.preferredLocale)}
                                         </TableCell>
                                     <TableCell>
                                         {entry.willParticipate
