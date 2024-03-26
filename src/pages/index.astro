@@ -13,22 +13,20 @@ if (Astro.request.method === "POST") {
         const { name, description, date, time } = Object.fromEntries(data.entries());
         
         if (typeof name === "string" && typeof date === "string") {
-            const eventId = crypto.randomUUID();
-            await db.insert(Event).values({
-                id: eventId,
+            const event = await db.insert(Event).values({
+                id: crypto.randomUUID(),
                 name: name,
                 description: typeof description === "string" ? description : null,
                 icon: "🎉",
                 date: new Date(date)
-            });
+            }).returning().get();
 
-            const participantId = crypto.randomUUID();
-            await db.insert(Participant).values({
-                id: participantId,
-                eventId: eventId,
+            const participant = await db.insert(Participant).values({
+                id: crypto.randomUUID(),
+                eventId: event.id,
                 isAdmin: true,
                 willParticipate: true
-            });
+            }).returning().get();
         }
     } catch (error) {
         if (error instanceof Error) {
