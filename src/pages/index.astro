@@ -9,7 +9,7 @@ import { db, Event, Participant } from "astro:db";
 if (Astro.request.method === "POST") {
     try {
         const data = await Astro.request.formData();
-        const { name, description, date, time } = Object.fromEntries(data.entries());
+        const { name, description, date, time, timezone } = Object.fromEntries(data.entries());
         
         if (typeof name === "string" && typeof date === "string") {
             const event = await db.insert(Event).values({
@@ -17,7 +17,11 @@ if (Astro.request.method === "POST") {
                 name: name,
                 description: typeof description === "string" ? description : null,
                 icon: "🎉",
-                date: new Date(date)
+                startDate: date,
+                endDate: date,
+                startTime: typeof time === "string" ? time : null,
+                endTime: typeof time === "string" ? time : null,
+                timezone: time && typeof timezone === "string" ? timezone : null
             }).returning().get();
 
             const participant = await db.insert(Participant).values({
@@ -70,6 +74,7 @@ if (Astro.request.method === "POST") {
                     <Input name="time" placeholder="Optional" />
                 </label>
             </div>
+            <input class="hidden" name="timezone" value={Intl.DateTimeFormat().resolvedOptions().timeZone} />
             <Button type="submit">Speichern</Button>
         </form>
     </body>

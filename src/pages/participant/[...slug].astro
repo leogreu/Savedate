@@ -57,6 +57,11 @@ const participants = await db.select().from(Participant).where(eq(Participant.ev
                     </label>
                 }
                 <Button id="add-to-calendar">In Kalender speichern</Button>
+                <time id="start-date" class="hidden" datetime={event.startDate}></time>
+                <time id="end-date" class="hidden" datetime={event.startDate}></time>
+                <time id="start-time" class="hidden" datetime={event.startTime}></time>
+                <time id="end-time" class="hidden" datetime={event.endTime}></time>
+                <input id="timezone" class="hidden" value={event.timezone}></time>
             </section>
             <hr>
             <section>
@@ -100,10 +105,11 @@ const participants = await db.select().from(Participant).where(eq(Participant.ev
         atcb_action({
             name: document.title,
             description: document.querySelector('meta[name="description"]')?.getAttribute("content") ?? "",
-            startDate: "2024-03-23",
-            startTime: "10:15",
-            endTime: "23:30",
-            timeZone: "America/Los_Angeles"
+            startDate: document.querySelector<HTMLTimeElement>("time#start-date")?.dateTime,
+            endDate: document.querySelector<HTMLTimeElement>("time#end-date")?.dateTime,
+            startTime: document.querySelector<HTMLTimeElement>("time#start-time")?.dateTime,
+            endTime: document.querySelector<HTMLTimeElement>("time#end-time")?.dateTime,
+            timeZone: document.querySelector<HTMLInputElement>("#timezone")?.value
         });
     });
 </script>

@@ -6,7 +6,11 @@ const Event = defineTable({
         name: column.text(),
         description: column.text({ optional: true }),
         icon: column.text({ optional: true }),
-        date: column.date(),
+        startDate: column.text(),
+        endDate: column.text(),
+        startTime: column.text({ optional: true }),
+        endTime: column.text({ optional: true }),
+        timezone: column.text({ optional: true }),
         createdDate: column.date({ default: new Date() })
     }
 });
