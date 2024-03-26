@@ -58,7 +58,7 @@ if (Astro.request.method === "POST") {
                         {event.name}
                     </h1>
                     <div class="flex text-gray-400">
-                        <p>Am {new Date(event.startDate).toLocaleDateString()}</p>
+                        <p>Am {new Date(event.startDate).toLocaleDateString(Astro.preferredLocale)}</p>
                         {event.startTime &&
                             <p>, um {event.startTime}h</p>
                         }
