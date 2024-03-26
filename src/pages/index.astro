@@ -21,14 +21,16 @@ if (Astro.request.method === "POST") {
                 endDate: date,
                 startTime: typeof time === "string" ? time : null,
                 endTime: typeof time === "string" ? time : null,
-                timezone: time && typeof timezone === "string" ? timezone : null
+                timezone: time && typeof timezone === "string" ? timezone : null,
+                createdDate: new Date()
             }).returning().get();
 
             const participant = await db.insert(Participant).values({
                 id: crypto.randomUUID(),
                 eventId: event.id,
                 isAdmin: true,
-                willParticipate: true
+                willParticipate: true,
+                createdDate: new Date()
             }).returning().get();
 
             return Astro.redirect(`/participant/${participant.id}`);

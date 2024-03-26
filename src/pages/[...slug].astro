@@ -22,7 +22,8 @@ if (Astro.request.method === "POST") {
                 eventId: event.id,
                 name: name,
                 isAdmin: false,
-                willParticipate: false
+                willParticipate: false,
+                createdDate: new Date()
             }).returning().get();
 
             return Astro.redirect(`/participant/${participant.id}`);

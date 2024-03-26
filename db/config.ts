@@ -11,7 +11,7 @@ const Event = defineTable({
         startTime: column.text({ optional: true }),
         endTime: column.text({ optional: true }),
         timezone: column.text({ optional: true }),
-        createdDate: column.date({ default: new Date() })
+        createdDate: column.date()
     }
 });
 
@@ -22,7 +22,7 @@ const Participant = defineTable({
         name: column.text({ optional: true }),
         isAdmin: column.boolean(),
         willParticipate: column.boolean(),
-        createdDate: column.date({ default: new Date() })
+        createdDate: column.date()
     }
 });
 
