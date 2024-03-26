@@ -1,4 +1,6 @@
 ---
+import "@/styles/globals.css";
+import { Input } from "@/components/ui/input";
 import { db, eq, Event, Participant } from "astro:db";
 
 const { slug } = Astro.params;
@@ -9,6 +11,10 @@ if (!participant) return;
 
 const event = await db.select().from(Event).where(eq(Event.id, participant.eventId)).get();
 if (!event) return;
+
+// TODO: Add reusable Layout component
+// TODO: Evaluate whether to use Container for main component (also for creation form)
+// TODO: Probably also add a reusable Label component
 ---
 
 <html lang="en">
@@ -25,7 +31,20 @@ if (!event) return;
                 <span class="absolute bottom-0 text-6xl translate-y-[50%]">🎉</span>
             </div>
         </header>
-        <h1>Erfolg!</h1>
-        <p>{slug}</p>
+        <main class="flex flex-col gap-8 mt-16 mx-auto px-4 max-w-lg">
+            <header class="flex flex-col gap-4">
+                <h1 class="text-4xl font-medium text-gray-700">
+                    {event.name}
+                </h1>
+                <p class="text-gray-500">
+                    Dein Termin wurde erfolgreich erstellt! Du kannst nun den Link oder QR-Code unten verschicken.
+                </p>
+            </header>
+            <hr>
+            <label class="flex flex-col gap-2">
+                <p>Link</p>
+                <Input value={`${Astro.url.origin}/${event.id}`} />
+            </label>
+        </main>
     </body>
 </html>
