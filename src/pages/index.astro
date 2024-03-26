@@ -27,6 +27,8 @@ if (Astro.request.method === "POST") {
                 isAdmin: true,
                 willParticipate: true
             }).returning().get();
+
+            return Astro.redirect(`/participant/${participant.id}`);
         }
     } catch (error) {
         if (error instanceof Error) {

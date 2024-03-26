@@ -1,0 +1,31 @@
+---
+import { db, eq, Event, Participant } from "astro:db";
+
+const { slug } = Astro.params;
+if (!slug) return;
+
+const participant = await db.select().from(Participant).where(eq(Participant.id, slug)).get();
+if (!participant) return;
+
+const event = await db.select().from(Event).where(eq(Event.id, participant.eventId)).get();
+if (!event) return;
+---
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <meta name="viewport" content="width=device-width" />
+        <meta name="generator" content={Astro.generator} />
+        <title>{event.name}</title>
+    </head>
+    <body>
+        <header class="relative block w-full h-40 bg-slate-50">
+            <div class="mx-auto px-4 max-w-lg">
+                <span class="absolute bottom-0 text-6xl translate-y-[50%]">🎉</span>
+            </div>
+        </header>
+        <h1>Erfolg!</h1>
+        <p>{slug}</p>
+    </body>
+</html>
