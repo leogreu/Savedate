@@ -1,8 +1,9 @@
 ---
 import "@/styles/globals.css";
-import { CircleCheck, X } from "lucide-react";
+import { CircleCheck, Share, X } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Toaster } from "@/components/ui/toaster";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow, } from "@/components/ui/table";
 
 import { db, eq, Event, Participant } from "astro:db";
@@ -64,7 +65,12 @@ const participants = await db.select().from(Participant).where(eq(Participant.ev
                 {participant.isAdmin &&
                     <label class="flex flex-col gap-2">
                         <p>Link</p>
-                        <Input value={`${Astro.url.origin}/${event.id}`} readOnly />
+                        <div id="share" class="flex gap-2">
+                            <Input value={`${Astro.url.origin}/${event.id}`} readOnly />
+                            <Button variant="outline" size="icon">
+                                <Share size={16} className="w-12"></Share>
+                            </Button>
+                        </div>
                     </label>
                 }
                 <Button id="add-to-calendar">In Kalender speichern</Button>
@@ -118,11 +124,25 @@ const participants = await db.select().from(Participant).where(eq(Participant.ev
                 </header>
             </section>
         </main>
+        <Toaster client:load></Toaster>
     </body>
 </html>
 
 <script>
+    import { toast } from "@/components/ui/use-toast";
     import { atcb_action } from "add-to-calendar-button";
+
+    document.querySelector("#share button")?.addEventListener("click", () => {
+        const url = document.querySelector<HTMLInputElement>("#share input")?.value;
+        if (navigator.share) {
+            navigator.share({ url });
+        } else {
+            navigator.clipboard.writeText(url ?? String());
+            toast({
+                title: "Link in die Zwischenablage kopiert."
+            });
+        }
+    });
 
     document.querySelector("#add-to-calendar")?.addEventListener("click", () => {
         atcb_action({
