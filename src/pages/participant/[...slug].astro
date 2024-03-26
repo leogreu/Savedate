@@ -72,7 +72,7 @@ const participants = await db.select().from(Participant).where(eq(Participant.ev
                                     <TableCell>
                                         {entry.id === participant.id
                                             ? "Du"
-                                            : (participant.name || "Kein Name")}
+                                            : (entry.name || "Kein Name")}
                                     </TableCell>
                                     <TableCell>{entry.createdDate.toLocaleString()}</TableCell>
                                 </TableRow>
