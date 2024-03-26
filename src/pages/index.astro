@@ -20,19 +20,25 @@ import { DatePicker } from "@/components/ui/date-picker";
                 <span class="absolute bottom-0 text-6xl translate-y-[50%]">🎉</span>
             </div>
         </header>
-        <form class="flex flex-col gap-y-8 mt-16 mx-auto px-4 max-w-lg">
-            <label class="flex flex-col gap-y-2">
+        <form class="flex flex-col gap-8 mt-16 mx-auto px-4 max-w-lg">
+            <label class="flex flex-col gap-2">
                 <p>Name</p>
                 <Input/>
             </label>
-            <label class="flex flex-col gap-y-2">
+            <label class="flex flex-col gap-2">
                 <p>Beschreibung</p>
                 <Textarea></Textarea>
             </label>
-            <label class="flex flex-col gap-y-2">
-                <p>Datum</p>
-                <DatePicker client:load></DatePicker>
-            </label>
+            <div class="flex gap-2">
+                <label class="flex flex-col gap-2 w-full">
+                    <p>Datum</p>
+                    <DatePicker client:load></DatePicker>
+                </label>
+                <label class="flex flex-col gap-2">
+                    <p>Uhrzeit</p>
+                    <Input placeholder="Optional" />
+                </label>
+            </div>
             <Button>Speichern</Button>
         </form>
     </body>
