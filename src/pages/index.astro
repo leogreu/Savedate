@@ -5,18 +5,29 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea"
 import { DatePicker } from "@/components/ui/date-picker";
 
-import { db, Event } from "astro:db";
+import { db, Event, Participant } from "astro:db";
 
 if (Astro.request.method === "POST") {
     try {
         const data = await Astro.request.formData();
-        const { name, description, date: dateString, time } = Object.fromEntries(data.entries());
+        const { name, description, date, time } = Object.fromEntries(data.entries());
         
-        if (typeof name === "string" && typeof dateString === "string") {
-            const id = crypto.randomUUID();
-            const date = new Date(dateString);
+        if (typeof name === "string" && typeof date === "string") {
+            const eventId = crypto.randomUUID();
+            const event = await db.insert(Event).values({
+                id: eventId,
+                name: name,
+                description: typeof description === "string" ? description : null,
+                icon: "🎉",
+                date: new Date(date)
+            });
 
-            await db.insert(Event).values({ id, name, date });
+            const participantId = crypto.randomUUID();
+            const participant = await db.insert(Participant).values({
+                eventId,
+                isAdmin: true,
+                willParticipate: true
+            });
         }
     } catch (error) {
         if (error instanceof Error) {
