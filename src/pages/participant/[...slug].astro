@@ -63,13 +63,17 @@ const participants = await db.select().from(Participant).where(eq(Participant.ev
                         <TableHeader>
                             <TableRow>
                                 <TableHead>Name</TableHead>
-                                <TableHead>Rückmeldung am</TableHead>
+                                <TableHead>Antwort vom</TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
                             {participants.map((entry) => (
                                 <TableRow key={entry.id}>
-                                    <TableCell>{entry.id === participant.id ? "Du" : participant.name}</TableCell>
+                                    <TableCell>
+                                        {entry.id === participant.id
+                                            ? "Du"
+                                            : (participant.name || "Kein Name")}
+                                    </TableCell>
                                     <TableCell>{entry.createdDate.toLocaleString()}</TableCell>
                                 </TableRow>
                             ))}
