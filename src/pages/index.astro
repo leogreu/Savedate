@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea"
 import { DatePicker } from "@/components/ui/date-picker";
+import { Switch } from "@/components/ui/switch";
 import { db, Event, Participant } from "astro:db";
 
 if (Astro.request.method === "POST") {
@@ -49,7 +50,7 @@ if (Astro.request.method === "POST") {
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
         <meta name="viewport" content="width=device-width" />
         <meta name="generator" content={Astro.generator} />
-        <title>Savedate</title>
+        <title>Neuer Termin</title>
     </head>
     <body>
         <header class="relative block w-full h-40 bg-slate-50">
@@ -76,6 +77,10 @@ if (Astro.request.method === "POST") {
                     <Input name="time" placeholder="Optional" />
                 </label>
             </div>
+            <label class="flex justify-between">
+                <p>Teilnehmer dürfen andere Teilnehmer sehen</p>
+                <Switch client:load disabled></Switch>
+            </label>
             <input class="hidden" name="timezone" value={Intl.DateTimeFormat().resolvedOptions().timeZone} />
             <Button type="submit">Speichern</Button>
         </form>
