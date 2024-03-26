@@ -2,10 +2,10 @@ import { defineDb, defineTable, column } from "astro:db";
 
 const Event = defineTable({
     columns: {
-        id: column.text({ primaryKey: true }),
-        icon: column.text(),
+        id: column.text({ unique: true }),
+        icon: column.text({ optional: true }),
         name: column.text(),
-        description: column.text(),
+        description: column.text({ optional: true }),
         date: column.date()
     }
 });

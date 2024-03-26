@@ -5,10 +5,19 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea"
 import { DatePicker } from "@/components/ui/date-picker";
 
+import { db, Event } from "astro:db";
+
 if (Astro.request.method === "POST") {
     try {
         const data = await Astro.request.formData();
-        console.log(data);
+        const { name, description, date: dateString, time } = Object.fromEntries(data.entries());
+        
+        if (typeof name === "string" && typeof dateString === "string") {
+            const id = crypto.randomUUID();
+            const date = new Date(dateString);
+
+            await db.insert(Event).values({ id, name, date });
+        }
     } catch (error) {
         if (error instanceof Error) {
             console.error(error.message);
@@ -34,7 +43,7 @@ if (Astro.request.method === "POST") {
         <form class="flex flex-col gap-8 mt-16 mx-auto px-4 max-w-lg" method="POST">
             <label class="flex flex-col gap-2">
                 <p>Name</p>
-                <Input name="event" required/>
+                <Input name="name" required/>
             </label>
             <label class="flex flex-col gap-2">
                 <p>Beschreibung</p>
