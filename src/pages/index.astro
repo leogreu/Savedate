@@ -59,7 +59,16 @@ if (Astro.request.method === "POST") {
                 <span class="absolute bottom-0 text-6xl translate-y-[50%]">🎉</span>
             </div>
         </header>
-        <form class="flex flex-col gap-8 mt-16 mx-auto px-6 max-w-xl" method="POST">
+        <form class="flex flex-col gap-8 my-16 mx-auto px-6 max-w-xl" method="POST">
+            <!-- TODO: Probably add a reusable header component -->
+            <header class="flex flex-col gap-6">
+                <h1 class="text-4xl font-medium text-gray-700">
+                    Neuer Termin
+                </h1>
+                <p class="text-lg text-gray-500">
+                    Erstelle einen neuen Termin und teile ihn mit Freunden und Bekannten. Es wird keine Registrierung benötigt.
+                </p>
+            </header>
             <label class="flex flex-col gap-2">
                 <p>Name</p>
                 <Input name="name" required/>
