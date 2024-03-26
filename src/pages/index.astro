@@ -1,6 +1,8 @@
 ---
 import "@/styles/globals.css";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { DatePicker } from "@/components/ui/date-picker";
 ---
 
 <html lang="en">
@@ -12,6 +14,8 @@ import { Button } from "@/components/ui/button";
         <title>Savedate</title>
     </head>
     <body>
+        <Input/>
+        <DatePicker client:load></DatePicker>
         <Button>Save</Button>
     </body>
 </html>
