@@ -47,7 +47,7 @@ if (Astro.request.method === "POST") {
         <meta property="og:description" content={event.description}>
         <meta
             property="og:image"
-            content=`${Astro.url.origin}/api/og?date=${event.startDate}&name=${event.name}`
+            content=`${Astro.url.origin}/api/og?date=${event.startDate}&name=${event.name}&description=${event.description}&icon=${event.icon}`
         />
         <meta property="og:image:type" content="image/png" />
         <meta property="og:image:width" content="1200" />
