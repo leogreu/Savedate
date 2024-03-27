@@ -121,27 +121,31 @@ const i18n = getTranslations(Astro.preferredLocale);
     const dialog = document.querySelector<HTMLDialogElement>("#emoji-dialog");
     const input = document.querySelector<HTMLInputElement>("[name='icon']");
 
+    let picker: Picker;
     button?.addEventListener("click", () => {
-        const picker = new Picker({
-            data: async () => {
-                const response = await import("@emoji-mart/data");
-                return response.default;
-            },
-            onEmojiSelect: ({ native }: { native: string }) => {
-                if (button) button.textContent = native;
-                if (input) input.value = native;
-                dialog?.close();
-            },
-            locale: navigator.language.split("-").at(0),
-            previewPosition: "none",
-            skinTonePosition: "none",
-            navPosition: "none",
-            theme: "light",
-            maxFrequentRows: 0,
-            perLine: 8
-        });
+        if (!picker) {
+            picker = new Picker({
+                data: async () => {
+                    const response = await import("@emoji-mart/data");
+                    return response.default;
+                },
+                onEmojiSelect: ({ native }: { native: string }) => {
+                    if (button) button.textContent = native;
+                    if (input) input.value = native;
+                    dialog?.close();
+                },
+                locale: navigator.language.split("-").at(0),
+                previewPosition: "none",
+                skinTonePosition: "none",
+                navPosition: "none",
+                theme: "light",
+                maxFrequentRows: 0,
+                perLine: 8
+            });
 
-        dialog?.append(picker as unknown as HTMLElement);
+            dialog?.append(picker as unknown as HTMLElement);
+        }
+
         dialog?.showModal();
     });
 
