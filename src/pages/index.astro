@@ -79,6 +79,7 @@ if (Astro.request.method === "POST") {
             <label class="flex flex-col gap-2">
                 <p>Beschreibung</p>
                 <Textarea name="description"></Textarea>
+                <p class="text-xs text-gray-500">Optional</p>
             </label>
             <div class="flex gap-2">
                 <label class="flex flex-col gap-2 w-full">
@@ -88,11 +89,13 @@ if (Astro.request.method === "POST") {
                 <label class="flex flex-col gap-2">
                     <p>Uhrzeit</p>
                     <Input name="time" type="time" />
+                    <p class="text-xs text-gray-500">Optional</p>
                 </label>
             </div>
+            <hr>
             <label class="flex justify-between">
-                <p>Teilnehmer dürfen andere Teilnehmer sehen</p>
-                <Switch client:load disabled></Switch>
+                <p>Teilnehmer sind für alle sichtbar</p>
+                <Switch client:load checked></Switch>
             </label>
             <input class="hidden" name="icon" />
             <input class="hidden" name="timezone" />
