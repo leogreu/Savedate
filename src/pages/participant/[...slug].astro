@@ -37,7 +37,9 @@ const participants = await db.select().from(Participant).where(eq(Participant.ev
     <body>
         <header class="relative block w-full h-40 bg-slate-50">
             <div class="mx-auto px-6 max-w-xl">
-                <span class="absolute bottom-0 text-6xl translate-y-[50%]">🎉</span>
+                <span class="absolute bottom-0 text-6xl translate-y-[50%]">
+                    {event.icon}
+                </span>
             </div>
         </header>
         <main class="flex flex-col gap-12 my-16 mx-auto px-6 max-w-xl">

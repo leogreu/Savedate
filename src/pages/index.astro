@@ -6,17 +6,19 @@ import { Textarea } from "@/components/ui/textarea"
 import { Switch } from "@/components/ui/switch";
 import { db, Event, Participant } from "astro:db";
 
+const defaultIcon = "🎉";
+
 if (Astro.request.method === "POST") {
     try {
         const data = await Astro.request.formData();
-        const { name, description, date, time, timezone } = Object.fromEntries(data.entries());
+        const { name, description, date, time, icon, timezone } = Object.fromEntries(data.entries());
         
         if (typeof name === "string" && typeof date === "string") {
             const event = await db.insert(Event).values({
                 id: crypto.randomUUID(),
                 name: name,
                 description: typeof description === "string" ? description : null,
-                icon: "🎉",
+                icon: typeof icon === "string" ? icon : defaultIcon,
                 startDate: date,
                 endDate: date,
                 startTime: typeof time === "string" ? time : null,
@@ -55,7 +57,9 @@ if (Astro.request.method === "POST") {
     <body>
         <header class="relative block w-full h-40 bg-slate-50">
             <div class="mx-auto px-6 max-w-xl">
-                <button id="emoji-button" class="absolute bottom-0 text-6xl translate-y-[50%]">🎉</button>
+                <button id="emoji-button" class="absolute bottom-0 text-6xl translate-y-[50%]">
+                    {defaultIcon}
+                </button>
             </div>
         </header>
         <form class="flex flex-col gap-8 my-16 mx-auto px-6 max-w-xl" method="POST">
@@ -90,6 +94,7 @@ if (Astro.request.method === "POST") {
                 <p>Teilnehmer dürfen andere Teilnehmer sehen</p>
                 <Switch client:load disabled></Switch>
             </label>
+            <input class="hidden" name="icon" />
             <input class="hidden" name="timezone" />
             <Button type="submit">Speichern</Button>
         </form>
@@ -104,8 +109,10 @@ if (Astro.request.method === "POST") {
     const timezoneInput = document.querySelector<HTMLInputElement>("[name='timezone']");
     if (timezoneInput) timezoneInput.value = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
+    // Handling of user-selectable emojis
     const button = document.querySelector<HTMLButtonElement>("#emoji-button");
     const dialog = document.querySelector<HTMLDialogElement>("#emoji-dialog");
+    const input = document.querySelector<HTMLInputElement>("[name='icon']");
 
     const picker = new Picker({
         data: async () => {
@@ -114,14 +121,15 @@ if (Astro.request.method === "POST") {
         },
         onEmojiSelect: ({ native }: { native: string }) => {
             if (button) button.textContent = native;
+            if (input) input.value = native;
             dialog?.close();
         },
+        locale: navigator.language.split("-").at(0),
         previewPosition: "none",
         skinTonePosition: "none",
         navPosition: "none",
         maxFrequentRows: 0,
-        perLine: 8,
-        locale: navigator.language.split("-").at(0)
+        perLine: 8
     });
 
     dialog?.append(picker as unknown as HTMLElement);
