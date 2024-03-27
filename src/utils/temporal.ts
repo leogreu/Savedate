@@ -1,6 +1,13 @@
 import { Temporal } from "temporal-polyfill";
 
-export const formatDateParts = (plainDate: string, plainTime?: string | null, timezone?: string | null) => {
+// TODO: Does this actually work to format a date to another timezone? Add transform property
+// that simply adds a .withTimeZone(current)?
+export const formatDateParts = (
+    locale = "en",
+    plainDate: string,
+    plainTime?: string | null,
+    timezone?: string | null
+) => {
     let parsed: Temporal.ZonedDateTime | Temporal.PlainDate;
     if (plainTime && timezone) {
         parsed = Temporal.Now
@@ -12,7 +19,7 @@ export const formatDateParts = (plainDate: string, plainTime?: string | null, ti
         parsed = Temporal.PlainDate.from(plainDate);
     }
 
-    return parsed.toLocaleString(navigator.language, {
+    return parsed.toLocaleString(locale, {
         dateStyle: "medium",
         timeStyle: "short"
     });

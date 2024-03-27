@@ -37,7 +37,7 @@ if (Astro.request.method === "POST") {
     }
 }
 
-const date = formatDateParts(event.startDate, event.startTime, event.timezone);
+const date = formatDateParts(Astro.preferredLocale, event.startDate, event.startTime, event.timezone);
 const i18n = getTranslations(Astro.preferredLocale);
 ---
 

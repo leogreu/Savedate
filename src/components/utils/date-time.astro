@@ -19,6 +19,6 @@ const { date, time, timezone } = Astro.props;
         const timezone = element.getAttribute("data-timezone");
         if (!date) continue;
 
-        element.textContent = formatDateParts(date, time, timezone);
+        element.textContent = formatDateParts(navigator.language, date, time, timezone);
     }
 </script>
