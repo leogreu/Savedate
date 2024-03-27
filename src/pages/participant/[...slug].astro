@@ -8,6 +8,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow, } from "@/components/ui/table";
 import { db, eq, Event, Participant } from "astro:db";
 import { getTranslations } from "../../utils/i18n.ts";
+import DateTime from "../../components/utils/date-time.astro";
 
 const { slug } = Astro.params;
 if (!slug) return;
@@ -50,10 +51,11 @@ const i18n = getTranslations(Astro.preferredLocale);
                     <div>
                         <!-- TODO: Add reusable component to show time, and probably reuse for add-to-calendar -->
                         <div class="flex text-gray-400">
-                            <p>{new Date(event.startDate).toLocaleDateString(Astro.preferredLocale)}</p>
-                            {event.startTime &&
-                                <p>, {event.startTime}</p>
-                            }
+                            <DateTime
+                                date={event.startDate}
+                                time={event.startTime}
+                                timezone={event.timezone}
+                            ></DateTime>
                         </div>
                         <h1 class="text-4xl font-medium text-gray-700">
                             {event.name}
