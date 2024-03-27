@@ -56,7 +56,6 @@ if (Astro.request.method === "POST") {
         <header class="relative block w-full h-40 bg-slate-50">
             <div class="mx-auto px-6 max-w-xl">
                 <button id="emoji-button" class="absolute bottom-0 text-6xl translate-y-[50%]">🎉</button>
-                <dialog id="emoji-dialog" class="top-[200px] right-[200px]"></dialog>
             </div>
         </header>
         <form class="flex flex-col gap-8 my-16 mx-auto px-6 max-w-xl" method="POST">
@@ -94,6 +93,7 @@ if (Astro.request.method === "POST") {
             <input class="hidden" name="timezone" />
             <Button type="submit">Speichern</Button>
         </form>
+        <dialog id="emoji-dialog" class="rounded-lg"></dialog>
     </body>
 </html>
 
@@ -114,6 +114,7 @@ if (Astro.request.method === "POST") {
         },
         onEmojiSelect: ({ native }: { native: string }) => {
             if (button) button.textContent = native;
+            dialog?.close();
         },
         previewPosition: "none",
         skinTonePosition: "none",
@@ -121,7 +122,13 @@ if (Astro.request.method === "POST") {
     });
 
     dialog?.append(picker as unknown as HTMLElement);
+    dialog?.addEventListener("click", event => {
+        if (event.target === dialog) {
+            dialog.close();
+        }
+    });
+
     button?.addEventListener("click", () => {
-        dialog?.toggleAttribute("open");
+        dialog?.showModal();
     });
 </script>
