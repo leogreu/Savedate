@@ -55,7 +55,8 @@ if (Astro.request.method === "POST") {
     <body>
         <header class="relative block w-full h-40 bg-slate-50">
             <div class="mx-auto px-6 max-w-xl">
-                <span class="absolute bottom-0 text-6xl translate-y-[50%]">🎉</span>
+                <button id="emoji-button" class="absolute bottom-0 text-6xl translate-y-[50%]">🎉</button>
+                <dialog id="emoji-dialog" class="top-[200px] right-[200px]"></dialog>
             </div>
         </header>
         <form class="flex flex-col gap-8 my-16 mx-auto px-6 max-w-xl" method="POST">
@@ -97,7 +98,30 @@ if (Astro.request.method === "POST") {
 </html>
 
 <script>
+    import { Picker } from "emoji-mart";
+
     // Set the timezone client-side to get the actual user timezone
     const timezoneInput = document.querySelector<HTMLInputElement>("[name='timezone']");
     if (timezoneInput) timezoneInput.value = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+    const button = document.querySelector<HTMLButtonElement>("#emoji-button");
+    const dialog = document.querySelector<HTMLDialogElement>("#emoji-dialog");
+
+    const picker = new Picker({
+        data: async () => {
+            const response = await import("@emoji-mart/data");
+            return response.default;
+        },
+        onEmojiSelect: ({ native }: { native: string }) => {
+            if (button) button.textContent = native;
+        },
+        previewPosition: "none",
+        skinTonePosition: "none",
+        navPosition: "none"
+    });
+
+    dialog?.append(picker as unknown as HTMLElement);
+    button?.addEventListener("click", () => {
+        dialog?.toggleAttribute("open");
+    });
 </script>
