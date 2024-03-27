@@ -8,10 +8,10 @@ interface Props {
 const { date, time, timezone } = Astro.props;
 ---
 
-<div class="date-time" data-date={date} data-time={time} data-timezone={timezone}></div>
+<div class="date-time" data-date={date} data-time={time} data-timezone={timezone}>{date}</div>
 
 <script>
-    import { Temporal } from "temporal-polyfill";
+    import { formatDateParts } from "@/utils/temporal.ts";
 
     for (const element of document.querySelectorAll(".date-time")) {
         const date = element.getAttribute("data-date");
@@ -19,21 +19,6 @@ const { date, time, timezone } = Astro.props;
         const timezone = element.getAttribute("data-timezone");
         if (!date) continue;
 
-        // TODO: Probably move to util file, reusable by og image generation
-        let parsed: Temporal.ZonedDateTime | Temporal.PlainDate;
-        if (time && timezone) {
-            parsed = Temporal.Now
-                .zonedDateTimeISO()
-                .withTimeZone(timezone)
-                .withPlainDate(date)
-                .withPlainTime(time);
-        } else {
-            parsed = Temporal.PlainDate.from(date);
-        }
-
-        element.textContent = parsed.toLocaleString(navigator.language, {
-            dateStyle: "medium",
-            timeStyle: "short"
-        });
+        element.textContent = formatDateParts(date, time, timezone);
     }
 </script>

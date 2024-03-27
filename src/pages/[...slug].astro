@@ -1,10 +1,11 @@
 ---
 import "@/styles/globals.css";
+import { db, eq, Event, Participant } from "astro:db";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { db, eq, Event, Participant } from "astro:db";
-import { getTranslations } from "../utils/i18n.ts";
-import DateTime from "../components/utils/date-time.astro";
+import { getTranslations } from "@/utils/i18n.ts";
+import { formatDateParts } from "@/utils/temporal.ts";
+import DateTime from "@/components/utils/date-time.astro";
 
 const { slug } = Astro.params;
 if (!slug) return;
@@ -36,6 +37,7 @@ if (Astro.request.method === "POST") {
     }
 }
 
+const date = formatDateParts(event.startDate, event.startTime, event.timezone);
 const i18n = getTranslations(Astro.preferredLocale);
 ---
 
@@ -50,7 +52,7 @@ const i18n = getTranslations(Astro.preferredLocale);
         <meta property="og:description" content={event.description}>
         <meta
             property="og:image"
-            content={encodeURI(`${Astro.url.origin}/api/og?date=${event.startDate}&name=${event.name}&description=${event.description}&icon=${event.icon}`)}
+            content={encodeURI(`${Astro.url.origin}/api/og?date=${date}&name=${event.name}&description=${event.description}&icon=${event.icon}`)}
         />
         <meta property="og:image:type" content="image/png" />
         <meta property="og:image:width" content="1200" />
