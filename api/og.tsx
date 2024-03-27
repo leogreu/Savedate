@@ -85,6 +85,19 @@ export default async function handler(request: VercelRequest) {
                             {icon}
                         </div>
                     }
+                    <div
+                        style={{
+                            position: 'absolute',
+                            bottom: '25px',
+                            padding: '10px 25px',
+                            color: 'rgba(0, 0, 0, .8)',
+                            fontSize: 35,
+                            backgroundColor: 'white',
+                            borderRadius: '20px',
+                        }}
+                    >
+                        savedate.app
+                    </div>
                 </div>
             ),
             {
