@@ -1,0 +1,39 @@
+---
+interface Props {
+	date: string;
+    time?: string | null;
+    timezone?: string | null;
+}
+
+const { date, time, timezone } = Astro.props;
+---
+
+<div class="date-time" data-date={date} data-time={time} data-timezone={timezone}></div>
+
+<script>
+    import { Temporal } from "temporal-polyfill";
+
+    for (const element of document.querySelectorAll(".date-time")) {
+        const date = element.getAttribute("data-date");
+        const time = element.getAttribute("data-time");
+        const timezone = element.getAttribute("data-timezone");
+        if (!date) continue;
+
+        // TODO: Probably move to util file, reusable by og image generation
+        let parsed: Temporal.ZonedDateTime | Temporal.PlainDate;
+        if (time && timezone) {
+            parsed = Temporal.Now
+                .zonedDateTimeISO()
+                .withTimeZone(timezone)
+                .withPlainDate(date)
+                .withPlainTime(time);
+        } else {
+            parsed = Temporal.PlainDate.from(date);
+        }
+
+        element.textContent = parsed.toLocaleString(navigator.language, {
+            dateStyle: "medium",
+            timeStyle: "short"
+        });
+    }
+</script>
