@@ -9,59 +9,73 @@ export const config = {
 export default function handler(request: VercelRequest) {
     try {
         const { searchParams } = new URL(request.url ?? String());
-
-        // ?title=<title>
-        const hasTitle = searchParams.has('title');
-        const title = hasTitle
-            ? searchParams.get('title')?.slice(0, 100)
-            : 'My default title';
+        const { date, name, description, icon } = Object.fromEntries(searchParams.entries());
 
         return new ImageResponse(
             (
                 <div
                     style={{
-                        backgroundColor: 'black',
-                        backgroundSize: '150px 150px',
+                        display: 'flex',
                         height: '100%',
                         width: '100%',
-                        display: 'flex',
-                        textAlign: 'center',
+                        padding: '20px',
                         alignItems: 'center',
                         justifyContent: 'center',
                         flexDirection: 'column',
-                        flexWrap: 'nowrap',
+                        backgroundImage: 'linear-gradient(to bottom, #dbf4ff, #fff1f1)',
+                        fontSize: 100,
+                        letterSpacing: -2,
+                        fontWeight: 700,
+                        textAlign: 'center',
                     }}
                 >
                     <div
                         style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            justifyItems: 'center',
+                            backgroundImage: 'linear-gradient(90deg, rgb(121, 40, 202), rgb(255, 0, 128))',
+                            backgroundClip: 'text',
+                            color: 'transparent',
+                            fontSize: 60
                         }}
                     >
-                        <img
-                            alt="Vercel"
-                            height={200}
-                            src="data:image/svg+xml,%3Csvg width='116' height='100' fill='white' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M57.5 0L115 100H0L57.5 0z' /%3E%3C/svg%3E"
-                            style={{ margin: '0 30px' }}
-                            width={232}
-                        />
+                        {date ?? "no-date-specified"}
                     </div>
                     <div
                         style={{
-                            fontSize: 60,
-                            fontStyle: 'normal',
-                            letterSpacing: '-0.025em',
-                            color: 'white',
-                            marginTop: 30,
-                            padding: '0 120px',
-                            lineHeight: 1.4,
-                            whiteSpace: 'pre-wrap',
+                            backgroundImage: 'linear-gradient(90deg, rgb(0, 124, 240), rgb(0, 223, 216))',
+                            backgroundClip: 'text',
+                            color: 'transparent',
+                            margin: '20px'
                         }}
                     >
-                        {title}
+                        {name ?? "no-name-specified"}
                     </div>
+                    {description &&
+                        <div
+                            style={{
+                                backgroundImage: 'linear-gradient(90deg, rgb(255, 77, 77), rgb(249, 203, 40))',
+                                backgroundClip: 'text',
+                                color: 'transparent',
+                                fontSize: 60,
+                            }}
+                        >
+                            {description}
+                        </div>
+                    }
+                    {icon &&
+                        <div
+                            style={{
+                                position: 'absolute',
+                                right: '50px',
+                                top: '50px',
+                                padding: '15px',
+                                backgroundColor: 'white',
+                                borderRadius: '25px',
+                                fontSize: 120
+                            }}
+                        >
+                            {icon}
+                        </div>
+                    }
                 </div>
             ),
             {
