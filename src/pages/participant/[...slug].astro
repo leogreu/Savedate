@@ -92,47 +92,49 @@ const participants = await db.select().from(Participant).where(eq(Participant.ev
                 <time id="end-time" class="hidden" datetime={event.endTime}></time>
                 <input id="timezone" class="hidden" value={event.timezone}></time>
             </section>
-            <hr>
-            <section class="flex flex-col gap-4">
-                <h2 class="text-2xl font-medium text-gray-700">
-                    Teilnehmer
-                </h2>
-                <p class="text-base text-gray-500">
-                    Hier siehst du eine Liste aller Personen, die deine Einladung angenommen oder abgelehnt haben.
-                </p>
-                <Table>
-                    <TableHeader>
-                        <TableRow>
-                            <TableHead>Name</TableHead>
-                            <TableHead>Antwort vom</TableHead>
-                            <TableHead>Teilname</TableHead>
-                        </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                        {participants.map((entry) => (
-                            <TableRow key={entry.id}>
-                                <TableCell>
-                                    {entry.id === participant.id
-                                        ? "Du"
-                                        : entry.isAdmin
-                                            ? "Veranstalter"
-                                            : (entry.name || "Kein Name")
-                                    }
-                                </TableCell>
-                                <TableCell>
-                                    {entry.createdDate.toLocaleString(Astro.preferredLocale)}
-                                    </TableCell>
-                                <TableCell>
-                                    {entry.willParticipate
-                                        ? <CircleCheck className="h-4 w-4"></CircleCheck>
-                                        : <X className="h-4 w-4"></X>
-                                    }
-                                </TableCell>
+            {(participant.isAdmin || event.participantsVisible) &&
+                <hr>
+                <section class="flex flex-col gap-4">
+                    <h2 class="text-2xl font-medium text-gray-700">
+                        Teilnehmer
+                    </h2>
+                    <p class="text-base text-gray-500">
+                        Hier siehst du eine Liste aller Personen, die deine Einladung angenommen oder abgelehnt haben.
+                    </p>
+                    <Table>
+                        <TableHeader>
+                            <TableRow>
+                                <TableHead>Name</TableHead>
+                                <TableHead>Antwort vom</TableHead>
+                                <TableHead>Teilname</TableHead>
                             </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </section>
+                        </TableHeader>
+                        <TableBody>
+                            {participants.map((entry) => (
+                                <TableRow key={entry.id}>
+                                    <TableCell>
+                                        {entry.id === participant.id
+                                            ? "Du"
+                                            : entry.isAdmin
+                                                ? "Veranstalter"
+                                                : (entry.name || "Kein Name")
+                                        }
+                                    </TableCell>
+                                    <TableCell>
+                                        {entry.createdDate.toLocaleString(Astro.preferredLocale)}
+                                        </TableCell>
+                                    <TableCell>
+                                        {entry.willParticipate
+                                            ? <CircleCheck className="h-4 w-4"></CircleCheck>
+                                            : <X className="h-4 w-4"></X>
+                                        }
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </section>
+            }
         </main>
         <Toaster client:load></Toaster>
     </body>

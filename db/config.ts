@@ -11,6 +11,7 @@ const Event = defineTable({
         startTime: column.text({ optional: true }),
         endTime: column.text({ optional: true }),
         timezone: column.text({ optional: true }),
+        participantsVisible: column.boolean(),
         createdDate: column.date()
     }
 });

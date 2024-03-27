@@ -11,7 +11,7 @@ const defaultIcon = "🎉";
 if (Astro.request.method === "POST") {
     try {
         const data = await Astro.request.formData();
-        const { name, description, date, time, icon, timezone } = Object.fromEntries(data.entries());
+        const { name, description, date, time, icon, timezone, visible } = Object.fromEntries(data.entries());
         
         if (typeof name === "string" && typeof date === "string") {
             const event = await db.insert(Event).values({
@@ -24,6 +24,7 @@ if (Astro.request.method === "POST") {
                 startTime: typeof time === "string" ? time : null,
                 endTime: typeof time === "string" ? time : null,
                 timezone: time && typeof timezone === "string" ? timezone : null,
+                participantsVisible: visible ? true : false,
                 createdDate: new Date()
             }).returning().get();
 
@@ -95,7 +96,7 @@ if (Astro.request.method === "POST") {
             <hr>
             <label class="flex justify-between">
                 <p>Teilnehmer sind für alle sichtbar</p>
-                <Switch client:load checked></Switch>
+                <Switch name="visible" client:load></Switch>
             </label>
             <input class="hidden" name="icon" />
             <input class="hidden" name="timezone" />
