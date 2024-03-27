@@ -4,6 +4,7 @@ import { CircleCheck, Share, X } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Toaster } from "@/components/ui/toaster";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow, } from "@/components/ui/table";
 
 import { db, eq, Event, Participant } from "astro:db";
@@ -44,7 +45,7 @@ const participants = await db.select().from(Participant).where(eq(Participant.ev
         </header>
         <main class="flex flex-col gap-12 my-16 mx-auto px-6 max-w-xl">
             <section class="flex flex-col gap-8">
-                <header class="flex flex-col gap-6">
+                <header class="flex flex-col gap-2">
                     <div>
                         <!-- TODO: Add reusable component to show time, and probably reuse for add-to-calendar -->
                         <div class="flex text-gray-400">
@@ -57,13 +58,22 @@ const participants = await db.select().from(Participant).where(eq(Participant.ev
                             {event.name}
                         </h1>
                     </div>
-                    <p class="text-lg text-gray-500">
+                    {event.description &&
+                        <p class="text-lg text-gray-500">
+                            {event.description}
+                        </p>
+                    }
+                </header>
+                <Alert>
+                    <CircleCheck className="h-4 w-4" />
+                    <AlertTitle>Erfolg</AlertTitle>
+                    <AlertDescription>
                         {participant.isAdmin
-                            ? "Dein Termin wurde erfolgreich erstellt! Du kannst nun den Link oder QR-Code unten verschicken."
+                            ? "Dein Termin wurde erfolgreich erstellt! Du kannst nun den Link über das Teilen-Menü verschicken."
                             : "Deine Antwort wurde erfolgreich übermittelt."
                         }
-                    </p>
-                </header>
+                    </AlertDescription>
+                </Alert>
                 {participant.isAdmin &&
                     <label class="flex flex-col gap-2">
                         <p>Link</p>
@@ -115,8 +125,8 @@ const participants = await db.select().from(Participant).where(eq(Participant.ev
                                         </TableCell>
                                     <TableCell>
                                         {entry.willParticipate
-                                            ? <CircleCheck size={20}></CircleCheck>
-                                            : <X size={20}></X>
+                                            ? <CircleCheck className="h-4 w-4"></CircleCheck>
+                                            : <X className="h-4 w-4"></X>
                                         }
                                     </TableCell>
                                 </TableRow>

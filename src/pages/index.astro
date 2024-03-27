@@ -18,7 +18,7 @@ if (Astro.request.method === "POST") {
                 id: crypto.randomUUID(),
                 name: name,
                 description: typeof description === "string" ? description : null,
-                icon: typeof icon === "string" ? icon : defaultIcon,
+                icon: icon && typeof icon === "string" ? icon : defaultIcon,
                 startDate: date,
                 endDate: date,
                 startTime: typeof time === "string" ? time : null,
