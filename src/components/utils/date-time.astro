@@ -1,26 +1,37 @@
 ---
 interface Props {
-	date: string;
+	date?: string;
     time?: string | null;
     timezone?: string | null;
+    native?: Date;
 }
 
-const { date, time, timezone } = Astro.props;
+const { date, time, timezone, native } = Astro.props;
 ---
 
-<div class="date-time" data-date={date} data-time={time} data-timezone={timezone}>
+<div
+    class="date-time"
+    data-date={date}
+    data-time={time}
+    data-timezone={timezone}
+    data-native={native?.toISOString()}
+>
     &nbsp;
 </div>
 
 <script>
-    import { formatDateParts } from "@/utils/temporal.ts";
+    import { formatDateParts, formatDate } from "@/utils/temporal.ts";
 
     for (const element of document.querySelectorAll(".date-time")) {
         const date = element.getAttribute("data-date");
         const time = element.getAttribute("data-time");
         const timezone = element.getAttribute("data-timezone");
-        if (!date) continue;
+        const native = element.getAttribute("data-native");
 
-        element.textContent = formatDateParts(navigator.language, date, time, timezone);
+        if (date) {
+            element.textContent = formatDateParts(navigator.language, date, time, timezone);
+        } else if (native) {
+            element.textContent = formatDate(navigator.language, new Date(native));
+        }
     }
 </script>

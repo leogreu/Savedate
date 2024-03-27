@@ -124,8 +124,8 @@ const i18n = getTranslations(Astro.preferredLocale);
                                         )}
                                     </TableCell>
                                     <TableCell>
-                                        {entry.createdDate.toLocaleString(Astro.preferredLocale)}
-                                        </TableCell>
+                                        <DateTime native={entry.createdDate}></DateTime>
+                                    </TableCell>
                                     <TableCell>
                                         {entry.willParticipate
                                             ? <CircleCheck className="h-4 w-4"></CircleCheck>

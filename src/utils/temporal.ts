@@ -19,7 +19,14 @@ export const formatDateParts = (
         parsed = Temporal.PlainDate.from(plainDate);
     }
 
-    return parsed.toLocaleString(locale, {
+    return formatDate(locale, parsed);
+}
+
+export const formatDate = (
+    locale: string,
+    date: Date | Temporal.ZonedDateTime | Temporal.PlainDate
+) => {
+    return date.toLocaleString(locale, {
         dateStyle: "medium",
         timeStyle: "short"
     });
