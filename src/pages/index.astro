@@ -5,6 +5,9 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea"
 import { Switch } from "@/components/ui/switch";
 import { db, Event, Participant } from "astro:db";
+import { getTranslations } from "../utils/i18n.ts";
+
+const i18n = getTranslations(Astro.preferredLocale);
 
 const defaultIcon = "🎉";
 
@@ -53,7 +56,7 @@ if (Astro.request.method === "POST") {
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
         <meta name="generator" content={Astro.generator} />
-        <title>Neuer Termin | Savedate</title>
+        <title>{i18n("new-invite")} | Savedate</title>
     </head>
     <body>
         <header class="relative block w-full h-40 bg-slate-50">
