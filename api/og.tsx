@@ -5,7 +5,7 @@ export const config = {
     runtime: 'edge',
 };
 
-// Taken from https://vercel.com/docs/functions/og-image-generation/og-image-examples
+// See https://vercel.com/docs/functions/og-image-generation
 export default async function handler(request: VercelRequest) {
     try {
         const { searchParams } = new URL(request.url ?? String());
@@ -70,9 +70,13 @@ export default async function handler(request: VercelRequest) {
                         <div
                             style={{
                                 position: 'absolute',
+                                display: 'flex',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                width: '150px',
+                                height: '150px',
                                 right: '50px',
                                 top: '50px',
-                                padding: '15px',
                                 backgroundColor: 'white',
                                 borderRadius: '25px',
                                 fontSize: 120
@@ -86,7 +90,7 @@ export default async function handler(request: VercelRequest) {
             {
                 width: 1200,
                 height: 630,
-                emoji: "twemoji",
+                emoji: 'twemoji',
                 fonts: [
                         {
                         name: 'Noto Sans',
