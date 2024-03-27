@@ -8,7 +8,9 @@ interface Props {
 const { date, time, timezone } = Astro.props;
 ---
 
-<div class="date-time" data-date={date} data-time={time} data-timezone={timezone}>{date}</div>
+<div class="date-time" data-date={date} data-time={time} data-timezone={timezone}>
+    &nbsp;
+</div>
 
 <script>
     import { formatDateParts } from "@/utils/temporal.ts";
