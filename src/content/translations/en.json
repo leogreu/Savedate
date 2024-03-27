@@ -1,3 +1,26 @@
 {
-    "new-invite": "New Invite"
+    "new-invitation": "New invitation",
+    "new-invitation-subtitle": "Create a new invitation and share it with your friends and acquaintances. No registration required.",
+    "name": "Name",
+    "description": "Description",
+    "optional": "Optional",
+    "date": "Date",
+    "time": "Time",
+    "participants-visible-label": "Participants are visible to everyone",
+    "save": "Save",
+    "your-name": "Your name",
+    "participate": "Participate",
+    "not-participate": "Not participate",
+    "success": "Success",
+    "invite-creation-success": "Your appointment was successfully created! You can now send the link via the share menu.",
+    "answer-send-success": "Your response has been successfully submitted.",
+    "link": "Link",
+    "add-to-calendar": "Add to calendar",
+    "participants": "Participants",
+    "participants-list-subtitle": "Here you can see a list of all the people who have accepted or declined the invitation.",
+    "answer-from": "Answer from",
+    "participation": "Participation",
+    "you": "You",
+    "organizer": "Organizer",
+    "no-name": "No name"
 }

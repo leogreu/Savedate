@@ -2,8 +2,8 @@
 import "@/styles/globals.css";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-
 import { db, eq, Event, Participant } from "astro:db";
+import { getTranslations } from "../utils/i18n.ts";
 
 const { slug } = Astro.params;
 if (!slug) return;
@@ -34,6 +34,8 @@ if (Astro.request.method === "POST") {
         }
     }
 }
+
+const i18n = getTranslations(Astro.preferredLocale);
 ---
 
 <html>
@@ -82,15 +84,15 @@ if (Astro.request.method === "POST") {
                 }
             </header>
             <label class="flex flex-col gap-2">
-                <p>Dein Name</p>
+                <p>{i18n("your-name")}</p>
                 <Input name="name" />
             </label>
             <div class="flex gap-2">
                 <Button type="submit" name="willParticipate" value="true">
-                    Teilnehmen
+                    {i18n("participate")}
                 </Button>
                 <Button type="submit" name="willParticipate" value="false" variant="secondary">
-                    Nicht teilnehmen
+                    {i18n("not-participate")}
                 </Button>
             </div>
         </form>

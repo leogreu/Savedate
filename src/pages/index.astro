@@ -7,8 +7,6 @@ import { Switch } from "@/components/ui/switch";
 import { db, Event, Participant } from "astro:db";
 import { getTranslations } from "../utils/i18n.ts";
 
-const i18n = getTranslations(Astro.preferredLocale);
-
 const defaultIcon = "🎉";
 
 if (Astro.request.method === "POST") {
@@ -47,6 +45,8 @@ if (Astro.request.method === "POST") {
         }
     }
 }
+
+const i18n = getTranslations(Astro.preferredLocale);
 ---
 
 <html>
@@ -56,7 +56,7 @@ if (Astro.request.method === "POST") {
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
         <meta name="generator" content={Astro.generator} />
-        <title>{i18n("new-invite")} | Savedate</title>
+        <title>{i18n("new-invitation")} | Savedate</title>
     </head>
     <body>
         <header class="relative block w-full h-40 bg-slate-50">
@@ -70,40 +70,40 @@ if (Astro.request.method === "POST") {
             <!-- TODO: Probably add a reusable header component -->
             <header class="flex flex-col gap-6">
                 <h1 class="text-4xl font-medium text-gray-700">
-                    Neuer Termin
+                    {i18n("new-invitation")}
                 </h1>
                 <p class="text-lg text-gray-500">
-                    Erstelle einen neuen Termin und teile ihn mit Freunden und Bekannten. Es wird keine Registrierung benötigt.
+                    {i18n("new-invitation-subtitle")}
                 </p>
             </header>
             <label class="flex flex-col gap-2">
-                <p>Name</p>
+                <p>{i18n("name")}</p>
                 <Input name="name" required />
             </label>
             <label class="flex flex-col gap-2">
-                <p>Beschreibung</p>
+                <p>{i18n("description")}</p>
                 <Textarea name="description"></Textarea>
-                <p class="text-xs text-gray-500">Optional</p>
+                <p class="text-xs text-gray-500">{i18n("optional")}</p>
             </label>
             <div class="flex gap-2">
                 <label class="flex flex-col gap-2 w-full">
-                    <p>Datum</p>
+                    <p>{i18n("date")}</p>
                     <Input name="date" type="date" required />
                 </label>
                 <label class="flex flex-col gap-2">
-                    <p>Uhrzeit</p>
+                    <p>{i18n("time")}</p>
                     <Input name="time" type="time" />
-                    <p class="text-xs text-gray-500">Optional</p>
+                    <p class="text-xs text-gray-500">{i18n("optional")}</p>
                 </label>
             </div>
             <hr>
             <label class="flex justify-between">
-                <p>Teilnehmer sind für alle sichtbar</p>
+                <p>{i18n("participants-visible-label")}</p>
                 <Switch name="visible" client:load></Switch>
             </label>
             <input class="hidden" name="icon" />
             <input class="hidden" name="timezone" />
-            <Button type="submit">Speichern</Button>
+            <Button type="submit">{i18n("save")}</Button>
         </form>
         <dialog id="emoji-dialog" class="rounded-lg"></dialog>
     </body>

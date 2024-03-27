@@ -1,3 +1,26 @@
 {
-    "new-invite": "Neue Einladung"
+    "new-invitation": "Neue Einladung",
+    "new-invitation-subtitle": "Erstelle eine neue Einladung und teile sie mit Freunden und Bekannten. Es wird keine Registrierung benötigt.",
+    "name": "Name",
+    "description": "Beschreibung",
+    "optional": "Optional",
+    "date": "Datum",
+    "time": "Zeit",
+    "participants-visible-label": "Teilnehmer sind für alle sichtbar",
+    "save": "Speichern",
+    "your-name": "Dein Name",
+    "participate": "Teilnehmen",
+    "not-participate": "Nicht teilnehmen",
+    "success": "Erfolg",
+    "invite-creation-success": "Dein Termin wurde erfolgreich erstellt! Du kannst nun den Link über das Teilen-Menü verschicken.",
+    "answer-send-success": "Deine Antwort wurde erfolgreich übermittelt.",
+    "link": "Link",
+    "add-to-calendar": "Zum Kalender hinzufügen",
+    "participants": "Teilnehmende",
+    "participants-list-subtitle": "Hier siehst du eine Liste aller Personen, welche die Einladung angenommen oder abgelehnt haben.",
+    "answer-from": "Antwort vom",
+    "participation": "Teilnahme",
+    "you": "Du",
+    "organizer": "Veranstalter",
+    "no-name": "Kein Name"
 }
