@@ -66,18 +66,6 @@ export default async function handler(request: VercelRequest) {
                             {description}
                         </div>
                     }
-                    <div
-                        style={{
-                            marginTop: '50px',
-                            padding: '10px 25px',
-                            color: 'rgba(0, 0, 0, .8)',
-                            fontSize: 35,
-                            backgroundColor: 'white',
-                            borderRadius: '10px',
-                        }}
-                    >
-                        savedate.app
-                    </div>
                     {icon &&
                         <div
                             style={{
@@ -85,18 +73,31 @@ export default async function handler(request: VercelRequest) {
                                 display: 'flex',
                                 justifyContent: 'center',
                                 alignItems: 'center',
-                                width: '150px',
-                                height: '150px',
-                                right: '35px',
-                                top: '35px',
+                                width: '175px',
+                                height: '175px',
+                                right: '50px',
+                                top: '50px',
                                 backgroundColor: 'white',
-                                borderRadius: '35px',
-                                fontSize: 100
+                                borderRadius: '25px',
+                                fontSize: 125
                             }}
                         >
                             {icon}
                         </div>
                     }
+                    <div
+                        style={{
+                            position: 'absolute',
+                            bottom: '25px',
+                            padding: '10px 25px',
+                            color: 'rgba(0, 0, 0, .8)',
+                            fontSize: 35,
+                            backgroundColor: 'white',
+                            borderRadius: '20px',
+                        }}
+                    >
+                        savedate.app
+                    </div>
                 </div>
             ),
             {
