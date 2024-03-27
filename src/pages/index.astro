@@ -118,7 +118,10 @@ if (Astro.request.method === "POST") {
         },
         previewPosition: "none",
         skinTonePosition: "none",
-        navPosition: "none"
+        navPosition: "none",
+        maxFrequentRows: 0,
+        perLine: 8,
+        locale: navigator.language.split("-").at(0)
     });
 
     dialog?.append(picker as unknown as HTMLElement);
