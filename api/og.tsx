@@ -73,13 +73,13 @@ export default async function handler(request: VercelRequest) {
                                 display: 'flex',
                                 justifyContent: 'center',
                                 alignItems: 'center',
-                                width: '150px',
-                                height: '150px',
+                                width: '175px',
+                                height: '175px',
                                 right: '50px',
                                 top: '50px',
                                 backgroundColor: 'white',
                                 borderRadius: '25px',
-                                fontSize: 120
+                                fontSize: 125
                             }}
                         >
                             {icon}
