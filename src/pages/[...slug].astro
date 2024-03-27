@@ -43,6 +43,10 @@ if (Astro.request.method === "POST") {
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
         <meta name="generator" content={Astro.generator} />
+        <meta
+            property="og:image"
+            content=`${Astro.url.origin}/api/og?date=${event.startDate}&name=${event.name}&description=${event.description}&icon=${event.icon}`
+        />
         <title>{event.name}</title>
     </head>
     <body>
