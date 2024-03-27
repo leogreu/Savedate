@@ -6,10 +6,14 @@ export const config = {
 };
 
 // Taken from https://vercel.com/docs/functions/og-image-generation/og-image-examples
-export default function handler(request: VercelRequest) {
+export default async function handler(request: VercelRequest) {
     try {
         const { searchParams } = new URL(request.url ?? String());
         const { date, name, description, icon } = Object.fromEntries(searchParams.entries());
+
+        const fontData = await fetch(
+            new URL('../assets/NotoSans-Bold.ttf', import.meta.url),
+        ).then((res) => res.arrayBuffer());
 
         return new ImageResponse(
             (
@@ -23,9 +27,10 @@ export default function handler(request: VercelRequest) {
                         justifyContent: 'center',
                         flexDirection: 'column',
                         backgroundImage: 'linear-gradient(to bottom, #dbf4ff, #fff1f1)',
+                        fontFamily: '"Noto Sans"',
                         fontSize: 100,
-                        letterSpacing: -2,
                         fontWeight: 700,
+                        letterSpacing: -2,
                         textAlign: 'center',
                     }}
                 >
@@ -81,6 +86,14 @@ export default function handler(request: VercelRequest) {
             {
                 width: 1200,
                 height: 630,
+                emoji: "twemoji",
+                fonts: [
+                        {
+                        name: 'Noto Sans',
+                        data: fontData,
+                        weight: 700
+                    }
+                ],
             },
         );
     } catch (e: any) {
