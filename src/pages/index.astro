@@ -1,10 +1,11 @@
 ---
 import "@/styles/globals.css";
+import { db, Event, Participant } from "astro:db";
+import { nanoid } from "nanoid";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea"
 import { Switch } from "@/components/ui/switch";
-import { db, Event, Participant } from "astro:db";
 import { getTranslations } from "../utils/i18n.ts";
 
 const defaultIcon = "🎉";
@@ -16,7 +17,7 @@ if (Astro.request.method === "POST") {
         
         if (typeof name === "string" && typeof date === "string") {
             const event = await db.insert(Event).values({
-                id: crypto.randomUUID(),
+                id: nanoid(8),
                 name: name,
                 description: typeof description === "string" ? description : null,
                 icon: icon && typeof icon === "string" ? icon : defaultIcon,
@@ -30,7 +31,7 @@ if (Astro.request.method === "POST") {
             }).returning().get();
 
             const participant = await db.insert(Participant).values({
-                id: crypto.randomUUID(),
+                id: nanoid(24),
                 eventId: event.id,
                 isAdmin: true,
                 willParticipate: true,

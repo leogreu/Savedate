@@ -1,6 +1,7 @@
 ---
 import "@/styles/globals.css";
 import { db, eq, Event, Participant } from "astro:db";
+import { nanoid } from "nanoid";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { getTranslations } from "@/utils/i18n.ts";
@@ -20,7 +21,7 @@ if (Astro.request.method === "POST") {
         
         if (typeof name === "string" && typeof willParticipate === "string") {
             const participant = await db.insert(Participant).values({
-                id: crypto.randomUUID(),
+                id: nanoid(24),
                 eventId: event.id,
                 name: name,
                 isAdmin: false,
