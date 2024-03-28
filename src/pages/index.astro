@@ -2,6 +2,7 @@
 import "@/styles/globals.css";
 import { db, Event, Participant } from "astro:db";
 import { nanoid } from "nanoid";
+import { ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -64,9 +65,18 @@ const i18n = getTranslations(Astro.preferredLocale);
         <Navbar></Navbar>
         <header class="relative block w-full h-40 bg-slate-50">
             <div class="mx-auto px-6 max-w-xl">
-                <button id="emoji-button" class="absolute bottom-0 text-6xl translate-y-[50%]">
-                    {defaultIcon}
-                </button>
+                <div class="absolute flex items-center gap-4 bottom-0 translate-y-[50%]">
+                    <button id="emoji-button" class="text-6xl">
+                        {defaultIcon}
+                    </button>
+                    <div id="emoji-tooltip" class="
+                        flex gap-2 items-center px-2 py-1 border border-gray-200 text-xs bg-white rounded-lg
+                        animate-in fade-in slide-in-from-right-6 duration-500 delay-1000 fill-mode-backwards
+                    ">
+                        <ArrowLeft size="14"></ArrowLeft>
+                        <span>{i18n("emoji-tooltip")}</span>
+                    </div>
+                </div>
             </div>
         </header>
         <form class="flex flex-col gap-8 my-16 mx-auto px-6 max-w-xl" method="POST">
@@ -121,6 +131,7 @@ const i18n = getTranslations(Astro.preferredLocale);
 
     // Handling of user-selectable emojis
     const button = document.querySelector<HTMLButtonElement>("#emoji-button");
+    const tooltip = document.querySelector<HTMLDivElement>("#emoji-tooltip");
     const dialog = document.querySelector<HTMLDialogElement>("#emoji-dialog");
     const input = document.querySelector<HTMLInputElement>("[name='icon']");
 
@@ -147,6 +158,7 @@ const i18n = getTranslations(Astro.preferredLocale);
             });
 
             dialog?.append(picker as unknown as HTMLElement);
+            tooltip?.classList.add("hidden");
         }
 
         dialog?.showModal();
