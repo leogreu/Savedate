@@ -1,0 +1,26 @@
+---
+import "@/styles/globals.css";
+import { getTranslations } from "@/utils/i18n.ts";
+import Navbar from "@/components/navigation/navbar.astro";
+
+const i18n = getTranslations(Astro.preferredLocale);
+---
+
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="description" content="Erstelle Termine und Einladungen in Sekunden und teile sie mit Freunden und Bekannten.">
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+        <meta name="generator" content={Astro.generator} />
+        <title>{i18n("new-invitation")} | Savedate</title>
+    </head>
+    <body>
+        <Navbar></Navbar>
+        <article class="prose max-w-xl mx-auto my-24">
+            <h2>Savedate</h2>
+            <h1>{i18n("imprint")}</h1>
+            <p>{i18n("imprint")}</p>
+        </article>
+    </body>
+</html>
