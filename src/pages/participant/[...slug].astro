@@ -165,6 +165,7 @@ const i18n = getTranslations(Astro.preferredLocale);
     document.querySelector("#add-to-calendar")?.addEventListener("click", () => {
         atcb_action({
             name: document.title,
+            location: location.href,
             description: document.querySelector('meta[name="description"]')?.getAttribute("content") ?? "",
             startDate: document.querySelector<HTMLTimeElement>("time#start-date")?.dateTime,
             endDate: document.querySelector<HTMLTimeElement>("time#end-date")?.dateTime,
