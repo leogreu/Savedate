@@ -100,7 +100,7 @@ const i18n = getTranslations(Astro.preferredLocale);
             <hr>
             <label class="flex justify-between items-center">
                 <p>{i18n("participants-visible-label")}</p>
-                <Switch name="visible" client:load></Switch>
+                <Switch name="visible" client:idle></Switch>
             </label>
             <input class="hidden" name="icon" />
             <input class="hidden" name="timezone" />
