@@ -1,0 +1,24 @@
+---
+import "@/styles/globals.css";
+import Navbar from "@/components/navigation/navbar.astro";
+---
+
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="description" content="Savedate">
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+        <meta name="generator" content={Astro.generator} />
+        <title>Savedate</title>
+    </head>
+    <body>
+        <Navbar />
+        <article class="prose max-w-xl mx-auto my-24 px-6 break-words">
+            <h1>Debug</h1>
+            <p>Preferred locale: {Astro.preferredLocale ?? ""}</p>
+            <p>Preferred locales: {Astro.preferredLocaleList?.join(", ") ?? ""}</p>
+            <p>Headers: {Astro.request.headers}</p>
+        </article>
+    </body>
+</html>
