@@ -4,9 +4,10 @@ import { db, Event, Participant } from "astro:db";
 import { nanoid } from "nanoid";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea"
+import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
-import { getTranslations } from "../utils/i18n.ts";
+import { getTranslations } from "@/utils/i18n.ts";
+import Navbar from "@/components/navigation/navbar.astro";
 
 const defaultIcon = "🎉";
 
@@ -60,6 +61,7 @@ const i18n = getTranslations(Astro.preferredLocale);
         <title>{i18n("new-invitation")} | Savedate</title>
     </head>
     <body>
+        <Navbar></Navbar>
         <header class="relative block w-full h-40 bg-slate-50">
             <div class="mx-auto px-6 max-w-xl">
                 <button id="emoji-button" class="absolute bottom-0 text-6xl translate-y-[50%]">

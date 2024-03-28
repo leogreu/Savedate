@@ -1,0 +1,31 @@
+---
+import { CalendarHeart } from "lucide-react";
+import { getTranslations } from "@/utils/i18n.ts";
+
+const i18n = getTranslations(Astro.preferredLocale);
+---
+
+<header
+    class="sticky top-0 z-20 flex h-16 items-center gap-4 border-b bg-background px-4 md:px-6"
+>
+    <nav class="flex flex-row items-center gap-6 text-sm font-medium">
+        <a href="/" class="flex items-center gap-2 text-base font-semibold">
+            <CalendarHeart className="h-6 w-6" />
+            <span>Savedate</span>
+        </a>
+        <a
+            href="/"
+            class="text-foreground transition-colors hover:text-foreground"
+        >
+            {i18n("new-invitation")}
+        </a>
+    </nav>
+    <nav class="flex flex-row ml-auto items-center gap-6 text-sm font-medium">
+        <a
+            href="/imprint"
+            class="text-foreground transition-colors hover:text-foreground"
+        >
+            {i18n("imprint")}
+        </a>
+    </nav>
+</header>

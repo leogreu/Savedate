@@ -6,6 +6,8 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { getTranslations } from "@/utils/i18n.ts";
 import { formatDateParts } from "@/utils/temporal.ts";
+
+import Navbar from "@/components/navigation/navbar.astro";
 import DateTime from "@/components/utils/date-time.astro";
 
 const { slug } = Astro.params;
@@ -61,6 +63,7 @@ const i18n = getTranslations(Astro.preferredLocale);
         <title>{event.name}</title>
     </head>
     <body>
+        <Navbar></Navbar>
         <header class="relative block w-full h-40 bg-slate-50">
             <div class="mx-auto px-6 max-w-xl">
                 <span class="absolute bottom-0 text-6xl translate-y-[50%]">
