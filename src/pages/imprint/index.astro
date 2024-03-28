@@ -1,6 +1,6 @@
 ---
 import "@/styles/globals.css";
-import { Button } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import { getTranslations } from "@/utils/i18n.ts";
 import Navbar from "@/components/navigation/navbar.astro";
 
@@ -10,24 +10,18 @@ const i18n = getTranslations(Astro.preferredLocale);
 <html>
     <head>
         <meta charset="utf-8" />
-        <meta
-            name="description"
-            content="Erstelle Termine und Einladungen in Sekunden und teile sie mit Freunden und Bekannten."
-        />
+        <meta name="description" content={i18n("index-description")}>
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-        <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1, maximum-scale=1"
-        />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
         <meta name="generator" content={Astro.generator} />
         <title>{i18n("imprint")} | Savedate</title>
     </head>
     <body>
         <Navbar />
         <article class="prose max-w-xl mx-auto my-24 px-6">
-            <Button variant="outline" size="sm" className="mb-8">
-                Zur Datenschutzerklärung
-            </Button>
+            <a href="/privacy" class={buttonVariants({ variant: "outline", size: "sm", className: "not-prose mb-8" })}>
+                {i18n("to-privacy-policy")}
+            </a>
             <h1 class="font-medium">{i18n("imprint")}</h1>
             <h3>{i18n("imprint.heading")}</h3>
             <h4>{i18n("imprint.represent")}</h4>

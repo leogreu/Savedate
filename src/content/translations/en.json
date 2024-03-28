@@ -1,6 +1,7 @@
 {
     "new-invitation": "New invitation",
     "new-invitation-subtitle": "Create a new invitation and share it with your friends and acquaintances. No registration required.",
+    "index-description": "Create invitations and appointments in seconds and share them with your friends and acquaintances.",
     "name": "Name",
     "description": "Description",
     "optional": "Optional",
@@ -33,5 +34,6 @@
     "imprint.address.country": "Germany",
     "imprint.contact.heading": "Contact",
     "imprint.contact.phone": "Phone: +49 1590 5368729",
-    "imprint.contact.email": "E-mail: mail@savedate.app"
+    "imprint.contact.email": "E-mail: mail@savedate.app",
+    "to-privacy-policy": "To privacy policy"
 }

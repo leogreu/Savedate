@@ -1,6 +1,7 @@
 {
     "new-invitation": "Neue Einladung",
     "new-invitation-subtitle": "Erstelle eine neue Einladung und teile sie mit Freunden und Bekannten. Es wird keine Registrierung benötigt.",
+    "index-description": "Erstelle Termine und Einladungen in Sekunden und teile sie mit Freunden und Bekannten.",
     "name": "Name",
     "description": "Beschreibung",
     "optional": "Optional",
@@ -33,5 +34,6 @@
     "imprint.address.country": "Deutschland",
     "imprint.contact.heading": "Kontakt",
     "imprint.contact.phone": "Telefon: +49 1590 5368729",
-    "imprint.contact.email": "E-Mail: mail@savedate.app"
+    "imprint.contact.email": "E-Mail: mail@savedate.app",
+    "to-privacy-policy": "Zur Datenschutzerklärung"
 }
