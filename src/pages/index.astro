@@ -74,7 +74,8 @@ const i18n = getTranslations(Astro.preferredLocale);
                         animate-in fade-in slide-in-from-right-2 duration-1000 [animation-delay:5s] fill-mode-both
                     ">
                         <ArrowLeft size="14"></ArrowLeft>
-                        <span>{i18n("click-to-edit")}</span>
+                        <span class="hidden lg:block">{i18n("click-to-edit")}</span>
+                        <span class="lg:hidden">{i18n("tap-to-edit")}</span>
                     </div>
                 </div>
             </div>
