@@ -23,5 +23,15 @@
     "you": "Du",
     "organizer": "Veranstalter",
     "no-name": "Kein Name",
-    "imprint": "Impressum"
+    "imprint": "Impressum",
+    "imprint.heading": "Angaben gemäß § 5 TMG",
+    "imprint.represent": "Vertreten durch",
+    "imprint.representative": "Leonard Greulich",
+    "imprint.address.heading": "Postanschrift",
+    "imprint.address.street": "Meppener Str. 11a",
+    "imprint.address.city": "48155 Münster",
+    "imprint.address.country": "Deutschland",
+    "imprint.contact.heading": "Kontakt",
+    "imprint.contact.phone": "Telefon: +49 1590 5368729",
+    "imprint.contact.email": "E-Mail: mail@savedate.app"
 }
