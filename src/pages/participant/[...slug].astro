@@ -197,9 +197,8 @@ const i18n = getTranslations(Astro.preferredLocale);
         button?.addEventListener("click", () => {
             atcb_action({
                 name: document.title,
-                description: translations["client-view-edit-invite"] + "[br]"
-                    + location.href + "[br][br]"
-                    + document.querySelector('meta[name="description"]')?.getAttribute("content"),
+                description: document.querySelector('meta[name="description"]')?.getAttribute("content")
+                    + "[br][br]" + translations["client-view-edit-invite"] + " " + location.href,
                 startDate: document.querySelector<HTMLTimeElement>("time#start-date")?.dateTime,
                 endDate: document.querySelector<HTMLTimeElement>("time#end-date")?.dateTime,
                 startTime: document.querySelector<HTMLTimeElement>("time#start-time")?.dateTime,
@@ -207,6 +206,6 @@ const i18n = getTranslations(Astro.preferredLocale);
                 timeZone: document.querySelector<HTMLInputElement>("#timezone")?.value,
                 options: [button.id as "Apple" | "Google" | "Microsoft365"]
             });
-    });
+        });
     }
 </script>
