@@ -9,3 +9,9 @@ export const getTranslations = (locale = "en") => {
         return translations[locale][key] ?? translations["en"][key] ?? key;
     };
 };
+
+export const getClientTranslations = (locale = "en") => {
+    return Object.fromEntries(
+        Object.entries(translations[locale]).filter(([key]) => key.startsWith("client"))
+    );
+};
