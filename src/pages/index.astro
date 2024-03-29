@@ -13,10 +13,10 @@ import Navbar from "@/components/navigation/navbar.astro";
 const defaultIcon = "🎉";
 
 if (Astro.request.method === "POST") {
+    const { name, description, startDate, startTime, endDate, endTime, icon, timezone, visible }
+        = Object.fromEntries((await Astro.request.formData()).entries());
+
     try {
-        const data = await Astro.request.formData();
-        const { name, description, startDate, startTime, endDate, endTime, icon, timezone, visible } = Object.fromEntries(data.entries());
-        
         if (typeof name === "string" && typeof startDate === "string") {
             const event = await db.insert(Event).values({
                 id: nanoid(8),
@@ -26,7 +26,8 @@ if (Astro.request.method === "POST") {
                 startDate: startDate,
                 startTime: typeof startTime === "string" ? startTime : null,
                 endDate: typeof endDate === "string" ? endDate : startDate,
-                endTime: typeof endTime === "string" ? endTime : (typeof startTime === "string" ? startTime : null), // TODO: Improve
+                endTime: typeof endTime === "string" ? endTime
+                    : (typeof startTime === "string" ? startTime : null),
                 timezone: startTime && typeof timezone === "string" ? timezone : null,
                 participantsVisible: visible ? true : false,
                 createdDate: new Date()
