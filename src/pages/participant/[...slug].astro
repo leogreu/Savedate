@@ -9,6 +9,10 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow, } from "
 import { db, eq, Event, Participant } from "astro:db";
 import { getTranslations, getClientTranslations } from "@/utils/i18n.ts";
 
+import AppleIcon from "../../icons/brands/apple.svg?raw";
+import GoogleIcon from "../../icons/brands/google.svg?raw";
+import MicrosoftIcon from "../../icons/brands/microsoft.svg?raw";
+
 import Navbar from "@/components/navigation/navbar.astro";
 import DateTime from "../../components/utils/date-time.astro";
 
@@ -94,7 +98,29 @@ const i18n = getTranslations(Astro.preferredLocale);
                         </div>
                     </label>
                 }
-                <Button id="add-to-calendar">{i18n("add-to-calendar")}</Button>
+                <div class="flex flex-col gap-2">
+                    <p>{i18n("add-to-calendar")}</p>
+                    <div id="add-to-calendar" class="flex gap-2">
+                        <Button id="Apple" variant="outline" className="w-full">
+                            <div class="flex h-5 w-5">
+                                <Fragment set:html={AppleIcon} />
+                            </div>
+                        </Button>
+                        <Button id="Google" variant="outline" className="w-full">
+                            <div class="flex h-4 w-4">
+                                <Fragment set:html={GoogleIcon} />
+                            </div>
+                        </Button>
+                        <Button id="Microsoft365" variant="outline" className="w-full">
+                            <div class="flex h-4 w-4">
+                                <Fragment set:html={MicrosoftIcon} />
+                            </div>
+                        </Button>
+                    </div>
+                    <p class="text-xs text-gray-500">
+                        Wir empfehlen dir, dass du die Einladung in deinen Kalender importierst. So vergisst du nichts und kannst immer wieder auf den Termin zugreifen.
+                    </p>
+                </div>
                 <time id="start-date" class="hidden" datetime={event.startDate}></time>
                 <time id="end-date" class="hidden" datetime={event.startDate}></time>
                 <time id="start-time" class="hidden" datetime={event.startTime}></time>
@@ -167,17 +193,20 @@ const i18n = getTranslations(Astro.preferredLocale);
         }
     });
 
-    document.querySelector("#add-to-calendar")?.addEventListener("click", () => {
-        atcb_action({
-            name: document.title,
-            description: translations["client-view-edit-invite"] + "[br]"
-                + location.href + "[br][br]"
-                + document.querySelector('meta[name="description"]')?.getAttribute("content"),
-            startDate: document.querySelector<HTMLTimeElement>("time#start-date")?.dateTime,
-            endDate: document.querySelector<HTMLTimeElement>("time#end-date")?.dateTime,
-            startTime: document.querySelector<HTMLTimeElement>("time#start-time")?.dateTime,
-            endTime: document.querySelector<HTMLTimeElement>("time#end-time")?.dateTime,
-            timeZone: document.querySelector<HTMLInputElement>("#timezone")?.value
-        });
+    for (const button of document.querySelectorAll("#add-to-calendar button")) {
+        button?.addEventListener("click", () => {
+            atcb_action({
+                name: document.title,
+                description: translations["client-view-edit-invite"] + "[br]"
+                    + location.href + "[br][br]"
+                    + document.querySelector('meta[name="description"]')?.getAttribute("content"),
+                startDate: document.querySelector<HTMLTimeElement>("time#start-date")?.dateTime,
+                endDate: document.querySelector<HTMLTimeElement>("time#end-date")?.dateTime,
+                startTime: document.querySelector<HTMLTimeElement>("time#start-time")?.dateTime,
+                endTime: document.querySelector<HTMLTimeElement>("time#end-time")?.dateTime,
+                timeZone: document.querySelector<HTMLInputElement>("#timezone")?.value,
+                options: [button.id as "Apple" | "Google" | "Microsoft365"]
+            });
     });
+    }
 </script>
