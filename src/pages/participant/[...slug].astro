@@ -118,7 +118,7 @@ const i18n = getTranslations(Astro.preferredLocale);
                         </Button>
                     </div>
                     <p class="text-xs text-gray-500">
-                        Wir empfehlen dir, dass du die Einladung in deinen Kalender importierst. So vergisst du nichts und kannst immer wieder auf den Termin zugreifen.
+                        {i18n("add-to-calendar-help")}
                     </p>
                 </div>
                 <time id="start-date" class="hidden" datetime={event.startDate}></time>
