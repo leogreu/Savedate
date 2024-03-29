@@ -15,19 +15,19 @@ const defaultIcon = "🎉";
 if (Astro.request.method === "POST") {
     try {
         const data = await Astro.request.formData();
-        const { name, description, date, time, icon, timezone, visible } = Object.fromEntries(data.entries());
+        const { name, description, startDate, startTime, endDate, endTime, icon, timezone, visible } = Object.fromEntries(data.entries());
         
-        if (typeof name === "string" && typeof date === "string") {
+        if (typeof name === "string" && typeof startDate === "string") {
             const event = await db.insert(Event).values({
                 id: nanoid(8),
                 name: name,
                 description: typeof description === "string" ? description : null,
                 icon: icon && typeof icon === "string" ? icon : defaultIcon,
-                startDate: date,
-                endDate: date,
-                startTime: typeof time === "string" ? time : null,
-                endTime: typeof time === "string" ? time : null,
-                timezone: time && typeof timezone === "string" ? timezone : null,
+                startDate: startDate,
+                startTime: typeof startTime === "string" ? startTime : null,
+                endDate: typeof endDate === "string" ? endDate : startDate,
+                endTime: typeof endTime === "string" ? endTime : (typeof startTime === "string" ? startTime : null), // TODO: Improve
+                timezone: startTime && typeof timezone === "string" ? timezone : null,
                 participantsVisible: visible ? true : false,
                 createdDate: new Date()
             }).returning().get();
@@ -99,16 +99,27 @@ const i18n = getTranslations(Astro.preferredLocale);
                 <Textarea name="description"></Textarea>
                 <p class="text-xs text-gray-500">{i18n("optional")}</p>
             </label>
-            <div class="flex gap-2">
-                <label class="flex flex-col gap-2 w-full">
-                    <p>{i18n("date")}</p>
-                    <Input name="date" type="date" required />
-                </label>
-                <label class="flex flex-col gap-2">
-                    <p>{i18n("time")}</p>
-                    <Input name="time" type="time" />
-                    <p class="text-xs text-gray-500">{i18n("optional")}</p>
-                </label>
+            <div class="flex flex-col gap-4">
+                <div class="flex gap-2">
+                    <label class="flex flex-col gap-2 w-full">
+                        <p>{i18n("date")}</p>
+                        <Input name="startDate" type="date" required />
+                    </label>
+                    <label class="flex flex-col gap-2">
+                        <p>{i18n("time")}</p>
+                        <Input name="startTime" type="time" />
+                        <p class="text-xs text-gray-500">{i18n("optional")}</p>
+                    </label>
+                </div>
+                <div id="end-date-container" class="flex gap-2 items-end hidden">
+                    <label class="flex flex-col gap-2 w-full">
+                        <p>{i18n("to")}</p>
+                        <Input name="endDate" type="date" required />
+                    </label>
+                    <label class="flex flex-col gap-2">
+                        <Input name="endTime" type="time" />
+                    </label>
+                </div>
             </div>
             <hr />
             <label class="flex justify-between items-center">
@@ -124,20 +135,46 @@ const i18n = getTranslations(Astro.preferredLocale);
 </html>
 
 <script>
+    import { Temporal } from "temporal-polyfill";
     import { Picker } from "emoji-mart";
 
     // Set the timezone client-side to get the actual user timezone
-    const timezoneInput = document.querySelector<HTMLInputElement>("[name='timezone']");
-    if (timezoneInput) timezoneInput.value = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    const timezoneInput = document.querySelector("[name='timezone']") as HTMLInputElement;
+    timezoneInput.value = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+    const startDate = document.querySelector("[name='startDate']") as HTMLInputElement;
+    const startTime = document.querySelector("[name='startTime']") as HTMLInputElement;
+    const endDate = document.querySelector("[name='endDate']") as HTMLInputElement;
+    const endTime = document.querySelector("[name='endTime']") as HTMLInputElement;
+
+    // On start date and time input, show end inputs
+    for (const input of [startDate, startTime]) {
+        input.addEventListener("input", () => {
+            const container = document.querySelector("#end-date-container");
+            try {
+                const plusOneHour = Temporal.Now
+                    .zonedDateTimeISO()
+                    .withPlainDate(startDate.value)
+                    .withPlainTime(startTime.value)
+                    .add({ hours: 1 });
+
+                endDate.value = plusOneHour.toPlainDate().toString();
+                endTime.value = plusOneHour.toPlainTime().toString();
+                container?.classList.remove("hidden");
+            } catch {
+                container?.classList.add("hidden");
+            }
+        });
+    }
 
     // Handling of user-selectable emojis
-    const button = document.querySelector<HTMLButtonElement>("#emoji-button");
-    const tooltip = document.querySelector<HTMLDivElement>("#emoji-tooltip");
-    const dialog = document.querySelector<HTMLDialogElement>("#emoji-dialog");
-    const input = document.querySelector<HTMLInputElement>("[name='icon']");
+    const button = document.querySelector("#emoji-button") as HTMLButtonElement;
+    const tooltip = document.querySelector("#emoji-tooltip") as HTMLDivElement;
+    const dialog = document.querySelector("#emoji-dialog") as HTMLDialogElement;
+    const input = document.querySelector("[name='icon']") as HTMLInputElement;
 
     let picker: Picker;
-    button?.addEventListener("click", () => {
+    button.addEventListener("click", () => {
         if (!picker) {
             picker = new Picker({
                 data: async () => {
@@ -145,9 +182,9 @@ const i18n = getTranslations(Astro.preferredLocale);
                     return response.default;
                 },
                 onEmojiSelect: ({ native }: { native: string }) => {
-                    if (button) button.textContent = native;
-                    if (input) input.value = native;
-                    dialog?.close();
+                    button.textContent = native;
+                    input.value = native;
+                    dialog.close();
                 },
                 locale: navigator.language.split("-").at(0),
                 previewPosition: "none",
@@ -158,14 +195,14 @@ const i18n = getTranslations(Astro.preferredLocale);
                 perLine: 8
             });
 
-            dialog?.append(picker as unknown as HTMLElement);
-            tooltip?.classList.add("hidden");
+            dialog.append(picker as unknown as HTMLElement);
+            tooltip.classList.add("hidden");
         }
 
-        dialog?.showModal();
+        dialog.showModal();
     });
 
-    dialog?.addEventListener("click", event => {
+    dialog.addEventListener("click", event => {
         if (event.target === dialog) {
             dialog.close();
         }
