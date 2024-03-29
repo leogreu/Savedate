@@ -74,5 +74,6 @@
     "privacy.invites.purpose.copy": "Die Verarbeitung der personenbezogenen Daten dient uns allein zur Bearbeitung der Erstellung der Einladung sowie Darstellung von Teilnahmen. Hierin liegt auch das erforderliche berechtigte Interesse an der Verarbeitung der Daten.",
     "privacy.invites.duration.heading": "Dauer der Speicherung der personenbezogenen Daten",
     "privacy.invites.duration.copy": "Die von Ihnen an uns übersandten Daten verbleiben bei uns, bis Sie uns zur Löschung auffordern, Ihre Einwilligung zur Speicherung widerrufen oder der Zweck für die Datenspeicherung entfällt (z. B. beim Löschen einer Einladung). Zwingende gesetzliche Bestimmungen – insbesondere gesetzliche Aufbewahrungsfristen – bleiben unberührt.",
-    "client-link-clipboard-success": "Der Link wurde in die Zwischenablage kopiert."
+    "client-link-clipboard-success": "Der Link wurde in die Zwischenablage kopiert.",
+    "client-view-edit-invite": "Einladung ansehen oder bearbeiten:"
 }
