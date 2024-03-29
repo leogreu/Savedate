@@ -179,19 +179,24 @@ const i18n = getTranslations(Astro.preferredLocale);
     import { toast } from "@/components/ui/use-toast";
     import { atcb_action } from "add-to-calendar-button";
 
+    document.querySelector("#share input")?.addEventListener("click", event => {
+        addToClipboard((event.target as HTMLInputElement).value);
+    });
 
-    const translations = JSON.parse(document.querySelector("main")?.dataset.translations ?? "");
     document.querySelector("#share button")?.addEventListener("click", () => {
         const url = document.querySelector<HTMLInputElement>("#share input")?.value;
         if (navigator.share) {
             navigator.share({ url });
-        } else {
-            navigator.clipboard.writeText(url ?? String());
-            toast({
-                title: translations["client-link-clipboard-success"]
-            });
+        } else if (url) {
+            addToClipboard(url);
         }
     });
+
+    const translations = JSON.parse(document.querySelector("main")?.dataset.translations ?? "");
+    const addToClipboard = (value: string) => {
+        navigator.clipboard.writeText(value);
+        toast({ title: translations["client-link-clipboard-success"] });
+    }
 
     for (const button of document.querySelectorAll("#add-to-calendar button")) {
         button?.addEventListener("click", () => {
