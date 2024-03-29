@@ -89,7 +89,7 @@ const i18n = getTranslations(Astro.preferredLocale);
                 </Alert>
                 {participant.isAdmin &&
                     <label class="flex flex-col gap-2">
-                        <p>{i18n("link")}</p>
+                        <p>{i18n("invitation-link")}</p>
                         <div id="share" class="flex gap-2">
                             <Input value={`${Astro.url.origin}/${event.id}`} readOnly />
                             <Button variant="outline" size="icon">
