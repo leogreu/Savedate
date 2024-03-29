@@ -139,19 +139,26 @@ const i18n = getTranslations(Astro.preferredLocale);
     import { Temporal } from "temporal-polyfill";
     import { Picker } from "emoji-mart";
 
-    // Set the timezone client-side to get the actual user timezone
-    const timezoneInput = document.querySelector("[name='timezone']") as HTMLInputElement;
-    timezoneInput.value = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    // Get elements required for further processing
+    const get = (query: string) => document.querySelector(query);
+    const startDate = get("[name='startDate']") as HTMLInputElement;
+    const startTime = get("[name='startTime']") as HTMLInputElement;
+    const endDate = get("[name='endDate']") as HTMLInputElement;
+    const endTime = get("[name='endTime']") as HTMLInputElement;
+    const timezoneInput = get("[name='timezone']") as HTMLInputElement;
+    const emojiButton = get("#emoji-button") as HTMLButtonElement;
+    const emojiTooltip = get("#emoji-tooltip") as HTMLDivElement;
+    const emojiDialog = get("#emoji-dialog") as HTMLDialogElement;
+    const emojiInput = get("[name='icon']") as HTMLInputElement;
 
-    const startDate = document.querySelector("[name='startDate']") as HTMLInputElement;
-    const startTime = document.querySelector("[name='startTime']") as HTMLInputElement;
-    const endDate = document.querySelector("[name='endDate']") as HTMLInputElement;
-    const endTime = document.querySelector("[name='endTime']") as HTMLInputElement;
+    // Set the start date and timezone client-side to get the actual user data
+    startDate.value = Temporal.Now.plainDateISO().toString();
+    timezoneInput.value = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
     // On start date and time input, show end inputs
     for (const input of [startDate, startTime]) {
         input.addEventListener("input", () => {
-            const container = document.querySelector("#end-date-container");
+            const container = get("#end-date-container");
             try {
                 const plusOneHour = Temporal.Now
                     .zonedDateTimeISO()
@@ -169,13 +176,8 @@ const i18n = getTranslations(Astro.preferredLocale);
     }
 
     // Handling of user-selectable emojis
-    const button = document.querySelector("#emoji-button") as HTMLButtonElement;
-    const tooltip = document.querySelector("#emoji-tooltip") as HTMLDivElement;
-    const dialog = document.querySelector("#emoji-dialog") as HTMLDialogElement;
-    const input = document.querySelector("[name='icon']") as HTMLInputElement;
-
     let picker: Picker;
-    button.addEventListener("click", () => {
+    emojiButton.addEventListener("click", () => {
         if (!picker) {
             picker = new Picker({
                 data: async () => {
@@ -183,9 +185,9 @@ const i18n = getTranslations(Astro.preferredLocale);
                     return response.default;
                 },
                 onEmojiSelect: ({ native }: { native: string }) => {
-                    button.textContent = native;
-                    input.value = native;
-                    dialog.close();
+                    emojiButton.textContent = native;
+                    emojiInput.value = native;
+                    emojiDialog.close();
                 },
                 locale: navigator.language.split("-").at(0),
                 previewPosition: "none",
@@ -196,16 +198,16 @@ const i18n = getTranslations(Astro.preferredLocale);
                 perLine: 8
             });
 
-            dialog.append(picker as unknown as HTMLElement);
-            tooltip.classList.add("hidden");
+            emojiDialog.append(picker as unknown as HTMLElement);
+            emojiTooltip.classList.add("hidden");
         }
 
-        dialog.showModal();
+        emojiDialog.showModal();
     });
 
-    dialog.addEventListener("click", event => {
-        if (event.target === dialog) {
-            dialog.close();
+    emojiDialog.addEventListener("click", event => {
+        if (event.target === emojiDialog) {
+            emojiDialog.close();
         }
     });
 </script>
