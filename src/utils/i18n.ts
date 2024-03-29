@@ -11,7 +11,9 @@ export const getTranslations = (locale = "en") => {
 };
 
 export const getClientTranslations = (locale = "en") => {
-    return Object.fromEntries(
-        Object.entries(translations[locale]).filter(([key]) => key.startsWith("client"))
+    return JSON.stringify(
+        Object.fromEntries(
+            Object.entries(translations[locale]).filter(([key]) => key.startsWith("client"))
+        )
     );
 };

@@ -22,9 +22,7 @@ const event = await db.select().from(Event).where(eq(Event.id, participant.event
 if (!event) return;
 
 const participants = await db.select().from(Participant).where(eq(Participant.eventId, event.id));
-
 const i18n = getTranslations(Astro.preferredLocale);
-const clientTranslations = getClientTranslations(Astro.preferredLocale);
 
 // TODO: Add reusable Layout component
 // TODO: Evaluate whether to use Container for main component (also for creation form)
@@ -52,7 +50,7 @@ const clientTranslations = getClientTranslations(Astro.preferredLocale);
         </header>
         <main
             class="flex flex-col gap-12 my-16 mx-auto px-6 max-w-xl"
-            data-translations={JSON.stringify(clientTranslations)}
+            data-translations={getClientTranslations(Astro.preferredLocale)}
         >
             <section class="flex flex-col gap-8">
                 <header class="flex flex-col gap-2">
