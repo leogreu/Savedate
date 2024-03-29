@@ -99,7 +99,7 @@ const i18n = getTranslations(Astro.preferredLocale);
                 <input id="timezone" class="hidden" value={event.timezone}></time>
             </section>
             {(participant.isAdmin || event.participantsVisible) &&
-                <hr>
+                <hr />
                 <section class="flex flex-col gap-4">
                     <h2 class="text-2xl font-medium text-gray-700">
                         {i18n("participants")}
