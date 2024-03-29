@@ -22,12 +22,8 @@ const { date, time, timezone, native } = Astro.props;
 <script>
     import { formatDateParts, formatDate } from "@/utils/temporal.ts";
 
-    for (const element of document.querySelectorAll(".date-time")) {
-        const date = element.getAttribute("data-date");
-        const time = element.getAttribute("data-time");
-        const timezone = element.getAttribute("data-timezone");
-        const native = element.getAttribute("data-native");
-
+    for (const element of document.querySelectorAll<HTMLElement>(".date-time")) {
+        const { date, time, timezone, native } = element.dataset;
         if (date) {
             element.textContent = formatDateParts(navigator.language, date, time, timezone);
         } else if (native) {
