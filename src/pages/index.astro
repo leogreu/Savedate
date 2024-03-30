@@ -158,7 +158,6 @@ const i18n = getTranslations(Astro.preferredLocale);
     // On start date and time input, show end inputs
     for (const input of [startDate, startTime]) {
         input.addEventListener("input", () => {
-            const container = get("#end-date-container");
             try {
                 const plusOneHour = Temporal.Now
                     .zonedDateTimeISO()
@@ -168,9 +167,11 @@ const i18n = getTranslations(Astro.preferredLocale);
 
                 endDate.value = plusOneHour.toPlainDate().toString();
                 endTime.value = plusOneHour.toPlainTime().toString();
-                container?.classList.remove("hidden");
+                get("#end-date-container")?.classList.remove("hidden");
             } catch {
-                container?.classList.add("hidden");
+                endDate.value = String();
+                endTime.value = String();
+                get("#end-date-container")?.classList.add("hidden");
             }
         });
     }
