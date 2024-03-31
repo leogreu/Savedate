@@ -10,6 +10,7 @@ import { formatDateParts } from "@/utils/temporal.ts";
 import Navbar from "@/components/custom/navbar.astro";
 import DateTime from "@/components/utils/date-time.astro";
 import CalendarButtons from "@/components/custom/calendar-buttons.astro";
+import ParticipantsList from "@/components/custom/participants-list.astro";
 
 const { slug } = Astro.params;
 if (!slug) return;
@@ -72,7 +73,7 @@ const i18n = getTranslations(Astro.preferredLocale);
                 </span>
             </div>
         </header>
-        <main class="flex flex-col gap-8 mt-16 mx-auto px-6 max-w-xl">
+        <main class="flex flex-col gap-8 my-16 mx-auto px-6 max-w-xl">
             <header class="flex flex-col gap-2">
                 <div>
                     <div class="flex text-gray-400">
@@ -111,6 +112,10 @@ const i18n = getTranslations(Astro.preferredLocale);
                     <p>{i18n("add-to-calendar")}</p>
                     <CalendarButtons event={event} linktext={i18n("view-invite")} />
                 </div>
+            }
+            {event.allowResponse && event.participantsVisible &&
+                <hr />
+                <ParticipantsList eventId={event.id} />
             }
         </main>
     </body>

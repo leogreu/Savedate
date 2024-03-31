@@ -1,0 +1,59 @@
+---
+import { db, eq, Participant } from "astro:db";
+import { CircleCheck, X } from "lucide-react";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow, } from "@/components/ui/table";
+import { getTranslations } from "@/utils/i18n.ts";
+
+import DateTime from "@/components/utils/date-time.astro";
+
+interface Props {
+    eventId: string;
+    participantId?: string;
+}
+
+const { eventId, participantId } = Astro.props;
+const participants = await db.select().from(Participant).where(eq(Participant.eventId, eventId));
+
+const i18n = getTranslations(Astro.preferredLocale);
+---
+
+<section class="flex flex-col gap-4">
+    <h2 class="text-2xl font-medium">
+        {i18n("participants")}
+    </h2>
+    <p class="text-base text-gray-500">
+        {i18n("participants-list-subtitle")}
+    </p>
+    <Table>
+        <TableHeader>
+            <TableRow>
+                <TableHead>{i18n("name")}</TableHead>
+                <TableHead>{i18n("answer-from")}</TableHead>
+                <TableHead>{i18n("participation")}</TableHead>
+            </TableRow>
+        </TableHeader>
+        <TableBody>
+            {participants.map((entry) => (
+                <TableRow key={entry.id}>
+                    <TableCell>
+                        {i18n(entry.id === participantId
+                            ? "you"
+                            : entry.isAdmin
+                                ? "organizer"
+                                : (entry.name || "no-name")
+                        )}
+                    </TableCell>
+                    <TableCell>
+                        <DateTime native={entry.createdDate}></DateTime>
+                    </TableCell>
+                    <TableCell>
+                        {entry.willParticipate
+                            ? <CircleCheck className="h-4 w-4"></CircleCheck>
+                            : <X className="h-4 w-4"></X>
+                        }
+                    </TableCell>
+                </TableRow>
+            ))}
+        </TableBody>
+    </Table>
+</section>
