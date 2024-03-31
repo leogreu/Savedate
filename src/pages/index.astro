@@ -8,12 +8,12 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { getTranslations } from "@/utils/i18n.ts";
-import Navbar from "@/components/navigation/navbar.astro";
+import Navbar from "@/components/custom/navbar.astro";
 
 const defaultIcon = "🎉";
 
 if (Astro.request.method === "POST") {
-    const { name, description, startDate, startTime, endDate, endTime, icon, timezone, visible }
+    const { name, description, startDate, startTime, endDate, endTime, icon, timezone, response, visible }
         = Object.fromEntries((await Astro.request.formData()).entries());
 
     try {
@@ -29,6 +29,7 @@ if (Astro.request.method === "POST") {
                 endTime: typeof endTime === "string" ? endTime
                     : (typeof startTime === "string" ? startTime : null),
                 timezone: startTime && typeof timezone === "string" ? timezone : null,
+                allowResponse: response ? true : false,
                 participantsVisible: visible ? true : false,
                 createdDate: new Date()
             }).returning().get();
@@ -84,7 +85,7 @@ const i18n = getTranslations(Astro.preferredLocale);
         <form class="flex flex-col gap-8 my-16 mx-auto px-6 max-w-xl" method="POST">
             <!-- TODO: Probably add a reusable header component -->
             <header class="flex flex-col gap-6">
-                <h1 class="text-4xl font-medium text-gray-700">
+                <h1 class="text-4xl font-medium">
                     {i18n("new-invitation")}
                 </h1>
                 <p class="text-lg text-gray-500">
@@ -124,9 +125,14 @@ const i18n = getTranslations(Astro.preferredLocale);
             </div>
             <hr />
             <label class="flex justify-between items-center">
+                <p>{i18n("allow-response-label")}</p>
+                <Switch name="response" client:idle></Switch>
+            </label>
+            <label class="flex justify-between items-center">
                 <p>{i18n("participants-visible-label")}</p>
                 <Switch name="visible" client:idle></Switch>
             </label>
+            <hr />
             <input class="hidden" name="icon" />
             <input class="hidden" name="timezone" />
             <Button type="submit">{i18n("save")}</Button>

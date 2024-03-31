@@ -10,6 +10,7 @@
     "date": "Datum",
     "time": "Zeit",
     "end": "Ende",
+    "allow-response-label": "Eingeladene können zu- oder absagen?",
     "participants-visible-label": "Teilnehmende für andere sichtbar machen?",
     "save": "Speichern",
     "your-name": "Dein Name",
@@ -21,6 +22,8 @@
     "invitation-link": "Einladungslink",
     "add-to-calendar": "Zum Kalender hinzufügen",
     "add-to-calendar-help": "Wir empfehlen dir, dass du die Einladung zu deinem Kalender hinzufügst. So vergisst du nichts und kannst dir die Einladung später wieder anschauen.",
+    "view-edit-invite": "Einladung ansehen oder bearbeiten",
+    "view-invite": "Einladung ansehen",
     "participants": "Teilnehmende",
     "participants-list-subtitle": "Hier siehst du eine Liste aller Personen, welche die Einladung angenommen oder abgelehnt haben.",
     "answer-from": "Antwort vom",
@@ -76,6 +79,5 @@
     "privacy.invites.purpose.copy": "Die Verarbeitung der personenbezogenen Daten dient uns allein zur Bearbeitung der Erstellung der Einladung sowie Darstellung von Teilnahmen. Hierin liegt auch das erforderliche berechtigte Interesse an der Verarbeitung der Daten.",
     "privacy.invites.duration.heading": "Dauer der Speicherung der personenbezogenen Daten",
     "privacy.invites.duration.copy": "Die von Ihnen an uns übersandten Daten verbleiben bei uns, bis Sie uns zur Löschung auffordern, Ihre Einwilligung zur Speicherung widerrufen oder der Zweck für die Datenspeicherung entfällt (z. B. beim Löschen einer Einladung). Zwingende gesetzliche Bestimmungen – insbesondere gesetzliche Aufbewahrungsfristen – bleiben unberührt.",
-    "client-link-clipboard-success": "Der Link wurde in die Zwischenablage kopiert.",
-    "client-view-edit-invite": "Einladung ansehen oder bearbeiten:"
+    "client-link-clipboard-success": "Der Link wurde in die Zwischenablage kopiert."
 }

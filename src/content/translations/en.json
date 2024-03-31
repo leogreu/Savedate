@@ -10,6 +10,7 @@
     "date": "Date",
     "time": "Time",
     "end": "End",
+    "allow-response-label": "Invitees can accept or decline?",
     "participants-visible-label": "Make participants visible to others?",
     "save": "Save",
     "your-name": "Your name",
@@ -21,6 +22,8 @@
     "invitation-link": "Invitation link",
     "add-to-calendar": "Add to calendar",
     "add-to-calendar-help": "We recommend that you add the invitation to your calendar. That way you won't forget anything and can look at the invitation again later.",
+    "view-edit-invite": "View or edit invite",
+    "view-invite": "View invite",
     "participants": "Participants",
     "participants-list-subtitle": "Here you can see a list of all the people who have accepted or declined the invitation.",
     "answer-from": "Answer from",
@@ -76,6 +79,5 @@
     "privacy.invites.purpose.copy": "The processing of personal data serves us solely to process the creation of the invitation and the presentation of participations. This also constitutes the necessary legitimate interest in the processing of the data.",
     "privacy.invites.duration.heading": "Duration of storage of personal data",
     "privacy.invites.duration.copy": "The data you send to us will remain with us until you ask us to delete it, revoke your consent to storage or the purpose for data storage no longer applies (e.g. when deleting an invitation). Mandatory legal provisions - in particular legal retention periods - remain unaffected.",
-    "client-link-clipboard-success": "The link was copied to the clipboard.",
-    "client-view-edit-invite": "View or edit invite:"
+    "client-link-clipboard-success": "The link was copied to the clipboard."
 }

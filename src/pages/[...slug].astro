@@ -7,8 +7,9 @@ import { Button } from "@/components/ui/button";
 import { getTranslations } from "@/utils/i18n.ts";
 import { formatDateParts } from "@/utils/temporal.ts";
 
-import Navbar from "@/components/navigation/navbar.astro";
+import Navbar from "@/components/custom/navbar.astro";
 import DateTime from "@/components/utils/date-time.astro";
+import CalendarButtons from "@/components/custom/calendar-buttons.astro";
 
 const { slug } = Astro.params;
 if (!slug) return;
@@ -71,7 +72,7 @@ const i18n = getTranslations(Astro.preferredLocale);
                 </span>
             </div>
         </header>
-        <form class="flex flex-col gap-8 mt-16 mx-auto px-6 max-w-xl" method="POST">
+        <main class="flex flex-col gap-8 mt-16 mx-auto px-6 max-w-xl">
             <header class="flex flex-col gap-2">
                 <div>
                     <div class="flex text-gray-400">
@@ -81,7 +82,7 @@ const i18n = getTranslations(Astro.preferredLocale);
                             timezone={event.timezone}
                         ></DateTime>
                     </div>
-                    <h1 class="text-4xl font-medium text-gray-700">
+                    <h1 class="text-4xl font-medium">
                         {event.name}
                     </h1>
                 </div>
@@ -91,18 +92,26 @@ const i18n = getTranslations(Astro.preferredLocale);
                     </p>
                 }
             </header>
-            <label class="flex flex-col gap-2">
-                <p>{i18n("your-name")}</p>
-                <Input name="name" />
-            </label>
-            <div class="flex gap-2">
-                <Button type="submit" name="willParticipate" value="true">
-                    {i18n("participate")}
-                </Button>
-                <Button type="submit" name="willParticipate" value="false" variant="secondary">
-                    {i18n("not-participate")}
-                </Button>
-            </div>
-        </form>
+            {event.allowResponse
+                ? <form class="flex flex-col gap-8" method="POST">
+                    <label class="flex flex-col gap-2">
+                        <p>{i18n("your-name")}</p>
+                        <Input name="name" />
+                    </label>
+                    <div class="flex gap-2">
+                        <Button type="submit" name="willParticipate" value="true">
+                            {i18n("participate")}
+                        </Button>
+                        <Button type="submit" name="willParticipate" value="false" variant="secondary">
+                            {i18n("not-participate")}
+                        </Button>
+                    </div>
+                </form>
+                : <div class="flex flex-col gap-2">
+                    <p>{i18n("add-to-calendar")}</p>
+                    <CalendarButtons event={event} linktext={i18n("view-invite")} />
+                </div>
+            }
+        </main>
     </body>
 </html>
