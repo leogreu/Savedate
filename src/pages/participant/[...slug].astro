@@ -103,7 +103,7 @@ const i18n = getTranslations(Astro.preferredLocale);
                     </p>
                 </div>
             </section>
-            {(participant.isAdmin || event.participantsVisible) &&
+            {event.allowResponse && (event.participantsVisible || participant.isAdmin) &&
                 <hr />
                 <section class="flex flex-col gap-4">
                     <h2 class="text-2xl font-medium">
