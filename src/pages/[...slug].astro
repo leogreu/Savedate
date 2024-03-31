@@ -94,7 +94,16 @@ const i18n = getTranslations(Astro.preferredLocale);
                 }
             </header>
             {event.allowResponse
-                ? <form class="flex flex-col gap-8" method="POST">
+                ?
+                <!-- TODO: Find a more elegant solution for disabling submit buttons on loading for valid form data -->
+                <form
+                    class="flex flex-col gap-8"
+                    method="POST"
+                    onsubmit="
+                        setTimeout(() => document.getElementsByName('willParticipate').forEach(button => button.disabled = true), 0);
+                        return true;
+                    "
+                >
                     <label class="flex flex-col gap-2">
                         <p>{i18n("your-name")}</p>
                         <Input name="name" />
