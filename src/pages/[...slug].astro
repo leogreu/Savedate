@@ -93,17 +93,19 @@ const i18n = getTranslations(Astro.preferredLocale);
                 }
             </header>
             {event.allowResponse
-                ? <form class="flex gap-2" method="POST">
+                ? <form class="flex flex-col gap-8" method="POST">
                     <label class="flex flex-col gap-2">
                         <p>{i18n("your-name")}</p>
                         <Input name="name" />
                     </label>
-                    <Button type="submit" name="willParticipate" value="true">
-                        {i18n("participate")}
-                    </Button>
-                    <Button type="submit" name="willParticipate" value="false" variant="secondary">
-                        {i18n("not-participate")}
-                    </Button>
+                    <div class="flex gap-2">
+                        <Button type="submit" name="willParticipate" value="true">
+                            {i18n("participate")}
+                        </Button>
+                        <Button type="submit" name="willParticipate" value="false" variant="secondary">
+                            {i18n("not-participate")}
+                        </Button>
+                    </div>
                 </form>
                 : <div class="flex flex-col gap-2">
                     <p>{i18n("add-to-calendar")}</p>

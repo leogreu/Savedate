@@ -40,7 +40,7 @@ const { event, linktext } = Astro.props;
 
     const container = document.querySelector<HTMLElement>("#add-to-calendar");
     for (const button of container?.querySelectorAll("button") ?? []) {
-        button?.addEventListener("click", () => {
+        button.addEventListener("click", () => {
             atcb_action({
                 name: document.title,
                 description: document.querySelector('meta[name="description"]')?.getAttribute("content")
