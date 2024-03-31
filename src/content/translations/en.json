@@ -10,6 +10,7 @@
     "date": "Date",
     "time": "Time",
     "end": "End",
+    "allow-response-label": "Invitees can accept or decline?",
     "participants-visible-label": "Make participants visible to others?",
     "save": "Save",
     "your-name": "Your name",

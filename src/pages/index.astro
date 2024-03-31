@@ -13,7 +13,7 @@ import Navbar from "@/components/navigation/navbar.astro";
 const defaultIcon = "🎉";
 
 if (Astro.request.method === "POST") {
-    const { name, description, startDate, startTime, endDate, endTime, icon, timezone, visible }
+    const { name, description, startDate, startTime, endDate, endTime, icon, timezone, response, visible }
         = Object.fromEntries((await Astro.request.formData()).entries());
 
     try {
@@ -29,6 +29,7 @@ if (Astro.request.method === "POST") {
                 endTime: typeof endTime === "string" ? endTime
                     : (typeof startTime === "string" ? startTime : null),
                 timezone: startTime && typeof timezone === "string" ? timezone : null,
+                allowResponse: response ? true : false,
                 participantsVisible: visible ? true : false,
                 createdDate: new Date()
             }).returning().get();
@@ -124,9 +125,14 @@ const i18n = getTranslations(Astro.preferredLocale);
             </div>
             <hr />
             <label class="flex justify-between items-center">
+                <p>{i18n("allow-response-label")}</p>
+                <Switch name="response" client:idle></Switch>
+            </label>
+            <label class="flex justify-between items-center">
                 <p>{i18n("participants-visible-label")}</p>
                 <Switch name="visible" client:idle></Switch>
             </label>
+            <hr />
             <input class="hidden" name="icon" />
             <input class="hidden" name="timezone" />
             <Button type="submit">{i18n("save")}</Button>
