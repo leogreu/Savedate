@@ -54,7 +54,7 @@ export default async function handler(request: VercelRequest) {
                             margin: '20px'
                         }}
                     >
-                        {limitTextLength(name, 15)}
+                        {limitTextLength(name, description ? 15 : 30)}
                     </div>
                     {description &&
                         <div
