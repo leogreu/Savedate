@@ -44,7 +44,7 @@ export default async function handler(request: VercelRequest) {
                             fontSize: 60
                         }}
                     >
-                        {date ?? "no-date-specified"}
+                        {date}
                     </div>
                     <div
                         style={{
@@ -54,7 +54,7 @@ export default async function handler(request: VercelRequest) {
                             margin: '20px'
                         }}
                     >
-                        {name ?? "no-name-specified"}
+                        {limitTextLength(name, 15)}
                     </div>
                     {description &&
                         <div
@@ -65,7 +65,7 @@ export default async function handler(request: VercelRequest) {
                                 fontSize: 60,
                             }}
                         >
-                            {description}
+                            {limitTextLength(description, 50)}
                         </div>
                     }
                     {icon &&
@@ -123,3 +123,7 @@ export default async function handler(request: VercelRequest) {
         });
     }
 }
+
+const limitTextLength = (text: string, length: number) => {
+    return text.length > length ? `${text.substring(0, length)} ...` : text;
+};
