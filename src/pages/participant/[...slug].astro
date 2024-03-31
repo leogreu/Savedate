@@ -9,9 +9,9 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow, } from "
 import { db, eq, Event, Participant } from "astro:db";
 import { getTranslations, getClientTranslations } from "@/utils/i18n.ts";
 
-import Navbar from "@/components/navigation/navbar.astro";
+import Navbar from "@/components/custom/navbar.astro";
 import DateTime from "@/components/utils/date-time.astro";
-import CalendarButtons from "@/components/navigation/calendar-buttons.astro";
+import CalendarButtons from "@/components/custom/calendar-buttons.astro";
 
 const { slug } = Astro.params;
 if (!slug) return;
