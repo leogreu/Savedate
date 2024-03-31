@@ -1,0 +1,57 @@
+---
+import { Button } from "@/components/ui/button";
+import AppleIcon from "../../icons/brands/apple.svg?raw";
+import GoogleIcon from "../../icons/brands/google.svg?raw";
+import MicrosoftIcon from "../../icons/brands/microsoft.svg?raw";
+
+interface Props {
+	event: any;
+    linktext: string;
+}
+
+const { event, linktext } = Astro.props;
+---
+
+<div id="add-to-calendar" class="flex gap-2" data-linktext={linktext}>
+    <Button id="Apple" variant="outline" className="w-full">
+        <div class="flex h-5 w-5">
+            <Fragment set:html={AppleIcon} />
+        </div>
+    </Button>
+    <Button id="Google" variant="outline" className="w-full">
+        <div class="flex h-4 w-4">
+            <Fragment set:html={GoogleIcon} />
+        </div>
+    </Button>
+    <Button id="Microsoft365" variant="outline" className="w-full">
+        <div class="flex h-4 w-4">
+            <Fragment set:html={MicrosoftIcon} />
+        </div>
+    </Button>
+    <time id="start-date" class="hidden" datetime={event.startDate}></time>
+    <time id="start-time" class="hidden" datetime={event.startTime}></time>
+    <time id="end-date" class="hidden" datetime={event.endDate}></time>
+    <time id="end-time" class="hidden" datetime={event.endTime}></time>
+    <input id="timezone" class="hidden" value={event.timezone}></time>
+</div>
+
+<script>
+    import { atcb_action } from "add-to-calendar-button";
+
+    const container = document.querySelector<HTMLElement>("#add-to-calendar");
+    for (const button of container?.querySelectorAll("button") ?? []) {
+        button?.addEventListener("click", () => {
+            atcb_action({
+                name: document.title,
+                description: document.querySelector('meta[name="description"]')?.getAttribute("content")
+                    + "[br][br]" + container?.dataset.linktext + ": " + location.href,
+                startDate: document.querySelector<HTMLTimeElement>("time#start-date")?.dateTime,
+                endDate: document.querySelector<HTMLTimeElement>("time#end-date")?.dateTime,
+                startTime: document.querySelector<HTMLTimeElement>("time#start-time")?.dateTime,
+                endTime: document.querySelector<HTMLTimeElement>("time#end-time")?.dateTime,
+                timeZone: document.querySelector<HTMLInputElement>("#timezone")?.value,
+                options: [button.id as "Apple" | "Google" | "Microsoft365"]
+            });
+        });
+    }
+</script>

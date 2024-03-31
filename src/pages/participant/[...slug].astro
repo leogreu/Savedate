@@ -9,12 +9,9 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow, } from "
 import { db, eq, Event, Participant } from "astro:db";
 import { getTranslations, getClientTranslations } from "@/utils/i18n.ts";
 
-import AppleIcon from "../../icons/brands/apple.svg?raw";
-import GoogleIcon from "../../icons/brands/google.svg?raw";
-import MicrosoftIcon from "../../icons/brands/microsoft.svg?raw";
-
 import Navbar from "@/components/navigation/navbar.astro";
-import DateTime from "../../components/utils/date-time.astro";
+import DateTime from "@/components/utils/date-time.astro";
+import CalendarButtons from "@/components/navigation/calendar-buttons.astro";
 
 const { slug } = Astro.params;
 if (!slug) return;
@@ -100,32 +97,11 @@ const i18n = getTranslations(Astro.preferredLocale);
                 }
                 <div class="flex flex-col gap-2">
                     <p>{i18n("add-to-calendar")}</p>
-                    <div id="add-to-calendar" class="flex gap-2">
-                        <Button id="Apple" variant="outline" className="w-full">
-                            <div class="flex h-5 w-5">
-                                <Fragment set:html={AppleIcon} />
-                            </div>
-                        </Button>
-                        <Button id="Google" variant="outline" className="w-full">
-                            <div class="flex h-4 w-4">
-                                <Fragment set:html={GoogleIcon} />
-                            </div>
-                        </Button>
-                        <Button id="Microsoft365" variant="outline" className="w-full">
-                            <div class="flex h-4 w-4">
-                                <Fragment set:html={MicrosoftIcon} />
-                            </div>
-                        </Button>
-                    </div>
+                    <CalendarButtons event={event} linktext={i18n("view-edit-invite")} />
                     <p class="text-xs text-gray-500">
                         {i18n("add-to-calendar-help")}
                     </p>
                 </div>
-                <time id="start-date" class="hidden" datetime={event.startDate}></time>
-                <time id="start-time" class="hidden" datetime={event.startTime}></time>
-                <time id="end-date" class="hidden" datetime={event.endDate}></time>
-                <time id="end-time" class="hidden" datetime={event.endTime}></time>
-                <input id="timezone" class="hidden" value={event.timezone}></time>
             </section>
             {(participant.isAdmin || event.participantsVisible) &&
                 <hr />
@@ -177,7 +153,6 @@ const i18n = getTranslations(Astro.preferredLocale);
 
 <script>
     import { toast } from "@/components/ui/use-toast";
-    import { atcb_action } from "add-to-calendar-button";
 
     document.querySelector("#share input")?.addEventListener("click", event => {
         addToClipboard((event.target as HTMLInputElement).value);
@@ -196,21 +171,5 @@ const i18n = getTranslations(Astro.preferredLocale);
     const addToClipboard = (value: string) => {
         navigator.clipboard.writeText(value);
         toast({ title: translations["client-link-clipboard-success"] });
-    }
-
-    for (const button of document.querySelectorAll("#add-to-calendar button")) {
-        button?.addEventListener("click", () => {
-            atcb_action({
-                name: document.title,
-                description: document.querySelector('meta[name="description"]')?.getAttribute("content")
-                    + "[br][br]" + translations["client-view-edit-invite"] + " " + location.href,
-                startDate: document.querySelector<HTMLTimeElement>("time#start-date")?.dateTime,
-                endDate: document.querySelector<HTMLTimeElement>("time#end-date")?.dateTime,
-                startTime: document.querySelector<HTMLTimeElement>("time#start-time")?.dateTime,
-                endTime: document.querySelector<HTMLTimeElement>("time#end-time")?.dateTime,
-                timeZone: document.querySelector<HTMLInputElement>("#timezone")?.value,
-                options: [button.id as "Apple" | "Google" | "Microsoft365"]
-            });
-        });
     }
 </script>
