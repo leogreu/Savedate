@@ -22,7 +22,7 @@ const Participant = defineTable({
         id: column.text({ primaryKey: true }),
         eventId: column.text({ references: () => Event.columns.id }),
         name: column.text({ optional: true }),
-        response: column.text(),
+        response: column.text({ default: "no" }),
         isAdmin: column.boolean(),
         createdDate: column.date(),
         willParticipate: column.boolean({ deprecated: true })
