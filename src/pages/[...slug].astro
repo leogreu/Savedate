@@ -3,12 +3,12 @@ import "@/styles/globals.css";
 import { db, eq, Event, Participant } from "astro:db";
 import { nanoid } from "nanoid";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 import { getTranslations } from "@/utils/i18n.ts";
 import { formatDateParts } from "@/utils/temporal.ts";
 
 import Navbar from "@/components/custom/navbar.astro";
 import DateTime from "@/components/utils/date-time.astro";
+import ResponseButtons from "@/components/custom/response-buttons.astro";
 import CalendarButtons from "@/components/custom/calendar-buttons.astro";
 import ParticipantsList from "@/components/custom/participants-list.astro";
 
@@ -21,15 +21,15 @@ if (!event) return;
 if (Astro.request.method === "POST") {
     try {
         const data = await Astro.request.formData();
-        const { name, willParticipate } = Object.fromEntries(data.entries());
+        const { name, response } = Object.fromEntries(data.entries());
         
-        if (typeof name === "string" && typeof willParticipate === "string") {
+        if (typeof name === "string" && typeof response === "string") {
             const participant = await db.insert(Participant).values({
                 id: nanoid(24),
                 eventId: event.id,
                 name: name,
+                response: response,
                 isAdmin: false,
-                willParticipate: JSON.parse(willParticipate),
                 createdDate: new Date()
             }).returning().get();
 
@@ -73,55 +73,53 @@ const i18n = getTranslations(Astro.preferredLocale);
                 </span>
             </div>
         </header>
-        <main class="flex flex-col gap-8 my-16 mx-auto px-6 max-w-xl">
-            <header class="flex flex-col gap-2">
-                <div>
-                    <div class="flex text-gray-400">
-                        <DateTime
-                            date={event.startDate}
-                            time={event.startTime}
-                            timezone={event.timezone}
-                        ></DateTime>
+        <main class="flex flex-col gap-12 my-16 mx-auto px-6 max-w-xl">
+            <section class="flex flex-col gap-8">
+                <header class="flex flex-col gap-2">
+                    <div>
+                        <div class="flex text-gray-400">
+                            <DateTime
+                                date={event.startDate}
+                                time={event.startTime}
+                                timezone={event.timezone}
+                            ></DateTime>
+                        </div>
+                        <h1 class="text-4xl font-medium">
+                            {event.name}
+                        </h1>
                     </div>
-                    <h1 class="text-4xl font-medium">
-                        {event.name}
-                    </h1>
-                </div>
-                {event.description &&
-                    <p class="text-lg text-gray-500">
-                        {event.description}
-                    </p>
+                    {event.description &&
+                        <p class="text-lg text-gray-500 whitespace-pre-line">
+                            {event.description}
+                        </p>
+                    }
+                </header>
+                {event.allowResponse
+                    ?
+                    <!-- TODO: Find a more elegant solution for disabling submit buttons on loading for valid form data -->
+                    <form
+                        class="flex flex-col gap-8"
+                        method="POST"
+                        onsubmit="
+                            setTimeout(() => document.getElementsByName('willParticipate').forEach(button => button.disabled = true), 0);
+                            return true;
+                        "
+                    >
+                        <label class="flex flex-col gap-2">
+                            <p>{i18n("your-name")}</p>
+                            <Input name="name" />
+                        </label>
+                        <div class="flex flex-col gap-2">
+                            <p>{i18n("participate")}</p>
+                            <ResponseButtons highlight="yes" />
+                        </div>
+                    </form>
+                    : <div class="flex flex-col gap-2">
+                        <p>{i18n("add-to-calendar")}</p>
+                        <CalendarButtons event={event} linktext={i18n("view-invite")} />
+                    </div>
                 }
-            </header>
-            {event.allowResponse
-                ?
-                <!-- TODO: Find a more elegant solution for disabling submit buttons on loading for valid form data -->
-                <form
-                    class="flex flex-col gap-8"
-                    method="POST"
-                    onsubmit="
-                        setTimeout(() => document.getElementsByName('willParticipate').forEach(button => button.disabled = true), 0);
-                        return true;
-                    "
-                >
-                    <label class="flex flex-col gap-2">
-                        <p>{i18n("your-name")}</p>
-                        <Input name="name" />
-                    </label>
-                    <div class="flex gap-2">
-                        <Button type="submit" name="willParticipate" value="true">
-                            {i18n("participate")}
-                        </Button>
-                        <Button type="submit" name="willParticipate" value="false" variant="secondary">
-                            {i18n("not-participate")}
-                        </Button>
-                    </div>
-                </form>
-                : <div class="flex flex-col gap-2">
-                    <p>{i18n("add-to-calendar")}</p>
-                    <CalendarButtons event={event} linktext={i18n("view-invite")} />
-                </div>
-            }
+            </section>
             {event.allowResponse && event.participantsVisible &&
                 <hr />
                 <ParticipantsList eventId={event.id} />

@@ -38,7 +38,7 @@ if (Astro.request.method === "POST") {
                 id: nanoid(24),
                 eventId: event.id,
                 isAdmin: true,
-                willParticipate: true,
+                response: "yes",
                 createdDate: new Date()
             }).returning().get();
 

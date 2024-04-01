@@ -1,0 +1,25 @@
+---
+import { Button } from "@/components/ui/button";
+import { getTranslations } from "@/utils/i18n.ts";
+
+interface Props {
+    highlight?: string;
+}
+
+const { highlight } = Astro.props;
+const i18n = getTranslations(Astro.preferredLocale);
+---
+
+<div class="flex gap-2">
+    {["yes", "no", "maybe"].map(response =>
+        <Button
+            type="submit"
+            name="response"
+            value={response}
+            variant={response === highlight ? "default" : "secondary"}
+            className="w-full"
+        >
+            {i18n(response)}
+        </Button>
+    )}
+</div>

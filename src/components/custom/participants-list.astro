@@ -1,6 +1,6 @@
 ---
 import { db, eq, Participant } from "astro:db";
-import { CircleCheck, X } from "lucide-react";
+import { CircleCheck, CircleHelp, X } from "lucide-react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow, } from "@/components/ui/table";
 import { getTranslations } from "@/utils/i18n.ts";
 
@@ -47,9 +47,11 @@ const i18n = getTranslations(Astro.preferredLocale);
                         <DateTime native={entry.createdDate}></DateTime>
                     </TableCell>
                     <TableCell>
-                        {entry.willParticipate
+                        {entry.response === "yes"
                             ? <CircleCheck className="h-4 w-4"></CircleCheck>
-                            : <X className="h-4 w-4"></X>
+                            : entry.response === "maybe"
+                                ? <CircleHelp className="h-4 w-4"></CircleHelp>
+                                : <X className="h-4 w-4"></X>
                         }
                     </TableCell>
                 </TableRow>

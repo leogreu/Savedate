@@ -22,8 +22,8 @@ const Participant = defineTable({
         id: column.text({ primaryKey: true }),
         eventId: column.text({ references: () => Event.columns.id }),
         name: column.text({ optional: true }),
+        response: column.text(),
         isAdmin: column.boolean(),
-        willParticipate: column.boolean(),
         createdDate: column.date()
     }
 });
