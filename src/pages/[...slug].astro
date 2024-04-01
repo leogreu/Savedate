@@ -95,16 +95,7 @@ const i18n = getTranslations(Astro.preferredLocale);
                     }
                 </header>
                 {event.allowResponse
-                    ?
-                    <!-- TODO: Find a more elegant solution for disabling submit buttons on loading for valid form data -->
-                    <form
-                        class="flex flex-col gap-8"
-                        method="POST"
-                        onsubmit="
-                            setTimeout(() => document.getElementsByName('willParticipate').forEach(button => button.disabled = true), 0);
-                            return true;
-                        "
-                    >
+                    ? <form class="flex flex-col gap-8" method="POST">
                         <label class="flex flex-col gap-2">
                             <p>{i18n("your-name")}</p>
                             <Input name="name" />
@@ -127,3 +118,17 @@ const i18n = getTranslations(Astro.preferredLocale);
         </main>
     </body>
 </html>
+
+<script>
+    const nameInput = document.querySelector("[name='name']") as HTMLInputElement;
+    nameInput.value = localStorage.getItem("participant-name") ?? String();
+
+    document.querySelector("form")?.addEventListener("submit", () => {
+        localStorage.setItem("participant-name", nameInput.value);
+
+        // Add timeout to prevent form not being submitted with disabled buttons
+        requestAnimationFrame(() => {
+            document.querySelectorAll("button").forEach(button => button.disabled = true);
+        });
+    });
+</script>
