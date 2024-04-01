@@ -30,7 +30,7 @@ if (Astro.request.method === "POST") {
                     : (typeof startTime === "string" ? startTime : null),
                 timezone: startTime && typeof timezone === "string" ? timezone : null,
                 allowResponse: response ? true : false,
-                participantsVisible: visible ? true : false,
+                participantsVisible: response && visible ? true : false,
                 createdDate: new Date()
             }).returning().get();
 
@@ -129,11 +129,10 @@ const i18n = getTranslations(locale);
                 <p>{i18n("allow-response-label")}</p>
                 <Switch name="response" client:idle></Switch>
             </label>
-            <label class="flex justify-between items-center">
+            <label id="visible-container" class="flex justify-between items-center hidden">
                 <p>{i18n("participants-visible-label")}</p>
                 <Switch name="visible" client:idle></Switch>
             </label>
-            <hr />
             <input class="hidden" name="icon" />
             <input class="hidden" name="timezone" />
             <Button type="submit">{i18n("save")}</Button>
@@ -216,6 +215,15 @@ const i18n = getTranslations(locale);
     emojiDialog.addEventListener("click", event => {
         if (event.target === emojiDialog) {
             emojiDialog.close();
+        }
+    });
+
+    // Only show participants visible switch when responses are enabled
+    get("[name='response']")?.addEventListener("click", ({ target }) => {
+        if (target instanceof HTMLInputElement && target.checked) {
+            get("#visible-container")?.classList.remove("hidden");
+        } else {
+            get("#visible-container")?.classList.add("hidden");
         }
     });
 </script>
