@@ -7,8 +7,8 @@ const Event = defineTable({
         description: column.text({ optional: true }),
         icon: column.text({ optional: true }),
         startDate: column.text(),
-        endDate: column.text(),
         startTime: column.text({ optional: true }),
+        endDate: column.text(),
         endTime: column.text({ optional: true }),
         timezone: column.text({ optional: true }),
         allowResponse: column.boolean({ default: false }),
@@ -22,10 +22,9 @@ const Participant = defineTable({
         id: column.text({ primaryKey: true }),
         eventId: column.text({ references: () => Event.columns.id }),
         name: column.text({ optional: true }),
-        response: column.text({ default: "no" }),
+        response: column.text(),
         isAdmin: column.boolean(),
-        createdDate: column.date(),
-        willParticipate: column.boolean({ deprecated: true })
+        createdDate: column.date()
     }
 });
 
