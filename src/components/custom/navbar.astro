@@ -1,8 +1,9 @@
 ---
 import { CalendarHeart } from "lucide-react";
-import { getTranslations } from "@/utils/i18n.ts";
+import { getPreferredLocale, getTranslations } from "@/utils/i18n.ts";
 
-const i18n = getTranslations(Astro.preferredLocale);
+const locale = getPreferredLocale(Astro.request.headers);
+const i18n = getTranslations(locale);
 ---
 
 <header

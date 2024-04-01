@@ -3,7 +3,7 @@ import "@/styles/globals.css";
 import { db, eq, Event, Participant } from "astro:db";
 import { nanoid } from "nanoid";
 import { Input } from "@/components/ui/input";
-import { getTranslations } from "@/utils/i18n.ts";
+import { getPreferredLocale, getTranslations } from "@/utils/i18n.ts";
 import { formatDateParts } from "@/utils/temporal.ts";
 
 import Navbar from "@/components/custom/navbar.astro";
@@ -42,8 +42,9 @@ if (Astro.request.method === "POST") {
     }
 }
 
-const date = formatDateParts(Astro.preferredLocale, event.startDate, event.startTime, event.timezone);
-const i18n = getTranslations(Astro.preferredLocale);
+const locale = getPreferredLocale(Astro.request.headers);
+const date = formatDateParts(locale, event.startDate, event.startTime, event.timezone);
+const i18n = getTranslations(locale);
 ---
 
 <html>

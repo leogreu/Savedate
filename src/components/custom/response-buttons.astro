@@ -1,13 +1,15 @@
 ---
 import { Button } from "@/components/ui/button";
-import { getTranslations } from "@/utils/i18n.ts";
+import { getPreferredLocale, getTranslations } from "@/utils/i18n.ts";
 
 interface Props {
     highlight?: string;
 }
 
 const { highlight } = Astro.props;
-const i18n = getTranslations(Astro.preferredLocale);
+
+const locale = getPreferredLocale(Astro.request.headers);
+const i18n = getTranslations(locale);
 ---
 
 <div class="flex gap-2">
@@ -16,7 +18,7 @@ const i18n = getTranslations(Astro.preferredLocale);
             type="submit"
             name="response"
             value={response}
-            variant={response === highlight ? "default" : "outline"}
+            variant={response === highlight ? "secondary" : "outline"}
             className="w-full"
         >
             {i18n(response)}

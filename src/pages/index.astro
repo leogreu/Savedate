@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
-import { getTranslations } from "@/utils/i18n.ts";
+import { getPreferredLocale, getTranslations } from "@/utils/i18n.ts";
 import Navbar from "@/components/custom/navbar.astro";
 
 const defaultIcon = "🎉";
@@ -51,7 +51,8 @@ if (Astro.request.method === "POST") {
     }
 }
 
-const i18n = getTranslations(Astro.preferredLocale);
+const locale = getPreferredLocale(Astro.request.headers);
+const i18n = getTranslations(locale);
 ---
 
 <html>
