@@ -25,7 +25,7 @@ const { date, time, timezone, native } = Astro.props;
     for (const element of document.querySelectorAll<HTMLElement>(".date-time")) {
         const { date, time, timezone, native } = element.dataset;
         if (date) {
-            element.textContent = formatDateParts(navigator.language, date, time, timezone);
+            element.textContent = formatDateParts(navigator.language, date, time, timezone, true);
         } else if (native) {
             element.textContent = formatDate(navigator.language, new Date(native));
         }
