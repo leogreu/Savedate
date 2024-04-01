@@ -9,6 +9,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { getPreferredLocale, getTranslations } from "@/utils/i18n.ts";
 import Navbar from "@/components/custom/navbar.astro";
+import Config from "../../astro.config.mjs";
 
 const defaultIcon = "🎉";
 
@@ -51,17 +52,22 @@ if (Astro.request.method === "POST") {
     }
 }
 
-const locale = getPreferredLocale(Astro.request.headers);
+// Used to provide a language-specific meta alternate link for SEO
+const locale = Astro.url.searchParams.get("lang") ?? getPreferredLocale(Astro.request.headers);
 const i18n = getTranslations(locale);
 ---
 
-<html>
+<html lang={locale}>
     <head>
         <meta charset="utf-8" />
         <meta name="description" content={i18n("index-description")}>
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
         <meta name="generator" content={Astro.generator} />
+        {Config.i18n?.locales.map(lang =>
+            <link rel="alternate" hreflang={String(lang)} href={`https://savedate.app/?lang=${lang}`} />
+        )}
+        <link rel="alternate" hreflang="x-default" href="https://savedate.app/" />
         <title>{i18n("new-invitation")} | Savedate</title>
     </head>
     <body>
