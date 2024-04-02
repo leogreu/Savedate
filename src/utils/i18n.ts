@@ -18,14 +18,14 @@ export const getPreferredLocale = (headers: Headers) => {
 
 export const getTranslations = (locale = defaultLocale) => {
     return (key: string) => {
-        return translations[locale][key] ?? translations[defaultLocale][key] ?? key;
+        return translations[locale]?.[key] ?? translations[defaultLocale][key] ?? key;
     };
 };
 
 export const getClientTranslations = (locale = defaultLocale) => {
     return JSON.stringify(
         Object.fromEntries(
-            Object.entries(translations[locale]).filter(([key]) => key.startsWith("client"))
+            Object.entries(translations[locale] ?? {}).filter(([key]) => key.startsWith("client"))
         )
     );
 };
