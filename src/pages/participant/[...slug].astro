@@ -62,7 +62,7 @@ const i18n = getTranslations(locale);
         </header>
         <main
             class="flex flex-col gap-12 my-16 mx-auto px-6 max-w-xl"
-            data-translations={getClientTranslations(locale)}
+            data-translations={JSON.stringify(getClientTranslations(locale))}
         >
             <section class="flex flex-col gap-8">
                 <header class="flex flex-col gap-2">

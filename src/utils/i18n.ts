@@ -23,9 +23,9 @@ export const getTranslations = (locale = defaultLocale) => {
 };
 
 export const getClientTranslations = (locale = defaultLocale) => {
-    return JSON.stringify(
-        Object.fromEntries(
-            Object.entries(translations[locale] ?? {}).filter(([key]) => key.startsWith("client"))
-        )
-    );
+    // Get client translation keys using default language for a full list
+    const keys = Object.keys(translations[defaultLocale]).filter(key => key.startsWith("client"));
+    const translation = getTranslations(locale);
+
+    return Object.fromEntries(keys.map(key => [key, translation(key)]));
 };
