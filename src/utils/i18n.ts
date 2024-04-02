@@ -13,12 +13,12 @@ export const getPreferredLocale = (headers: Headers) => {
     return headers.get("accept-language")
         ?.split(",")
         .map(lang => lang.split(";")[0].split("-")[0])
-        .at(0);
+        .find(lang => locales.includes(lang));
 };
 
 export const getTranslations = (locale = defaultLocale) => {
     return (key: string) => {
-        return translations[locale]?.[key] ?? translations[defaultLocale][key] ?? key;
+        return translations[locale][key] ?? translations[defaultLocale][key] ?? key;
     };
 };
 
