@@ -79,7 +79,7 @@
     "privacy.data-usage.duration.heading": "Dauer der Speicherung der personenbezogenen Daten",
     "privacy.data-usage.duration.copy": "Im Falle einer Speicherung der Daten in Logfiles werden diese nach spätestens sieben Tagen gelöscht. Eine darüberhinausgehende Speicherung ist möglich. In diesem Fall werden die IP-Adressen der Nutzer gelöscht oder verfremdet, sodass eine Zuordnung des aufrufenden Clients nicht mehr möglich ist.",
     "privacy.cookies.heading": "3. Verwendung von Cookies",
-    "privacy.cookies.copy": "Diese Webseite verwendet keine Cookies.",
+    "privacy.cookies.copy": "Diese Webseite verwendet nur einen internen Cookie, der für den Betrieb der Dienstleistung unbedingt nötig ist. Dieser anonyme Cookie erlaubt es, Nutzer auf bereits beantwortete Einladungen weiterzuleiten.",
     "privacy.invites.heading": "4. Einladungen und Teilnahmen",
     "privacy.invites.scope.heading": "Umfang der Datenverarbeitung",
     "privacy.invites.scope.copies-1": "Auf unserer Webseite können Nutzende Einladungen erstellen und an andere Personen versenden. Dafür werden eingegebene Daten wie Name der Einladung, Beschreibung, Datum, Zeit und Zeitzone gespeichert. Nutzende, die eine Einladung annehmen, haben die Möglichkeit, ihren Namen einzugeben. Auch dieser wird für die Verarbeitung gespeichert.",

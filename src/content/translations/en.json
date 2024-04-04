@@ -79,7 +79,7 @@
     "privacy.data-usage.duration.heading": "Duration of storage of personal data",
     "privacy.data-usage.duration.copy": "All data stored in log files is erased within seven days. A longer period of data storage is possible. In such cases, the users IP address is erased or anonymised in such a way that renders it impossible to identify the querying client.",
     "privacy.cookies.heading": "3. Use of cookies",
-    "privacy.cookies.copy": "This website does not use cookies.",
+    "privacy.cookies.copy": "This website only uses an internal cookie that is absolutely necessary for the operation of the service. This anonymous cookie allows users to be redirected to invitations that have already been answered.",
     "privacy.invites.heading": "4. Invitations and participations",
     "privacy.invites.scope.heading": "Scope of data processing",
     "privacy.invites.scope.copies-1": "On our website, users can create invitations and send them to other people. The data entered, such as the name of the invitation, description, date, time and timezone, is saved for this purpose. Users who accept an invitation have the option of entering their name. This is also saved for processing.",
