@@ -21,8 +21,8 @@ const event = await db.select().from(Event).where(eq(Event.id, slug)).get();
 if (!event) return;
 
 // Get cookie and try to find previously given response
-let cookie = Astro.cookies.get("savedate")?.value;
-let participant = cookie
+const cookie = Astro.cookies.get("savedate")?.value;
+const participant = cookie
     && await db.select().from(Participant).where(
         and(
             eq(Participant.eventId, event.id),
@@ -41,11 +41,7 @@ if (Astro.request.method === "POST") {
         const { name, response } = Object.fromEntries(data.entries());
         
         if (typeof name === "string" && typeof response === "string") {
-            if (!cookie) {
-                Astro.cookies.set("savedate", cookie = nanoid(24), { maxAge: 60 * 60 * 24 * 365 });
-            }
-
-            participant = await db.insert(Participant).values({
+            const participant = await db.insert(Participant).values({
                 id: nanoid(24),
                 eventId: event.id,
                 name: name,

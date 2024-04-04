@@ -34,19 +34,13 @@ if (Astro.request.method === "POST") {
                 createdDate: new Date()
             }).returning().get();
 
-            // Set cookie to be able to show organizer note
-            let cookie = Astro.cookies.get("savedate")?.value;
-            if (!cookie) {
-                Astro.cookies.set("savedate", cookie = nanoid(24), { maxAge: 60 * 60 * 24 * 365 });
-            }
-
             const participant = await db.insert(Participant).values({
                 id: nanoid(24),
                 eventId: event.id,
                 isAdmin: true,
                 response: "yes",
                 createdDate: new Date(),
-                cookie: cookie
+                cookie: Astro.cookies.get("savedate")?.value
             }).returning().get();
 
             return Astro.redirect(`/participant/${participant.id}`);
