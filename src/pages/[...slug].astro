@@ -41,7 +41,9 @@ if (Astro.request.method === "POST") {
         const { name, response } = Object.fromEntries(data.entries());
         
         if (typeof name === "string" && typeof response === "string") {
-            if (!cookie) Astro.cookies.set("savedate", cookie = nanoid(24));
+            if (!cookie) {
+                Astro.cookies.set("savedate", cookie = nanoid(24), { maxAge: 60 * 60 * 24 * 365 });
+            }
 
             participant = await db.insert(Participant).values({
                 id: nanoid(24),
