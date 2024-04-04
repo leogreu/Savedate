@@ -76,7 +76,7 @@ const i18n = getTranslations(locale);
                 </span>
             </div>
         </header>
-        <main class="flex flex-col gap-12 my-16 mx-auto px-6 max-w-xl">
+        <main class="flex flex-col gap-12 my-16 mx-auto px-6 max-w-xl" data-event={event.id}>
             <section class="flex flex-col gap-8">
                 <header class="flex flex-col gap-2">
                     <div>
@@ -97,7 +97,7 @@ const i18n = getTranslations(locale);
                         </p>
                     }
                 </header>
-                <Alert>
+                <Alert id="invitation-answered-alert" className="hidden">
                     <CircleAlert className="h-4 w-4" />
                     <AlertTitle>{i18n("note")}</AlertTitle>
                     <AlertDescription>
@@ -144,4 +144,16 @@ const i18n = getTranslations(locale);
             document.querySelectorAll("button").forEach(button => button.disabled = true);
         });
     });
+
+    // Use locale storage to identify previously answered invitations and show hint accordingly
+    // This could also be implemented via a cookie-based approach, storing assignment server-side
+    const event = document.querySelector("main")?.dataset.event;
+    const participant = event && localStorage.getItem(event);
+    if (participant) {
+        const alert = document.querySelector("#invitation-answered-alert");
+        const anchor = alert?.querySelector("a") as HTMLAnchorElement;
+
+        anchor.href = `${location.origin}/participant/${participant}`;
+        alert?.classList.remove("hidden");
+    }
 </script>
