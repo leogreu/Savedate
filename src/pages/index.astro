@@ -34,6 +34,7 @@ if (Astro.request.method === "POST") {
                 createdDate: new Date()
             }).returning().get();
 
+            // Set cookie to be able to show organizer note
             let cookie = Astro.cookies.get("savedate")?.value;
             if (!cookie) Astro.cookies.set("savedate", cookie = nanoid(24));
 
