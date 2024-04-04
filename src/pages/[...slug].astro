@@ -97,31 +97,33 @@ const i18n = getTranslations(locale);
                         </p>
                     }
                 </header>
-                <Alert id="invitation-answered-alert" className="hidden">
-                    <CircleAlert className="h-4 w-4" />
-                    <AlertTitle>{i18n("note")}</AlertTitle>
-                    <AlertDescription>
-                        <span>{i18n("invitation-answered-note")}</span>
-                        <a href="#" class="underline underline-offset-4 text-blue-500">
-                            {i18n("open-answer")} →
-                        </a>
-                    </AlertDescription>
-                </Alert>
                 {event.allowResponse
-                    ? <form class="flex flex-col gap-8" method="POST">
-                        <label class="flex flex-col gap-2">
-                            <p>{i18n("your-name")}</p>
-                            <Input name="name" />
-                        </label>
+                    ?
+                        <Alert id="invitation-answered-alert" className="hidden">
+                            <CircleAlert className="h-4 w-4" />
+                            <AlertTitle>{i18n("note")}</AlertTitle>
+                            <AlertDescription>
+                                <span>{i18n("invitation-answered-note")}</span>
+                                <a href="#" class="underline underline-offset-4 text-blue-500">
+                                    {i18n("open-answer")} →
+                                </a>
+                            </AlertDescription>
+                        </Alert>
+                        <form class="flex flex-col gap-8" method="POST">
+                            <label class="flex flex-col gap-2">
+                                <p>{i18n("your-name")}</p>
+                                <Input name="name" />
+                            </label>
+                            <div class="flex flex-col gap-2">
+                                <p>{i18n("participate")}</p>
+                                <ResponseButtons />
+                            </div>
+                        </form>
+                    :
                         <div class="flex flex-col gap-2">
-                            <p>{i18n("participate")}</p>
-                            <ResponseButtons />
+                            <p>{i18n("add-to-calendar")}</p>
+                            <CalendarButtons event={event} linktext={i18n("view-invite")} />
                         </div>
-                    </form>
-                    : <div class="flex flex-col gap-2">
-                        <p>{i18n("add-to-calendar")}</p>
-                        <CalendarButtons event={event} linktext={i18n("view-invite")} />
-                    </div>
                 }
             </section>
             {event.allowResponse && event.participantsVisible &&
@@ -133,11 +135,11 @@ const i18n = getTranslations(locale);
 </html>
 
 <script>
-    const nameInput = document.querySelector("[name='name']") as HTMLInputElement;
-    nameInput.value = localStorage.getItem("participant-name") ?? String();
+    const nameInput = document.querySelector<HTMLInputElement>("[name='name']");
+    if (nameInput) nameInput.value = localStorage.getItem("participant-name") ?? String();
 
     document.querySelector("form")?.addEventListener("submit", () => {
-        localStorage.setItem("participant-name", nameInput.value);
+        localStorage.setItem("participant-name", nameInput?.value ?? String());
 
         // Add timeout to prevent form not being submitted with disabled buttons
         requestAnimationFrame(() => {
