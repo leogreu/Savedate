@@ -2,7 +2,9 @@
 import "@/styles/globals.css";
 import { db, eq, Event, Participant } from "astro:db";
 import { nanoid } from "nanoid";
+import { CircleAlert } from "lucide-react";
 import { Input } from "@/components/ui/input";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { getPreferredLocale, getTranslations } from "@/utils/i18n.ts";
 import { formatDateParts } from "@/utils/temporal.ts";
 
@@ -95,6 +97,16 @@ const i18n = getTranslations(locale);
                         </p>
                     }
                 </header>
+                <Alert>
+                    <CircleAlert className="h-4 w-4" />
+                    <AlertTitle>{i18n("note")}</AlertTitle>
+                    <AlertDescription>
+                        <span>{i18n("invitation-answered-note")}</span>
+                        <a href="#" class="underline underline-offset-4 text-blue-500">
+                            {i18n("open-answer")} →
+                        </a>
+                    </AlertDescription>
+                </Alert>
                 {event.allowResponse
                     ? <form class="flex flex-col gap-8" method="POST">
                         <label class="flex flex-col gap-2">
