@@ -1,8 +1,10 @@
 ---
 import "@/styles/globals.css";
-import { db, eq, Event, Participant } from "astro:db";
+import { db, eq, and, Event, Participant } from "astro:db";
 import { nanoid } from "nanoid";
+import { CircleAlert } from "lucide-react";
 import { Input } from "@/components/ui/input";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { getPreferredLocale, getTranslations } from "@/utils/i18n.ts";
 import { formatDateParts } from "@/utils/temporal.ts";
 
@@ -18,19 +20,37 @@ if (!slug) return;
 const event = await db.select().from(Event).where(eq(Event.id, slug)).get();
 if (!event) return;
 
+// Get cookie and try to find previously given response
+let cookie = Astro.cookies.get("savedate")?.value;
+let participant = cookie
+    && await db.select().from(Participant).where(
+        and(
+            eq(Participant.eventId, event.id),
+            eq(Participant.cookie, cookie)
+        )
+    ).get();
+
+// For non-admin participants, automatically redirect to previous response
+if (participant && !participant.isAdmin) {
+    return Astro.redirect(`/participant/${participant.id}`);
+}
+
 if (Astro.request.method === "POST") {
     try {
         const data = await Astro.request.formData();
         const { name, response } = Object.fromEntries(data.entries());
         
         if (typeof name === "string" && typeof response === "string") {
-            const participant = await db.insert(Participant).values({
+            if (!cookie) Astro.cookies.set("savedate", cookie = nanoid(24));
+
+            participant = await db.insert(Participant).values({
                 id: nanoid(24),
                 eventId: event.id,
                 name: name,
                 response: response,
                 isAdmin: false,
-                createdDate: new Date()
+                createdDate: new Date(),
+                cookie: cookie
             }).returning().get();
 
             return Astro.redirect(`/participant/${participant.id}`);
@@ -95,6 +115,21 @@ const i18n = getTranslations(locale);
                         </p>
                     }
                 </header>
+                {participant && participant.isAdmin &&
+                    <Alert>
+                        <CircleAlert className="h-4 w-4" />
+                        <AlertTitle>{i18n("note")}</AlertTitle>
+                        <AlertDescription>
+                            <span>{i18n("your-invitation-note")}</span>
+                            <a
+                                href={`/participant/${participant.id}`}
+                                class="underline underline-offset-4 text-blue-500"
+                            >
+                                {i18n("open-invitation")} →
+                            </a>
+                        </AlertDescription>
+                    </Alert>
+                }
                 {event.allowResponse
                     ? <form class="flex flex-col gap-8" method="POST">
                         <label class="flex flex-col gap-2">
@@ -121,11 +156,11 @@ const i18n = getTranslations(locale);
 </html>
 
 <script>
-    const nameInput = document.querySelector("[name='name']") as HTMLInputElement;
-    nameInput.value = localStorage.getItem("participant-name") ?? String();
+    const nameInput = document.querySelector<HTMLInputElement>("[name='name']");
+    if (nameInput) nameInput.value = localStorage.getItem("participant-name") ?? String();
 
     document.querySelector("form")?.addEventListener("submit", () => {
-        localStorage.setItem("participant-name", nameInput.value);
+        localStorage.setItem("participant-name", nameInput?.value ?? String());
 
         // Add timeout to prevent form not being submitted with disabled buttons
         requestAnimationFrame(() => {

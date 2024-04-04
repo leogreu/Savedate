@@ -24,7 +24,8 @@ const Participant = defineTable({
         name: column.text({ optional: true }),
         response: column.text(),
         isAdmin: column.boolean(),
-        createdDate: column.date()
+        createdDate: column.date(),
+        cookie: column.text({ optional: true })
     }
 });
 
