@@ -63,8 +63,6 @@ const i18n = getTranslations(locale);
         <main
             class="flex flex-col gap-12 my-16 mx-auto px-6 max-w-xl"
             data-translations={JSON.stringify(getClientTranslations(locale))}
-            data-event={event.id}
-            data-participant={participant.id}
         >
             <section class="flex flex-col gap-8">
                 <header class="flex flex-col gap-2">
@@ -162,8 +160,4 @@ const i18n = getTranslations(locale);
         navigator.clipboard.writeText(value);
         toast({ title: translations["client-link-clipboard-success"] });
     }
-
-    // Store event-participation assignment to show hint if invitation was answered before
-    const { event, participant } = document.querySelector("main")?.dataset ?? {};
-    if (event && participant) localStorage.setItem(event, participant);
 </script>
