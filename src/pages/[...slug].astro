@@ -114,7 +114,7 @@ const i18n = getTranslations(locale);
                         </p>
                     }
                 </header>
-                {participant &&
+                {participant && participant.isAdmin &&
                     <Alert>
                         <CircleAlert className="h-4 w-4" />
                         <AlertTitle>{i18n("note")}</AlertTitle>
