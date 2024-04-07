@@ -4,13 +4,14 @@ interface Props {
     time?: string | null;
     timezone?: string | null;
     native?: Date;
+    class?: string;
 }
 
-const { date, time, timezone, native } = Astro.props;
+const { date, time, timezone, native, class: className } = Astro.props;
 ---
 
 <div
-    class="date-time"
+    class:list={["date-time", className]}
     data-date={date}
     data-time={time}
     data-timezone={timezone}

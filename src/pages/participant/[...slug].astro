@@ -39,7 +39,6 @@ const i18n = getTranslations(locale);
 // TODO: Add reusable Layout component
 // TODO: Evaluate whether to use Container for main component (also for creation form)
 // TODO: Probably also add a reusable Label component
-// TODO: Probably add Temporal API polyfill and only store startDate / endDate with optional time
 ---
 
 <html>
@@ -67,14 +66,12 @@ const i18n = getTranslations(locale);
             <section class="flex flex-col gap-8">
                 <header class="flex flex-col gap-2">
                     <div>
-                        <!-- TODO: Add reusable component to show time, and probably reuse for add-to-calendar -->
-                        <div class="flex text-gray-400">
-                            <DateTime
-                                date={event.startDate}
-                                time={event.startTime}
-                                timezone={event.timezone}
-                            ></DateTime>
-                        </div>
+                        <DateTime
+                            class="text-gray-400"
+                            date={event.startDate}
+                            time={event.startTime}
+                            timezone={event.timezone}
+                        ></DateTime>
                         <h1 class="text-4xl font-medium">
                             {event.name}
                         </h1>

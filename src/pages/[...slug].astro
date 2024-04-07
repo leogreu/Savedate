@@ -96,13 +96,12 @@ const i18n = getTranslations(locale);
             <section class="flex flex-col gap-8">
                 <header class="flex flex-col gap-2">
                     <div>
-                        <div class="flex text-gray-400">
-                            <DateTime
-                                date={event.startDate}
-                                time={event.startTime}
-                                timezone={event.timezone}
-                            ></DateTime>
-                        </div>
+                        <DateTime
+                            class="text-gray-400"
+                            date={event.startDate}
+                            time={event.startTime}
+                            timezone={event.timezone}
+                        ></DateTime>
                         <h1 class="text-4xl font-medium">
                             {event.name}
                         </h1>
