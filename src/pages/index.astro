@@ -7,8 +7,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
-import { locales, getPreferredLocale, getTranslations } from "@/utils/i18n.ts";
-import Navbar from "@/components/custom/navbar.astro";
+import { getPreferredLocale, getTranslations } from "@/utils/i18n.ts";
+import Layout from "@/components/custom/layout.astro";
 
 const defaultIcon = "🎉";
 
@@ -57,113 +57,98 @@ const locale = Astro.url.searchParams.get("lang") ?? getPreferredLocale(Astro.re
 const i18n = getTranslations(locale);
 ---
 
-<html lang={locale}>
-    <head>
-        <meta charset="utf-8" />
-        <meta name="description" content={i18n("index-description")}>
-        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-        <meta name="generator" content={Astro.generator} />
-        {locales.map(lang =>
-            <link rel="alternate" hreflang={lang} href={`https://savedate.app/?lang=${lang}`} />
-        )}
-        <link rel="alternate" hreflang="x-default" href="https://savedate.app/" />
-        <title>{i18n("new-invitation")} | Savedate</title>
-    </head>
-    <body class="antialiased">
-        <Navbar></Navbar>
-        <header class="relative block w-full h-40 bg-slate-50">
-            <div class="mx-auto px-6 max-w-xl">
-                <div class="absolute flex items-center gap-6 bottom-0 translate-y-[50%]">
-                    <button id="emoji-button" class="text-6xl">
-                        {defaultIcon}
-                    </button>
-                    <div id="emoji-tooltip" class="
-                        flex gap-2 items-center px-2 py-1 border border-gray-200 text-xs bg-white rounded-lg
-                        animate-in fade-in slide-in-from-right-2 duration-1000 [animation-delay:5s] fill-mode-both
-                    ">
-                        <ArrowLeft size="14"></ArrowLeft>
-                        <span class="hidden lg:block">{i18n("click-to-edit")}</span>
-                        <span class="lg:hidden">{i18n("tap-to-edit")}</span>
-                    </div>
+<Layout title={i18n("new-invitation")} description={i18n("index-description")} locale={locale}>
+    <header class="relative block w-full h-40 bg-slate-50">
+        <div class="mx-auto px-6 max-w-xl">
+            <div class="absolute flex items-center gap-6 bottom-0 translate-y-[50%]">
+                <button id="emoji-button" class="text-6xl">
+                    {defaultIcon}
+                </button>
+                <div id="emoji-tooltip" class="
+                    flex gap-2 items-center px-2 py-1 border border-gray-200 text-xs bg-white rounded-lg
+                    animate-in fade-in slide-in-from-right-2 duration-1000 [animation-delay:5s] fill-mode-both
+                ">
+                    <ArrowLeft size="14"></ArrowLeft>
+                    <span class="hidden lg:block">{i18n("click-to-edit")}</span>
+                    <span class="lg:hidden">{i18n("tap-to-edit")}</span>
                 </div>
             </div>
+        </div>
+    </header>
+    <form class="flex flex-col gap-8 my-16 mx-auto px-6 max-w-xl" method="POST">
+        <!-- TODO: Probably add a reusable header component -->
+        <header class="flex flex-col gap-4">
+            <h1 class="text-4xl font-bold">
+                {i18n("new-invitation")}
+            </h1>
+            <p class="text-lg text-gray-500">
+                {i18n("new-invitation-subtitle")}
+            </p>
         </header>
-        <form class="flex flex-col gap-8 my-16 mx-auto px-6 max-w-xl" method="POST">
-            <!-- TODO: Probably add a reusable header component -->
-            <header class="flex flex-col gap-4">
-                <h1 class="text-4xl font-bold">
-                    {i18n("new-invitation")}
-                </h1>
-                <p class="text-lg text-gray-500">
-                    {i18n("new-invitation-subtitle")}
-                </p>
-            </header>
-            <label class="flex flex-col gap-2">
-                <p class="font-medium">
-                    {i18n("event-name")}
-                </p>
-                <Input name="name" required />
-            </label>
-            <label class="flex flex-col gap-2">
-                <p class="font-medium">
-                    {i18n("description")}
-                </p>
-                <Textarea name="description"></Textarea>
-                <p class="text-xs font-medium text-gray-500">
-                    {i18n("optional")}
-                </p>
-            </label>
-            <div class="flex flex-col gap-4">
-                <div class="flex gap-2">
-                    <label class="flex flex-col gap-2 w-full">
-                        <p class="font-medium">
-                            {i18n("date")}
-                        </p>
-                        <Input name="startDate" type="date" required />
-                    </label>
-                    <label class="flex flex-col gap-2">
-                        <p class="font-medium">
-                            {i18n("time")}
-                        </p>
-                        <Input name="startTime" type="time" />
-                        <p class="text-xs font-medium text-gray-500">
-                            {i18n("optional")}
-                        </p>
-                    </label>
-                </div>
-                <div id="end-date-container" class="flex gap-2 items-end hidden">
-                    <label class="flex flex-col gap-2 w-full">
-                        <p class="font-medium">
-                            {i18n("end")}
-                        </p>
-                        <Input name="endDate" type="date" />
-                    </label>
-                    <label class="flex flex-col gap-2">
-                        <Input name="endTime" type="time" />
-                    </label>
-                </div>
+        <label class="flex flex-col gap-2">
+            <p class="font-medium">
+                {i18n("event-name")}
+            </p>
+            <Input name="name" required />
+        </label>
+        <label class="flex flex-col gap-2">
+            <p class="font-medium">
+                {i18n("description")}
+            </p>
+            <Textarea name="description"></Textarea>
+            <p class="text-xs font-medium text-gray-500">
+                {i18n("optional")}
+            </p>
+        </label>
+        <div class="flex flex-col gap-4">
+            <div class="flex gap-2">
+                <label class="flex flex-col gap-2 w-full">
+                    <p class="font-medium">
+                        {i18n("date")}
+                    </p>
+                    <Input name="startDate" type="date" required />
+                </label>
+                <label class="flex flex-col gap-2">
+                    <p class="font-medium">
+                        {i18n("time")}
+                    </p>
+                    <Input name="startTime" type="time" />
+                    <p class="text-xs font-medium text-gray-500">
+                        {i18n("optional")}
+                    </p>
+                </label>
             </div>
-            <hr />
-            <label class="flex justify-between items-center">
-                <p class="font-medium">
-                    {i18n("allow-response-label")}
-                </p>
-                <Switch name="response" client:idle></Switch>
-            </label>
-            <label id="visible-container" class="flex justify-between items-center hidden">
-                <p class="font-medium">
-                    {i18n("participants-visible-label")}
-                </p>
-                <Switch name="visible" client:idle></Switch>
-            </label>
-            <input class="hidden" name="icon" />
-            <input class="hidden" name="timezone" />
-            <Button type="submit">{i18n("save")}</Button>
-        </form>
-        <dialog id="emoji-dialog" class="rounded-lg"></dialog>
-    </body>
-</html>
+            <div id="end-date-container" class="flex gap-2 items-end hidden">
+                <label class="flex flex-col gap-2 w-full">
+                    <p class="font-medium">
+                        {i18n("end")}
+                    </p>
+                    <Input name="endDate" type="date" />
+                </label>
+                <label class="flex flex-col gap-2">
+                    <Input name="endTime" type="time" />
+                </label>
+            </div>
+        </div>
+        <hr />
+        <label class="flex justify-between items-center">
+            <p class="font-medium">
+                {i18n("allow-response-label")}
+            </p>
+            <Switch name="response" client:idle></Switch>
+        </label>
+        <label id="visible-container" class="flex justify-between items-center hidden">
+            <p class="font-medium">
+                {i18n("participants-visible-label")}
+            </p>
+            <Switch name="visible" client:idle></Switch>
+        </label>
+        <input class="hidden" name="icon" />
+        <input class="hidden" name="timezone" />
+        <Button type="submit">{i18n("save")}</Button>
+    </form>
+    <dialog id="emoji-dialog" class="rounded-lg"></dialog>
+</Layout>
 
 <script>
     import { Temporal } from "temporal-polyfill";

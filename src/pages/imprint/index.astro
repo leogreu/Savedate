@@ -2,45 +2,34 @@
 import "@/styles/globals.css";
 import { buttonVariants } from "@/components/ui/button";
 import { getPreferredLocale, getTranslations } from "@/utils/i18n.ts";
-import Navbar from "@/components/custom/navbar.astro";
+import Layout from "@/components/custom/layout.astro";
 
 const locale = getPreferredLocale(Astro.request.headers);
 const i18n = getTranslations(locale);
 ---
 
-<html>
-    <head>
-        <meta charset="utf-8" />
-        <meta name="description" content={i18n("index-description")}>
-        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-        <meta name="generator" content={Astro.generator} />
-        <title>{i18n("imprint")} | Savedate</title>
-    </head>
-    <body>
-        <Navbar />
-        <article class="prose max-w-xl mx-auto my-24 px-6">
-            <a href="/privacy" class={buttonVariants({ variant: "outline", size: "sm", className: "not-prose mb-8" })}>
-                {i18n("to-privacy-policy")}
-            </a>
-            <h1 class="font-medium">{i18n("imprint")}</h1>
-            <h3>{i18n("imprint.heading")}</h3>
-            <h4>{i18n("imprint.represent")}</h4>
-            <p>{i18n("imprint.representative")}</p>
-            <h4>{i18n("imprint.address.heading")}</h4>
-            <p>
-                {i18n("imprint.address.street")}
-                <br />
-                {i18n("imprint.address.city")}
-                <br />
-                {i18n("imprint.address.country")}
-            </p>
-            <h4>{i18n("imprint.contact.heading")}</h4>
-            <p>
-                {i18n("imprint.contact.phone")}
-                <br />
-                {i18n("imprint.contact.email")}
-            </p>
-        </article>
-    </body>
-</html>
+<Layout title={i18n("imprint")} description={i18n("imprint-description")} locale={locale}>
+    <article class="prose max-w-xl mx-auto my-24 px-6">
+        <a href="/privacy" class={buttonVariants({ variant: "outline", size: "sm", className: "not-prose mb-8" })}>
+            {i18n("to-privacy-policy")}
+        </a>
+        <h1 class="font-medium">{i18n("imprint")}</h1>
+        <h3>{i18n("imprint.heading")}</h3>
+        <h4>{i18n("imprint.represent")}</h4>
+        <p>{i18n("imprint.representative")}</p>
+        <h4>{i18n("imprint.address.heading")}</h4>
+        <p>
+            {i18n("imprint.address.street")}
+            <br />
+            {i18n("imprint.address.city")}
+            <br />
+            {i18n("imprint.address.country")}
+        </p>
+        <h4>{i18n("imprint.contact.heading")}</h4>
+        <p>
+            {i18n("imprint.contact.phone")}
+            <br />
+            {i18n("imprint.contact.email")}
+        </p>
+    </article>
+</Layout>
