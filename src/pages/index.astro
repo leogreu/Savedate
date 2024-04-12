@@ -8,7 +8,9 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { getPreferredLocale, getTranslations } from "@/utils/i18n.ts";
+
 import Layout from "@/components/custom/layout.astro";
+import Header from "@/components/custom/header.astro";
 
 const defaultIcon = "🎉";
 
@@ -76,15 +78,10 @@ const i18n = getTranslations(locale);
         </div>
     </header>
     <form class="flex flex-col gap-8 my-16 mx-auto px-6 max-w-xl" method="POST">
-        <!-- TODO: Probably add a reusable header component -->
-        <header class="flex flex-col gap-4">
-            <h1 class="text-4xl font-bold">
-                {i18n("new-invitation")}
-            </h1>
-            <p class="text-lg text-gray-500">
-                {i18n("new-invitation-subtitle")}
-            </p>
-        </header>
+        <Header
+            title={i18n("new-invitation")}
+            description={i18n("new-invitation-subtitle")}
+        ></Header>
         <label class="flex flex-col gap-2">
             <p class="font-medium">
                 {i18n("event-name")}

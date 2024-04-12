@@ -9,6 +9,7 @@ import { getPreferredLocale, getTranslations } from "@/utils/i18n.ts";
 import { formatDateParts } from "@/utils/temporal.ts";
 
 import Layout from "@/components/custom/layout.astro";
+import Header from "@/components/custom/header.astro";
 import DateTime from "@/components/utils/date-time.astro";
 import ResponseButtons from "@/components/custom/response-buttons.astro";
 import CalendarButtons from "@/components/custom/calendar-buttons.astro";
@@ -85,24 +86,18 @@ const i18n = getTranslations(locale);
     </header>
     <main class="flex flex-col gap-12 my-16 mx-auto px-6 max-w-xl">
         <section class="flex flex-col gap-8">
-            <header class="flex flex-col gap-2">
-                <div>
-                    <DateTime
-                        class="text-gray-400"
-                        date={event.startDate}
-                        time={event.startTime}
-                        timezone={event.timezone}
-                    ></DateTime>
-                    <h1 class="text-4xl font-bold">
-                        {event.name}
-                    </h1>
-                </div>
-                {event.description &&
-                    <p class="text-lg text-gray-500 whitespace-pre-line">
-                        {event.description}
-                    </p>
-                }
-            </header>
+            <div class="space-y-2">
+                <DateTime
+                    class="text-gray-400"
+                    date={event.startDate}
+                    time={event.startTime}
+                    timezone={event.timezone}
+                ></DateTime>
+                <Header
+                    title={event.name}
+                    description={event.description}
+                ></Header>
+            </div>
             {participant && participant.isAdmin &&
                 <Alert>
                     <CircleAlert className="h-4 w-4" />
