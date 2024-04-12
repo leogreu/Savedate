@@ -11,6 +11,7 @@ import { getPreferredLocale, getTranslations } from "@/utils/i18n.ts";
 
 import Layout from "@/components/custom/layout.astro";
 import Header from "@/components/custom/header.astro";
+import Label from "@/components/custom/label.astro";
 
 const defaultIcon = "🎉";
 
@@ -82,49 +83,28 @@ const i18n = getTranslations(locale);
             title={i18n("new-invitation")}
             description={i18n("new-invitation-subtitle")}
         ></Header>
-        <label class="flex flex-col gap-2">
-            <p class="font-medium">
-                {i18n("event-name")}
-            </p>
+        <Label text={i18n("event-name")}>
             <Input name="name" required />
-        </label>
-        <label class="flex flex-col gap-2">
-            <p class="font-medium">
-                {i18n("description")}
-            </p>
+        </Label>
+        <Label text={i18n("description")} help={i18n("optional")}>
             <Textarea name="description"></Textarea>
-            <p class="text-xs text-gray-500">
-                {i18n("optional")}
-            </p>
-        </label>
+        </Label>
         <div class="flex flex-col gap-4">
             <div class="flex gap-2">
-                <label class="flex flex-col gap-2 w-full">
-                    <p class="font-medium">
-                        {i18n("date")}
-                    </p>
+                <Label class="w-full" text={i18n("date")}>
                     <Input name="startDate" type="date" required />
-                </label>
-                <label class="flex flex-col gap-2">
-                    <p class="font-medium">
-                        {i18n("time")}
-                    </p>
+                </Label>
+                <Label text={i18n("time")} help={i18n("optional")}>
                     <Input name="startTime" type="time" />
-                    <p class="text-xs text-gray-500">
-                        {i18n("optional")}
-                    </p>
-                </label>
+                </Label>
             </div>
             <div id="end-date-container" class="flex gap-2 items-end hidden">
-                <label class="flex flex-col gap-2 w-full">
-                    <p class="font-medium">
-                        {i18n("end")}
-                    </p>
+                <Label class="w-full" text={i18n("end")}>
                     <Input name="endDate" type="date" />
-                </label>
-                <label class="flex flex-col gap-2">
+                </Label>
+                <Label>
                     <Input name="endTime" type="time" />
-                </label>
+                </Label>
             </div>
         </div>
         <hr />

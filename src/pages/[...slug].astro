@@ -10,6 +10,7 @@ import { formatDateParts } from "@/utils/temporal.ts";
 
 import Layout from "@/components/custom/layout.astro";
 import Header from "@/components/custom/header.astro";
+import Label from "@/components/custom/label.astro";
 import DateTime from "@/components/utils/date-time.astro";
 import ResponseButtons from "@/components/custom/response-buttons.astro";
 import CalendarButtons from "@/components/custom/calendar-buttons.astro";
@@ -115,25 +116,16 @@ const i18n = getTranslations(locale);
             }
             {event.allowResponse
                 ? <form class="flex flex-col gap-8" method="POST">
-                    <label class="flex flex-col gap-2">
-                        <p class="font-medium">
-                            {i18n("your-name")}
-                        </p>
+                    <Label text={i18n("your-name")}>
                         <Input name="name" />
-                    </label>
-                    <label class="flex flex-col gap-2">
-                        <p class="font-medium">
-                            {i18n("participate")}
-                        </p>
+                    </Label>
+                    <Label text={i18n("participate")}>
                         <ResponseButtons />
-                    </label>
+                    </Label>
                 </form>
-                : <label class="flex flex-col gap-2">
-                    <p  class="font-medium">
-                        {i18n("add-to-calendar")}
-                    </p>
+                : <Label text={i18n("add-to-calendar")}>
                     <CalendarButtons event={event} linktext={i18n("view-invite")} />
-                </label>
+                </Label>
             }
         </section>
         {event.allowResponse && event.participantsVisible &&

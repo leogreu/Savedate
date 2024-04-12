@@ -10,6 +10,7 @@ import { getPreferredLocale, getTranslations, getClientTranslations } from "@/ut
 
 import Layout from "@/components/custom/layout.astro";
 import Header from "@/components/custom/header.astro";
+import Label from "@/components/custom/label.astro";
 import DateTime from "@/components/utils/date-time.astro";
 import ResponseButtons from "@/components/custom/response-buttons.astro";
 import CalendarButtons from "@/components/custom/calendar-buttons.astro";
@@ -37,8 +38,7 @@ if (!event) return;
 const locale = getPreferredLocale(Astro.request.headers);
 const i18n = getTranslations(locale);
 
-// TODO: Evaluate whether to use Container for main component (also for creation form)
-// TODO: Probably also add a reusable Label component
+// TODO: Evaluate whether to add container for main component / form and banner component
 ---
 
 <Layout title={event.name} description={event.description ?? event.name} locale={locale}>
@@ -77,30 +77,21 @@ const i18n = getTranslations(locale);
                 </AlertDescription>
             </Alert>
             {participant.isAdmin &&
-                <label class="flex flex-col gap-2">
-                    <p class="font-medium">
-                        {i18n("invitation-link")}
-                    </p>
+                <Label text={i18n("invitation-link")}>
                     <div id="share" class="flex gap-2">
                         <Input value={`${Astro.url.origin}/${event.id}`} readOnly />
                         <Button variant="outline" size="icon">
                             <Share size={16} className="w-12"></Share>
                         </Button>
                     </div>
-                </label>
+                </Label>
             }
-            <div class="flex flex-col gap-2">
-                <p class="font-medium">
-                    {i18n("add-to-calendar")}
-                </p>
+            <Label text={i18n("add-to-calendar")} help={i18n("add-to-calendar-help")}>
                 <!-- Currently, only a participation response can be edited -->
                 <CalendarButtons
                     event={event}
                     linktext={i18n(participant.isAdmin ? "view-invite" : "view-edit-invite")}
                 />
-                <p class="text-xs text-gray-500">
-                    {i18n("add-to-calendar-help")}
-                </p>
             </div>
         </section>
         {event.allowResponse && (event.participantsVisible || participant.isAdmin) &&
