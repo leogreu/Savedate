@@ -61,7 +61,7 @@ const i18n = getTranslations(locale);
                         time={event.startTime}
                         timezone={event.timezone}
                     ></DateTime>
-                    <h1 class="text-4xl font-medium">
+                    <h1 class="text-4xl font-bold">
                         {event.name}
                     </h1>
                 </div>
@@ -83,7 +83,9 @@ const i18n = getTranslations(locale);
             </Alert>
             {participant.isAdmin &&
                 <label class="flex flex-col gap-2">
-                    <p>{i18n("invitation-link")}</p>
+                    <p class="font-medium">
+                        {i18n("invitation-link")}
+                    </p>
                     <div id="share" class="flex gap-2">
                         <Input value={`${Astro.url.origin}/${event.id}`} readOnly />
                         <Button variant="outline" size="icon">
@@ -93,7 +95,9 @@ const i18n = getTranslations(locale);
                 </label>
             }
             <div class="flex flex-col gap-2">
-                <p>{i18n("add-to-calendar")}</p>
+                <p class="font-medium">
+                    {i18n("add-to-calendar")}
+                </p>
                 <!-- Currently, only a participation response can be edited -->
                 <CalendarButtons
                     event={event}

@@ -93,7 +93,7 @@ const i18n = getTranslations(locale);
                         time={event.startTime}
                         timezone={event.timezone}
                     ></DateTime>
-                    <h1 class="text-4xl font-medium">
+                    <h1 class="text-4xl font-bold">
                         {event.name}
                     </h1>
                 </div>
@@ -121,18 +121,24 @@ const i18n = getTranslations(locale);
             {event.allowResponse
                 ? <form class="flex flex-col gap-8" method="POST">
                     <label class="flex flex-col gap-2">
-                        <p>{i18n("your-name")}</p>
+                        <p class="font-medium">
+                            {i18n("your-name")}
+                        </p>
                         <Input name="name" />
                     </label>
-                    <div class="flex flex-col gap-2">
-                        <p>{i18n("participate")}</p>
+                    <label class="flex flex-col gap-2">
+                        <p class="font-medium">
+                            {i18n("participate")}
+                        </p>
                         <ResponseButtons />
-                    </div>
+                    </label>
                 </form>
-                : <div class="flex flex-col gap-2">
-                    <p>{i18n("add-to-calendar")}</p>
+                : <label class="flex flex-col gap-2">
+                    <p  class="font-medium">
+                        {i18n("add-to-calendar")}
+                    </p>
                     <CalendarButtons event={event} linktext={i18n("view-invite")} />
-                </div>
+                </label>
             }
         </section>
         {event.allowResponse && event.participantsVisible &&
