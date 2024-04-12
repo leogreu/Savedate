@@ -70,7 +70,7 @@ const i18n = getTranslations(locale);
         <link rel="alternate" hreflang="x-default" href="https://savedate.app/" />
         <title>{i18n("new-invitation")} | Savedate</title>
     </head>
-    <body>
+    <body class="antialiased">
         <Navbar></Navbar>
         <header class="relative block w-full h-40 bg-slate-50">
             <div class="mx-auto px-6 max-w-xl">
@@ -91,8 +91,8 @@ const i18n = getTranslations(locale);
         </header>
         <form class="flex flex-col gap-8 my-16 mx-auto px-6 max-w-xl" method="POST">
             <!-- TODO: Probably add a reusable header component -->
-            <header class="flex flex-col gap-6">
-                <h1 class="text-4xl font-medium">
+            <header class="flex flex-col gap-4">
+                <h1 class="text-4xl font-bold">
                     {i18n("new-invitation")}
                 </h1>
                 <p class="text-lg text-gray-500">
@@ -100,29 +100,43 @@ const i18n = getTranslations(locale);
                 </p>
             </header>
             <label class="flex flex-col gap-2">
-                <p>{i18n("event-name")}</p>
+                <p class="font-medium">
+                    {i18n("event-name")}
+                </p>
                 <Input name="name" required />
             </label>
             <label class="flex flex-col gap-2">
-                <p>{i18n("description")}</p>
+                <p class="font-medium">
+                    {i18n("description")}
+                </p>
                 <Textarea name="description"></Textarea>
-                <p class="text-xs text-gray-500">{i18n("optional")}</p>
+                <p class="text-xs font-medium text-gray-500">
+                    {i18n("optional")}
+                </p>
             </label>
             <div class="flex flex-col gap-4">
                 <div class="flex gap-2">
                     <label class="flex flex-col gap-2 w-full">
-                        <p>{i18n("date")}</p>
+                        <p class="font-medium">
+                            {i18n("date")}
+                        </p>
                         <Input name="startDate" type="date" required />
                     </label>
                     <label class="flex flex-col gap-2">
-                        <p>{i18n("time")}</p>
+                        <p class="font-medium">
+                            {i18n("time")}
+                        </p>
                         <Input name="startTime" type="time" />
-                        <p class="text-xs text-gray-500">{i18n("optional")}</p>
+                        <p class="text-xs font-medium text-gray-500">
+                            {i18n("optional")}
+                        </p>
                     </label>
                 </div>
                 <div id="end-date-container" class="flex gap-2 items-end hidden">
                     <label class="flex flex-col gap-2 w-full">
-                        <p>{i18n("end")}</p>
+                        <p class="font-medium">
+                            {i18n("end")}
+                        </p>
                         <Input name="endDate" type="date" />
                     </label>
                     <label class="flex flex-col gap-2">
@@ -132,11 +146,15 @@ const i18n = getTranslations(locale);
             </div>
             <hr />
             <label class="flex justify-between items-center">
-                <p>{i18n("allow-response-label")}</p>
+                <p class="font-medium">
+                    {i18n("allow-response-label")}
+                </p>
                 <Switch name="response" client:idle></Switch>
             </label>
             <label id="visible-container" class="flex justify-between items-center hidden">
-                <p>{i18n("participants-visible-label")}</p>
+                <p class="font-medium">
+                    {i18n("participants-visible-label")}
+                </p>
                 <Switch name="visible" client:idle></Switch>
             </label>
             <input class="hidden" name="icon" />
