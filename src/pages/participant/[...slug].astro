@@ -38,8 +38,6 @@ if (!event) return;
 
 const locale = getPreferredLocale(Astro.request.headers);
 const i18n = getTranslations(locale);
-
-// TODO: Evaluate whether to add container for main component / form and banner component
 ---
 
 <Layout title={event.name} description={event.description ?? event.name} locale={locale}>
