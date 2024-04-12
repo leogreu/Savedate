@@ -10,6 +10,7 @@ import { Switch } from "@/components/ui/switch";
 import { getPreferredLocale, getTranslations } from "@/utils/i18n.ts";
 
 import Layout from "@/components/custom/layout.astro";
+import Banner from "@/components/custom/banner.astro";
 import Header from "@/components/custom/header.astro";
 import Label from "@/components/custom/label.astro";
 
@@ -61,23 +62,21 @@ const i18n = getTranslations(locale);
 ---
 
 <Layout title={i18n("new-invitation")} description={i18n("index-description")} locale={locale}>
-    <header class="relative block w-full h-40 bg-slate-50">
-        <div class="mx-auto px-6 max-w-xl">
-            <div class="absolute flex items-center gap-6 bottom-0 translate-y-[50%]">
-                <button id="emoji-button" class="text-6xl">
-                    {defaultIcon}
-                </button>
-                <div id="emoji-tooltip" class="
-                    flex gap-2 items-center px-2 py-1 border border-gray-200 text-xs font-medium bg-white rounded-lg
-                    animate-in fade-in slide-in-from-right-2 duration-1000 [animation-delay:5s] fill-mode-backwards
-                ">
-                    <ArrowLeft size="14"></ArrowLeft>
-                    <span class="hidden lg:block">{i18n("click-to-edit")}</span>
-                    <span class="lg:hidden">{i18n("tap-to-edit")}</span>
-                </div>
+    <Banner>
+        <div class="flex items-center gap-6">
+            <button id="emoji-button">
+                {defaultIcon}
+            </button>
+            <div id="emoji-tooltip" class="
+                flex gap-2 items-center px-2 py-1 border border-gray-200 text-xs font-medium bg-white rounded-lg
+                animate-in fade-in slide-in-from-right-2 duration-1000 [animation-delay:5s] fill-mode-backwards
+            ">
+                <ArrowLeft size="14"></ArrowLeft>
+                <span class="hidden lg:block">{i18n("click-to-edit")}</span>
+                <span class="lg:hidden">{i18n("tap-to-edit")}</span>
             </div>
         </div>
-    </header>
+    </Banner>
     <form class="flex flex-col gap-8 my-16 mx-auto px-6 max-w-xl" method="POST">
         <Header
             title={i18n("new-invitation")}

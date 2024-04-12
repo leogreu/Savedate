@@ -9,6 +9,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { getPreferredLocale, getTranslations, getClientTranslations } from "@/utils/i18n.ts";
 
 import Layout from "@/components/custom/layout.astro";
+import Banner from "@/components/custom/banner.astro";
 import Header from "@/components/custom/header.astro";
 import Label from "@/components/custom/label.astro";
 import DateTime from "@/components/utils/date-time.astro";
@@ -42,13 +43,9 @@ const i18n = getTranslations(locale);
 ---
 
 <Layout title={event.name} description={event.description ?? event.name} locale={locale}>
-    <header class="relative block w-full h-40 bg-slate-50">
-        <div class="mx-auto px-6 max-w-xl">
-            <span class="absolute bottom-0 text-6xl translate-y-[50%]">
-                {event.icon}
-            </span>
-        </div>
-    </header>
+    <Banner>
+        {event.icon}
+    </Banner>
     <main
         class="flex flex-col gap-12 my-16 mx-auto px-6 max-w-xl"
         data-translations={JSON.stringify(getClientTranslations(locale))}

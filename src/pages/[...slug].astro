@@ -9,6 +9,7 @@ import { getPreferredLocale, getTranslations } from "@/utils/i18n.ts";
 import { formatDateParts } from "@/utils/temporal.ts";
 
 import Layout from "@/components/custom/layout.astro";
+import Banner from "@/components/custom/banner.astro";
 import Header from "@/components/custom/header.astro";
 import Label from "@/components/custom/label.astro";
 import DateTime from "@/components/utils/date-time.astro";
@@ -78,13 +79,9 @@ const i18n = getTranslations(locale);
     <meta slot="head" property="og:image:type" content="image/png" />
     <meta slot="head" property="og:image:width" content="1200" />
     <meta slot="head" property="og:image:height" content="630" />
-    <header class="relative block w-full h-40 bg-slate-50">
-        <div class="mx-auto px-6 max-w-xl">
-            <span class="absolute bottom-0 text-6xl translate-y-[50%]">
-                {event.icon}
-            </span>
-        </div>
-    </header>
+    <Banner>
+        {event.icon}
+    </Banner>
     <main class="flex flex-col gap-12 my-16 mx-auto px-6 max-w-xl">
         <section class="flex flex-col gap-8">
             <div class="space-y-2">
