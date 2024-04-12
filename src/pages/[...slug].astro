@@ -8,7 +8,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { getPreferredLocale, getTranslations } from "@/utils/i18n.ts";
 import { formatDateParts } from "@/utils/temporal.ts";
 
-import Navbar from "@/components/custom/navbar.astro";
+import Layout from "@/components/custom/layout.astro";
 import DateTime from "@/components/utils/date-time.astro";
 import ResponseButtons from "@/components/custom/response-buttons.astro";
 import CalendarButtons from "@/components/custom/calendar-buttons.astro";
@@ -65,92 +65,82 @@ const date = formatDateParts(locale, event.startDate, event.startTime, event.tim
 const i18n = getTranslations(locale);
 ---
 
-<html>
-    <head>
-        <meta charset="utf-8" />
-        <meta name="description" content={event.description}>
-        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-        <meta name="generator" content={Astro.generator} />
-        <meta property="og:title" content={event.name}>
-        <meta property="og:description" content={event.description}>
-        <meta
-            property="og:image"
-            content={encodeURI(`${Astro.url.origin}/api/og?date=${date}&name=${event.name}&description=${event.description}&icon=${event.icon}`)}
-        />
-        <meta property="og:image:type" content="image/png" />
-        <meta property="og:image:width" content="1200" />
-        <meta property="og:image:height" content="630" />
-        <title>{event.name}</title>
-    </head>
-    <body>
-        <Navbar></Navbar>
-        <header class="relative block w-full h-40 bg-slate-50">
-            <div class="mx-auto px-6 max-w-xl">
-                <span class="absolute bottom-0 text-6xl translate-y-[50%]">
-                    {event.icon}
-                </span>
-            </div>
-        </header>
-        <main class="flex flex-col gap-12 my-16 mx-auto px-6 max-w-xl">
-            <section class="flex flex-col gap-8">
-                <header class="flex flex-col gap-2">
-                    <div>
-                        <DateTime
-                            class="text-gray-400"
-                            date={event.startDate}
-                            time={event.startTime}
-                            timezone={event.timezone}
-                        ></DateTime>
-                        <h1 class="text-4xl font-medium">
-                            {event.name}
-                        </h1>
-                    </div>
-                    {event.description &&
-                        <p class="text-lg text-gray-500 whitespace-pre-line">
-                            {event.description}
-                        </p>
-                    }
-                </header>
-                {participant && participant.isAdmin &&
-                    <Alert>
-                        <CircleAlert className="h-4 w-4" />
-                        <AlertTitle>{i18n("note")}</AlertTitle>
-                        <AlertDescription>
-                            <span>{i18n("your-invitation-note")}</span>
-                            <a
-                                href={`/participant/${participant.id}`}
-                                class="underline underline-offset-4 text-blue-500"
-                            >
-                                {i18n("open-invitation")} →
-                            </a>
-                        </AlertDescription>
-                    </Alert>
+<Layout title={event.name} description={event.description ?? event.name} locale={locale}>
+    <meta slot="head" property="og:title" content={event.name}>
+    <meta slot="head" property="og:description" content={event.description}>
+    <meta
+        slot="head"
+        property="og:image"
+        content={encodeURI(`${Astro.url.origin}/api/og?date=${date}&name=${event.name}&description=${event.description}&icon=${event.icon}`)}
+    />
+    <meta slot="head" property="og:image:type" content="image/png" />
+    <meta slot="head" property="og:image:width" content="1200" />
+    <meta slot="head" property="og:image:height" content="630" />
+    <header class="relative block w-full h-40 bg-slate-50">
+        <div class="mx-auto px-6 max-w-xl">
+            <span class="absolute bottom-0 text-6xl translate-y-[50%]">
+                {event.icon}
+            </span>
+        </div>
+    </header>
+    <main class="flex flex-col gap-12 my-16 mx-auto px-6 max-w-xl">
+        <section class="flex flex-col gap-8">
+            <header class="flex flex-col gap-2">
+                <div>
+                    <DateTime
+                        class="text-gray-400"
+                        date={event.startDate}
+                        time={event.startTime}
+                        timezone={event.timezone}
+                    ></DateTime>
+                    <h1 class="text-4xl font-medium">
+                        {event.name}
+                    </h1>
+                </div>
+                {event.description &&
+                    <p class="text-lg text-gray-500 whitespace-pre-line">
+                        {event.description}
+                    </p>
                 }
-                {event.allowResponse
-                    ? <form class="flex flex-col gap-8" method="POST">
-                        <label class="flex flex-col gap-2">
-                            <p>{i18n("your-name")}</p>
-                            <Input name="name" />
-                        </label>
-                        <div class="flex flex-col gap-2">
-                            <p>{i18n("participate")}</p>
-                            <ResponseButtons />
-                        </div>
-                    </form>
-                    : <div class="flex flex-col gap-2">
-                        <p>{i18n("add-to-calendar")}</p>
-                        <CalendarButtons event={event} linktext={i18n("view-invite")} />
-                    </div>
-                }
-            </section>
-            {event.allowResponse && event.participantsVisible &&
-                <hr />
-                <ParticipantsList eventId={event.id} />
+            </header>
+            {participant && participant.isAdmin &&
+                <Alert>
+                    <CircleAlert className="h-4 w-4" />
+                    <AlertTitle>{i18n("note")}</AlertTitle>
+                    <AlertDescription>
+                        <span>{i18n("your-invitation-note")}</span>
+                        <a
+                            href={`/participant/${participant.id}`}
+                            class="underline underline-offset-4 text-blue-500"
+                        >
+                            {i18n("open-invitation")} →
+                        </a>
+                    </AlertDescription>
+                </Alert>
             }
-        </main>
-    </body>
-</html>
+            {event.allowResponse
+                ? <form class="flex flex-col gap-8" method="POST">
+                    <label class="flex flex-col gap-2">
+                        <p>{i18n("your-name")}</p>
+                        <Input name="name" />
+                    </label>
+                    <div class="flex flex-col gap-2">
+                        <p>{i18n("participate")}</p>
+                        <ResponseButtons />
+                    </div>
+                </form>
+                : <div class="flex flex-col gap-2">
+                    <p>{i18n("add-to-calendar")}</p>
+                    <CalendarButtons event={event} linktext={i18n("view-invite")} />
+                </div>
+            }
+        </section>
+        {event.allowResponse && event.participantsVisible &&
+            <hr />
+            <ParticipantsList eventId={event.id} />
+        }
+    </main>
+</Layout>
 
 <script>
     const nameInput = document.querySelector<HTMLInputElement>("[name='name']");

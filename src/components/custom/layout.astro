@@ -23,6 +23,7 @@ const { title, description, locale } = Astro.props;
         )}
         <link rel="alternate" hreflang="x-default" href="https://savedate.app/" />
         <title>{title} | Savedate</title>
+        <slot name="head"></slot>
     </head>
     <body class="antialiased">
         <Navbar></Navbar>
