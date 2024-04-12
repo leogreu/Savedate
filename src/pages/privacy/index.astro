@@ -1,72 +1,60 @@
 ---
 import "@/styles/globals.css";
 import { getPreferredLocale, getTranslations } from "@/utils/i18n.ts";
-
-import Navbar from "@/components/custom/navbar.astro";
+import Layout from "@/components/custom/layout.astro";
 
 const locale = getPreferredLocale(Astro.request.headers);
 const i18n = getTranslations(locale);
 ---
 
-<html>
-    <head>
-        <meta charset="utf-8" />
-        <meta name="description" content={i18n("index-description")}>
-        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-        <meta name="generator" content={Astro.generator} />
-        <title>{i18n("privacy")} | Savedate</title>
-    </head>
-    <body>
-        <Navbar />
-        <article class="prose max-w-xl mx-auto my-24 px-6">
-            <h1 class="font-medium">{i18n("privacy")}</h1>
-            <h3>{i18n("privacy.accountables.heading")}</h3>
-            <p>{i18n("privacy.accountables.copy")}</p>
-            <p>
-                {i18n("privacy.accountables.company-data.name")}
-                <br />
-                {i18n("privacy.accountables.company-data.representative")}
-                <br />
-                {i18n("privacy.accountables.company-data.street")}
-                <br />
-                {i18n("privacy.accountables.company-data.city")}
-                <br />
-                {i18n("privacy.accountables.company-data.country")}
-            </p>
-            <p>
-                {i18n("privacy.accountables.company-data.phone")}
-                <br />
-                {i18n("privacy.accountables.company-data.email")}
-            </p>
-            <h3>{i18n("privacy.data-usage.heading")}</h3>
-            <h4>{i18n("privacy.data-usage.scope.heading")}</h4>
-            <p>{i18n("privacy.data-usage.scope.copy-1")}</p>
-            <p>{i18n("privacy.data-usage.scope.data-list-heading")}</p>
-            <ol>
-                <li>{i18n("privacy.data-usage.scope.data-list-1")}</li>
-                <li>{i18n("privacy.data-usage.scope.data-list-2")}</li>
-            </ol>
-            <p>{i18n("privacy.data-usage.scope.copy-2")}</p>
-            <h4>{i18n("privacy.data-usage.legal.heading")}</h4>
-            <p>{i18n("privacy.data-usage.legal.copy")}</p>
-            <h4>{i18n("privacy.data-usage.purpose.heading")}</h4>
-            <p>{i18n("privacy.data-usage.purpose.copies-1")}</p>
-            <p>{i18n("privacy.data-usage.purpose.copies-2")}</p>
-            <h4>{i18n("privacy.data-usage.duration.heading")}</h4>
-            <p>{i18n("privacy.data-usage.duration.copy")}</p>
-            <h3>{i18n("privacy.cookies.heading")}</h3>
-            <p>{i18n("privacy.cookies.copy")}</p>
-            <h3>{i18n("privacy.invites.heading")}</h3>
-            <h4>{i18n("privacy.invites.scope.heading")}</h4>
-            <p>{i18n("privacy.invites.scope.copies-1")}</p>
-            <p>{i18n("privacy.invites.scope.copies-2")}</p>
-            <h4>{i18n("privacy.invites.legal.heading")}</h4>
-            <p>{i18n("privacy.invites.legal.copy")}</p>
-            <h4>{i18n("privacy.invites.purpose.heading")}</h4>
-            <p>{i18n("privacy.invites.purpose.copy")}</p>
-            <h4>{i18n("privacy.invites.duration.heading")}</h4>
-            <p>{i18n("privacy.invites.duration.copy")}</p>
-        </article>
-    </body>
-</html>
+<Layout title={i18n("privacy")} description={i18n("privacy-description")} locale={locale}>
+    <article class="prose max-w-xl mx-auto my-24 px-6">
+        <h1 class="font-bold">{i18n("privacy")}</h1>
+        <h3>{i18n("privacy.accountables.heading")}</h3>
+        <p>{i18n("privacy.accountables.copy")}</p>
+        <p>
+            {i18n("privacy.accountables.company-data.name")}
+            <br />
+            {i18n("privacy.accountables.company-data.representative")}
+            <br />
+            {i18n("privacy.accountables.company-data.street")}
+            <br />
+            {i18n("privacy.accountables.company-data.city")}
+            <br />
+            {i18n("privacy.accountables.company-data.country")}
+        </p>
+        <p>
+            {i18n("privacy.accountables.company-data.phone")}
+            <br />
+            {i18n("privacy.accountables.company-data.email")}
+        </p>
+        <h3>{i18n("privacy.data-usage.heading")}</h3>
+        <h4>{i18n("privacy.data-usage.scope.heading")}</h4>
+        <p>{i18n("privacy.data-usage.scope.copy-1")}</p>
+        <p>{i18n("privacy.data-usage.scope.data-list-heading")}</p>
+        <ol>
+            <li>{i18n("privacy.data-usage.scope.data-list-1")}</li>
+            <li>{i18n("privacy.data-usage.scope.data-list-2")}</li>
+        </ol>
+        <p>{i18n("privacy.data-usage.scope.copy-2")}</p>
+        <h4>{i18n("privacy.data-usage.legal.heading")}</h4>
+        <p>{i18n("privacy.data-usage.legal.copy")}</p>
+        <h4>{i18n("privacy.data-usage.purpose.heading")}</h4>
+        <p>{i18n("privacy.data-usage.purpose.copies-1")}</p>
+        <p>{i18n("privacy.data-usage.purpose.copies-2")}</p>
+        <h4>{i18n("privacy.data-usage.duration.heading")}</h4>
+        <p>{i18n("privacy.data-usage.duration.copy")}</p>
+        <h3>{i18n("privacy.cookies.heading")}</h3>
+        <p>{i18n("privacy.cookies.copy")}</p>
+        <h3>{i18n("privacy.invites.heading")}</h3>
+        <h4>{i18n("privacy.invites.scope.heading")}</h4>
+        <p>{i18n("privacy.invites.scope.copies-1")}</p>
+        <p>{i18n("privacy.invites.scope.copies-2")}</p>
+        <h4>{i18n("privacy.invites.legal.heading")}</h4>
+        <p>{i18n("privacy.invites.legal.copy")}</p>
+        <h4>{i18n("privacy.invites.purpose.heading")}</h4>
+        <p>{i18n("privacy.invites.purpose.copy")}</p>
+        <h4>{i18n("privacy.invites.duration.heading")}</h4>
+        <p>{i18n("privacy.invites.duration.copy")}</p>
+    </article>
+</Layout>

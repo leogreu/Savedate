@@ -8,7 +8,10 @@ import { Toaster } from "@/components/ui/toaster";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { getPreferredLocale, getTranslations, getClientTranslations } from "@/utils/i18n.ts";
 
-import Navbar from "@/components/custom/navbar.astro";
+import Layout from "@/components/custom/layout.astro";
+import Banner from "@/components/custom/banner.astro";
+import Header from "@/components/custom/header.astro";
+import Label from "@/components/custom/label.astro";
 import DateTime from "@/components/utils/date-time.astro";
 import ResponseButtons from "@/components/custom/response-buttons.astro";
 import CalendarButtons from "@/components/custom/calendar-buttons.astro";
@@ -35,106 +38,76 @@ if (!event) return;
 
 const locale = getPreferredLocale(Astro.request.headers);
 const i18n = getTranslations(locale);
-
-// TODO: Add reusable Layout component
-// TODO: Evaluate whether to use Container for main component (also for creation form)
-// TODO: Probably also add a reusable Label component
 ---
 
-<html>
-    <head>
-        <meta charset="utf-8" />
-        <meta name="description" content={event.description}>
-        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-        <meta name="generator" content={Astro.generator} />
-        <title>{event.name}</title>
-    </head>
-    <body>
-        <Navbar></Navbar>
-        <header class="relative block w-full h-40 bg-slate-50">
-            <div class="mx-auto px-6 max-w-xl">
-                <span class="absolute bottom-0 text-6xl translate-y-[50%]">
-                    {event.icon}
-                </span>
+<Layout title={event.name} description={event.description ?? event.name} locale={locale}>
+    <Banner>
+        {event.icon}
+    </Banner>
+    <main
+        class="flex flex-col gap-12 my-16 mx-auto px-6 max-w-xl"
+        data-translations={JSON.stringify(getClientTranslations(locale))}
+    >
+        <section class="flex flex-col gap-8">
+            <div class="space-y-2">
+                <DateTime
+                    class="text-gray-400"
+                    date={event.startDate}
+                    time={event.startTime}
+                    timezone={event.timezone}
+                ></DateTime>
+                <Header
+                    title={event.name}
+                    description={event.description}
+                ></Header>
             </div>
-        </header>
-        <main
-            class="flex flex-col gap-12 my-16 mx-auto px-6 max-w-xl"
-            data-translations={JSON.stringify(getClientTranslations(locale))}
-        >
-            <section class="flex flex-col gap-8">
-                <header class="flex flex-col gap-2">
-                    <div>
-                        <DateTime
-                            class="text-gray-400"
-                            date={event.startDate}
-                            time={event.startTime}
-                            timezone={event.timezone}
-                        ></DateTime>
-                        <h1 class="text-4xl font-medium">
-                            {event.name}
-                        </h1>
+            <Alert>
+                <CircleCheck className="h-4 w-4" />
+                <AlertTitle>{i18n("success")}</AlertTitle>
+                <AlertDescription>
+                    {i18n(participant.isAdmin
+                        ? "invite-creation-success"
+                        : "answer-send-success"
+                    )}
+                </AlertDescription>
+            </Alert>
+            {participant.isAdmin &&
+                <Label text={i18n("invitation-link")}>
+                    <div id="share" class="flex gap-2">
+                        <Input value={`${Astro.url.origin}/${event.id}`} readOnly />
+                        <Button variant="outline" size="icon">
+                            <Share size={16} className="w-12"></Share>
+                        </Button>
                     </div>
-                    {event.description &&
-                        <p class="text-lg text-gray-500 whitespace-pre-line">
-                            {event.description}
-                        </p>
-                    }
-                </header>
-                <Alert>
-                    <CircleCheck className="h-4 w-4" />
-                    <AlertTitle>{i18n("success")}</AlertTitle>
-                    <AlertDescription>
-                        {i18n(participant.isAdmin
-                            ? "invite-creation-success"
-                            : "answer-send-success"
-                        )}
-                    </AlertDescription>
-                </Alert>
-                {participant.isAdmin &&
-                    <label class="flex flex-col gap-2">
-                        <p>{i18n("invitation-link")}</p>
-                        <div id="share" class="flex gap-2">
-                            <Input value={`${Astro.url.origin}/${event.id}`} readOnly />
-                            <Button variant="outline" size="icon">
-                                <Share size={16} className="w-12"></Share>
-                            </Button>
-                        </div>
-                    </label>
-                }
-                <div class="flex flex-col gap-2">
-                    <p>{i18n("add-to-calendar")}</p>
-                    <!-- Currently, only a participation response can be edited -->
-                    <CalendarButtons
-                        event={event}
-                        linktext={i18n(participant.isAdmin ? "view-invite" : "view-edit-invite")}
-                    />
-                    <p class="text-xs text-gray-500">
-                        {i18n("add-to-calendar-help")}
-                    </p>
-                </div>
-            </section>
-            {event.allowResponse && (event.participantsVisible || participant.isAdmin) &&
-                <hr />
-                <ParticipantsList eventId={event.id} participantId={participant.id} />
+                </Label>
             }
-            {!participant.isAdmin &&
-                <hr />
-                <form class="flex flex-col gap-4" method="POST">
-                    <h2 class="text-2xl font-medium">
-                        {i18n("edit-response")}
-                    </h2>
-                    <p class="text-base text-gray-500">
-                        {i18n("edit-response-subtitle")}
-                    </p>
-                    <ResponseButtons highlight={participant.response} />
-                </form>
-            }
-        </main>
-        <Toaster client:idle></Toaster>
-    </body>
-</html>
+            <Label text={i18n("add-to-calendar")} help={i18n("add-to-calendar-help")}>
+                <!-- Currently, only a participation response can be edited -->
+                <CalendarButtons
+                    event={event}
+                    linktext={i18n(participant.isAdmin ? "view-invite" : "view-edit-invite")}
+                />
+            </div>
+        </section>
+        {event.allowResponse && (event.participantsVisible || participant.isAdmin) &&
+            <hr />
+            <ParticipantsList eventId={event.id} participantId={participant.id} />
+        }
+        {!participant.isAdmin &&
+            <hr />
+            <form class="flex flex-col gap-4" method="POST">
+                <h2 class="text-2xl font-medium">
+                    {i18n("edit-response")}
+                </h2>
+                <p class="text-base text-gray-500">
+                    {i18n("edit-response-subtitle")}
+                </p>
+                <ResponseButtons highlight={participant.response} />
+            </form>
+        }
+    </main>
+    <Toaster client:idle></Toaster>
+</Layout>
 
 <script>
     import { toast } from "@/components/ui/use-toast";

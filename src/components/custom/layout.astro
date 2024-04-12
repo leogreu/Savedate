@@ -1,0 +1,32 @@
+---
+import { locales } from "@/utils/i18n.ts";
+import Navbar from "@/components/custom/navbar.astro";
+
+interface Props {
+    title: string;
+    description: string;
+    locale?: string;
+}
+
+const { title, description, locale } = Astro.props;
+---
+
+<html lang={locale}>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="description" content={description}>
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+        <meta name="generator" content={Astro.generator} />
+        {locales.map(lang =>
+            <link rel="alternate" hreflang={lang} href={`https://savedate.app/?lang=${lang}`} />
+        )}
+        <link rel="alternate" hreflang="x-default" href="https://savedate.app/" />
+        <title>{title} | Savedate</title>
+        <slot name="head"></slot>
+    </head>
+    <body class="antialiased">
+        <Navbar></Navbar>
+        <slot></slot>
+    </body>
+</html>
