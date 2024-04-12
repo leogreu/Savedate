@@ -116,11 +116,11 @@ const i18n = getTranslations(locale);
                     <Label text={i18n("your-name")}>
                         <Input name="name" />
                     </Label>
-                    <Label text={i18n("participate")}>
+                    <Label text={i18n("participate")} tag="div">
                         <ResponseButtons />
                     </Label>
                 </form>
-                : <Label text={i18n("add-to-calendar")}>
+                : <Label text={i18n("add-to-calendar")} tag="div">
                     <CalendarButtons event={event} linktext={i18n("view-invite")} />
                 </Label>
             }

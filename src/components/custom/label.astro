@@ -3,12 +3,13 @@ interface Props {
     text?: string;
     help?: string;
     class?: string;
+    tag?: string;
 }
 
-const { text, help, class: className } = Astro.props;
+const { text, help, class: className, tag: TagName = "label" } = Astro.props;
 ---
 
-<label class:list={[className, "flex", "flex-col", "gap-2"]}>
+<TagName class:list={[className, "flex", "flex-col", "gap-2"]}>
     {text &&
         <p class="font-medium">
             {text}
@@ -20,4 +21,4 @@ const { text, help, class: className } = Astro.props;
             {help}
         </p>
     }
-</label>
+</TagName>
