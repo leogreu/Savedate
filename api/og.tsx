@@ -1,5 +1,4 @@
 import { ImageResponse } from '@vercel/og';
-import { db, eq, Image } from "astro:db";
 import type { VercelRequest } from '@vercel/node';
 
 export const config = {
@@ -10,10 +9,7 @@ export const config = {
 export default async function handler(request: VercelRequest) {
     try {
         const { searchParams } = new URL(request.url ?? String());
-        const { date, name, description, icon, image } = Object.fromEntries(searchParams.entries());
-
-        const imageResponse = image
-            && await db.select().from(Image).where(eq(Image.id, image)).get();
+        const { date, name, description, icon } = Object.fromEntries(searchParams.entries());
 
         const fontData = await fetch(
             new URL('../assets/NotoSans-Bold.ttf', import.meta.url),
@@ -91,7 +87,7 @@ export default async function handler(request: VercelRequest) {
                             {icon}
                         </div>
                     }
-                    {imageResponse &&
+                    {showBrand &&
                         <div
                             style={{
                                 position: 'absolute',
@@ -103,7 +99,7 @@ export default async function handler(request: VercelRequest) {
                                 borderRadius: '20px',
                             }}
                         >
-                            {imageResponse.dataURL}
+                            savedate.app
                         </div>
                     }
                 </div>
