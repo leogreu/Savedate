@@ -11,6 +11,7 @@ import { getPreferredLocale, getTranslations } from "@/utils/i18n.ts";
 
 import Layout from "@/components/custom/layout.astro";
 import Banner from "@/components/custom/banner.astro";
+import Badge from "@/components/custom/badge.astro";
 import Header from "@/components/custom/header.astro";
 import Label from "@/components/custom/label.astro";
 
@@ -67,14 +68,14 @@ const i18n = getTranslations(locale);
             <button id="emoji-button">
                 {defaultIcon}
             </button>
-            <div id="emoji-tooltip" class="
-                flex gap-2 items-center px-2 py-1 border border-gray-200 text-xs font-medium bg-white rounded-lg
-                animate-in fade-in slide-in-from-right-2 duration-1000 [animation-delay:5s] fill-mode-backwards
-            ">
+            <Badge
+                id="emoji-tooltip"
+                class="animate-in fade-in slide-in-from-right-2 duration-1000 [animation-delay:5s] fill-mode-backwards"
+            >
                 <ArrowLeft size="14"></ArrowLeft>
                 <span class="hidden lg:block">{i18n("click-to-edit")}</span>
                 <span class="lg:hidden">{i18n("tap-to-edit")}</span>
-            </div>
+            </Badge>
         </div>
     </Banner>
     <form class="flex flex-col gap-8 my-16 mx-auto px-6 max-w-xl" method="POST">
