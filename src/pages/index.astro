@@ -64,13 +64,14 @@ const i18n = getTranslations(locale);
 
 <Layout title={i18n("new-invitation")} description={i18n("index-description")} locale={locale}>
     <Banner>
-        <div slot="image">
+        <div slot="image" class="h-full">
             <label class="absolute right-0 m-4">
                 <Badge class="cursor-pointer">
                     <span>{i18n("upload-image")}</span>
                 </Badge>
                 <input class="hidden" type="file">
             </label>
+            <img class="h-full w-full object-cover object-center" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" />
         </div>
         <div class="flex items-center gap-6">
             <button id="emoji-button">
@@ -138,6 +139,7 @@ const i18n = getTranslations(locale);
 <script>
     import { Temporal } from "temporal-polyfill";
     import { Picker } from "emoji-mart";
+    import { resize } from "@/utils/images";
 
     // Get elements required for further processing
     const get = (query: string) => document.querySelector(query);
@@ -218,6 +220,16 @@ const i18n = getTranslations(locale);
             get("#visible-container")?.classList.remove("hidden");
         } else {
             get("#visible-container")?.classList.add("hidden");
+        }
+    });
+
+    const image = document.querySelector("img") as HTMLImageElement;
+    document.querySelector("input[type='file']")?.addEventListener("input", ({ target }) => {
+        if (target instanceof HTMLInputElement && target?.files?.[0]) {
+            const file = target.files[0];
+            resize(file, 1200, dataURL => {
+                image.src = dataURL;
+            });
         }
     });
 </script>
