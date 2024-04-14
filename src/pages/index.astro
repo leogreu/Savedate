@@ -78,21 +78,19 @@ const i18n = getTranslations(locale);
             </Badge>
             <input class="hidden" type="file">
         </label>
-        <div class="flex items-center gap-6">
-            <button id="emoji-button">
-                {defaultIcon}
-            </button>
-            <Badge
-                id="emoji-tooltip"
-                class="animate-in fade-in slide-in-from-right-2 duration-1000 [animation-delay:5s] fill-mode-backwards"
-            >
-                <ArrowLeft size="14"></ArrowLeft>
-                <span class="hidden lg:block">{i18n("click-to-edit")}</span>
-                <span class="lg:hidden">{i18n("tap-to-edit")}</span>
-            </Badge>
-        </div>
+        <button slot="icon" id="emoji-button">
+            {defaultIcon}
+        </button>
+        <Badge
+            id="emoji-tooltip"
+            class="animate-in fade-in slide-in-from-right-2 duration-1000 [animation-delay:5s] fill-mode-backwards"
+        >
+            <ArrowLeft size="14"></ArrowLeft>
+            <span class="hidden lg:block">{i18n("click-to-edit")}</span>
+            <span class="lg:hidden">{i18n("tap-to-edit")}</span>
+        </Badge>
     </Banner>
-    <form class="flex flex-col gap-8 my-16 mx-auto px-6 max-w-xl" method="POST">
+    <form class="flex flex-col gap-8 my-20 mx-auto px-6 max-w-xl" method="POST">
         <Header
             title={i18n("new-invitation")}
             description={i18n("new-invitation-subtitle")}
