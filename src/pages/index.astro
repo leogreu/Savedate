@@ -64,6 +64,14 @@ const i18n = getTranslations(locale);
 
 <Layout title={i18n("new-invitation")} description={i18n("index-description")} locale={locale}>
     <Banner>
+        <div slot="image">
+            <label class="absolute right-0 m-4">
+                <Badge class="cursor-pointer">
+                    <span>{i18n("upload-image")}</span>
+                </Badge>
+                <input class="hidden" type="file">
+            </label>
+        </div>
         <div class="flex items-center gap-6">
             <button id="emoji-button">
                 {defaultIcon}
