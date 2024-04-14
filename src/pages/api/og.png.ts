@@ -23,7 +23,7 @@ export const GET: APIRoute = async request => {
             fonts: [
                     {
                     name: "Noto Sans",
-                    data: fs.readFileSync(path.join(process.cwd(), NotoSans)),
+                    data: fs.readFileSync(path.join(process.cwd(), NotoSans).replace("/var/task", "")),
                     weight: 700
                 }
             ]
