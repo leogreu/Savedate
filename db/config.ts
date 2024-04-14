@@ -1,5 +1,12 @@
 import { defineDb, defineTable, column } from "astro:db";
 
+const Image = defineTable({
+    columns: {
+        id: column.text({ primaryKey: true }),
+        dataURL: column.text()
+    }
+});
+
 const Event = defineTable({
     columns: {
         id: column.text({ primaryKey: true }),
@@ -27,13 +34,6 @@ const Participant = defineTable({
         isAdmin: column.boolean(),
         createdDate: column.date(),
         cookie: column.text({ optional: true })
-    }
-});
-
-const Image = defineTable({
-    columns: {
-        id: column.text({ primaryKey: true }),
-        dataURL: column.text()
     }
 });
 
