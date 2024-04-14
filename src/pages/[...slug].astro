@@ -77,7 +77,7 @@ const i18n = getTranslations(locale);
     <meta
         slot="head"
         property="og:image"
-        content={encodeURI(`${Astro.url.origin}/api/og.png?date=${date}&name=${event.name}&description=${event.description}&icon=${event.icon}`)}
+        content={encodeURI(`${Astro.url.origin}/api/og.png?date=${date}&name=${event.name}&description=${event.description}&icon=${event.icon}&imageId=${event.imageId}`)}
     />
     <meta slot="head" property="og:image:type" content="image/png" />
     <meta slot="head" property="og:image:width" content="1200" />

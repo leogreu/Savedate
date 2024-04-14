@@ -5,10 +5,10 @@ type Props = {
     name: string;
     description?: string;
     icon?: string;
-    image?: string;
+    dataURL?: string;
 };
 
-const OGImage: React.FC<Props> = ({ date, name, description, icon, image }) => {
+const OGImage: React.FC<Props> = ({ date, name, description, icon, dataURL }) => {
     const showBrand = false;
 
     return <div
@@ -28,6 +28,16 @@ const OGImage: React.FC<Props> = ({ date, name, description, icon, image }) => {
             textAlign: "center",
         }}
     >
+        {dataURL &&
+            <img
+                style={{
+                    position: "absolute",
+                    objectFit: "cover",
+                    width: "1200px"
+                }}
+                src={dataURL}
+            />
+        }
         <div
             style={{
                 backgroundImage: "linear-gradient(90deg, rgb(121, 40, 202), rgb(255, 0, 128))",
