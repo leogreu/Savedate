@@ -64,15 +64,13 @@ const i18n = getTranslations(locale);
 
 <Layout title={i18n("new-invitation")} description={i18n("index-description")} locale={locale}>
     <Banner>
-        <div slot="image" class="h-full">
-            <label class="absolute right-0 m-4">
-                <Badge class="cursor-pointer">
-                    <span>{i18n("upload-image")}</span>
-                </Badge>
-                <input class="hidden" type="file">
-            </label>
-            <img class="h-full w-full object-cover object-center" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" />
-        </div>
+        <img slot="image" />
+        <label slot="action">
+            <Badge class="cursor-pointer">
+                <span>{i18n("upload-image")}</span>
+            </Badge>
+            <input class="hidden" type="file">
+        </label>
         <div class="flex items-center gap-6">
             <button id="emoji-button">
                 {defaultIcon}

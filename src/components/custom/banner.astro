@@ -1,6 +1,9 @@
 <header class="relative">
-    <div class="w-full h-60 bg-slate-50 overflow-hidden">
+    <div class="w-full flex flex-col justify-center h-60 bg-slate-50 overflow-hidden">
         <slot name="image"></slot>
+    </div>
+    <div class="absolute top-0 right-0 m-4">
+        <slot name="action"></slot>
     </div>
     <div class="mx-auto px-6 max-w-xl">
         <span class="absolute bottom-0 text-6xl translate-y-[50%]">
