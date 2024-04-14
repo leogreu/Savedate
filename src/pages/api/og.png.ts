@@ -1,7 +1,6 @@
 import fs from "fs";
 import path from "path";
 import OGImage from "@/components/utils/og-image";
-import NotoSans from "../../../assets/NotoSans-Bold.ttf";
 import { db, eq, Image } from "astro:db";
 import { ImageResponse } from "@vercel/og";
 import type { APIRoute } from "astro";
@@ -23,7 +22,7 @@ export const GET: APIRoute = async request => {
             fonts: [
                     {
                     name: "Noto Sans",
-                    data: fs.readFileSync(path.join(process.cwd(), NotoSans).replace("/var/task", "")),
+                    data: fs.readFileSync(path.join(process.cwd(), "public", "NotoSans-Bold.ttf")),
                     weight: 700
                 }
             ]
