@@ -1,6 +1,6 @@
 ---
 import "@/styles/globals.css";
-import { db, eq, Event, Participant } from "astro:db";
+import { db, eq, Event, Participant, Image } from "astro:db";
 import { CircleCheck, Share } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -36,12 +36,16 @@ if (!participant) return;
 const event = await db.select().from(Event).where(eq(Event.id, participant.eventId)).get();
 if (!event) return;
 
+const image = event.image
+    && await db.select().from(Image).where(eq(Image.id, event.image)).get();
+
 const locale = getPreferredLocale(Astro.request.headers);
 const i18n = getTranslations(locale);
 ---
 
 <Layout title={event.name} description={event.description ?? event.name} locale={locale}>
     <Banner>
+        {image && <img slot="image" src={image.dataURL} />}
         {event.icon}
     </Banner>
     <main

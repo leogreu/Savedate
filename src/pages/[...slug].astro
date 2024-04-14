@@ -1,6 +1,6 @@
 ---
 import "@/styles/globals.css";
-import { db, eq, and, Event, Participant } from "astro:db";
+import { db, eq, and, Event, Participant, Image } from "astro:db";
 import { nanoid } from "nanoid";
 import { CircleAlert } from "lucide-react";
 import { Input } from "@/components/ui/input";
@@ -63,6 +63,9 @@ if (Astro.request.method === "POST") {
     }
 }
 
+const image = event.image
+    && await db.select().from(Image).where(eq(Image.id, event.image)).get();
+
 const locale = getPreferredLocale(Astro.request.headers);
 const date = formatDateParts(locale, event.startDate, event.startTime, event.timezone);
 const i18n = getTranslations(locale);
@@ -80,6 +83,7 @@ const i18n = getTranslations(locale);
     <meta slot="head" property="og:image:width" content="1200" />
     <meta slot="head" property="og:image:height" content="630" />
     <Banner>
+        {image && <img slot="image" src={image.dataURL} />}
         {event.icon}
     </Banner>
     <main class="flex flex-col gap-12 my-16 mx-auto px-6 max-w-xl">

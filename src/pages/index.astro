@@ -1,6 +1,6 @@
 ---
 import "@/styles/globals.css";
-import { db, Event, Participant } from "astro:db";
+import { db, Event, Participant, Image } from "astro:db";
 import { nanoid } from "nanoid";
 import { ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -18,7 +18,7 @@ import Label from "@/components/custom/label.astro";
 const defaultIcon = "🎉";
 
 if (Astro.request.method === "POST") {
-    const { name, description, startDate, startTime, endDate, endTime, icon, timezone, response, visible }
+    const { name, description, startDate, startTime, endDate, endTime, icon, image, timezone, response, visible }
         = Object.fromEntries((await Astro.request.formData()).entries());
 
     try {
@@ -28,6 +28,7 @@ if (Astro.request.method === "POST") {
                 name: name,
                 description: typeof description === "string" ? description : null,
                 icon: icon && typeof icon === "string" ? icon : defaultIcon,
+                image: typeof image === "string" ? nanoid(24) : undefined,
                 startDate: startDate,
                 startTime: typeof startTime === "string" ? startTime : null,
                 endDate: typeof endDate === "string" ? endDate : startDate,
@@ -47,6 +48,13 @@ if (Astro.request.method === "POST") {
                 createdDate: new Date(),
                 cookie: Astro.cookies.get("savedate")?.value
             }).returning().get();
+
+            if (event.image && typeof image === "string") {
+                await db.insert(Image).values({
+                    id: event.image,
+                    dataURL: image
+                });
+            }
 
             return Astro.redirect(`/participant/${participant.id}`);
         }
@@ -128,6 +136,7 @@ const i18n = getTranslations(locale);
             <Switch name="visible" client:idle></Switch>
         </label>
         <input class="hidden" name="icon" />
+        <input class="hidden" name="image" />
         <input class="hidden" name="timezone" />
         <Button type="submit">{i18n("save")}</Button>
     </form>
@@ -150,6 +159,9 @@ const i18n = getTranslations(locale);
     const emojiTooltip = get("#emoji-tooltip") as HTMLDivElement;
     const emojiDialog = get("#emoji-dialog") as HTMLDialogElement;
     const emojiInput = get("[name='icon']") as HTMLInputElement;
+    const imageButton = get("input[type='file']") as HTMLInputElement;
+    const imageInput = get("[name='image']") as HTMLInputElement;
+    const imageElement = get("img") as HTMLImageElement;
 
     // Set the start date and timezone client-side to get the actual user data
     startDate.value = Temporal.Now.plainDateISO().toString();
@@ -221,12 +233,12 @@ const i18n = getTranslations(locale);
         }
     });
 
-    const image = document.querySelector("img") as HTMLImageElement;
-    document.querySelector("input[type='file']")?.addEventListener("input", ({ target }) => {
+    imageButton.addEventListener("input", ({ target }) => {
         if (target instanceof HTMLInputElement && target?.files?.[0]) {
             const file = target.files[0];
             resize(file, 1200, dataURL => {
-                image.src = dataURL;
+                imageElement.src = dataURL;
+                imageInput.value = dataURL;
             });
         }
     });
