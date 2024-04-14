@@ -45,8 +45,12 @@ const i18n = getTranslations(locale);
 
 <Layout title={event.name} description={event.description ?? event.name} locale={locale}>
     <Banner>
-        {image && <img slot="image" src={image.dataURL} />}
-        {event.icon}
+        {image &&
+            <img slot="image" src={image.dataURL} />
+        }
+        <div slot="icon">
+            {event.icon}
+        </div>
     </Banner>
     <main
         class="flex flex-col gap-12 my-16 mx-auto px-6 max-w-xl"

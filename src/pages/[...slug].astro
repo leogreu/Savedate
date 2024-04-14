@@ -83,8 +83,12 @@ const i18n = getTranslations(locale);
     <meta slot="head" property="og:image:width" content="1200" />
     <meta slot="head" property="og:image:height" content="630" />
     <Banner>
-        {image && <img slot="image" src={image.dataURL} />}
-        {event.icon}
+        {image &&
+            <img slot="image" src={image.dataURL} />
+        }
+        <div slot="icon">
+            {event.icon}
+        </div>
     </Banner>
     <main class="flex flex-col gap-12 my-16 mx-auto px-6 max-w-xl">
         <section class="flex flex-col gap-8">
