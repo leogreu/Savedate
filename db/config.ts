@@ -13,7 +13,7 @@ const Event = defineTable({
         name: column.text(),
         description: column.text({ optional: true }),
         icon: column.text({ optional: true }),
-        imageId: column.text({ references: () => Image.columns.id, optional: true }),
+        imageId: column.text({ optional: true }), // TODO: Should use references: () => Image.columns.id
         startDate: column.text(),
         startTime: column.text({ optional: true }),
         endDate: column.text(),
