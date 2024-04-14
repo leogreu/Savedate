@@ -1,6 +1,7 @@
 import OGImage from "@/components/utils/og-image";
 import { db, eq, Image } from "astro:db";
 import { ImageResponse } from "@vercel/og";
+import sharp from "sharp";
 import type { APIRoute } from "astro";
 import type { ReactElement } from "react";
 
@@ -14,7 +15,7 @@ export const GET: APIRoute = async request => {
     const fontData = await fetch("https://savedate.app/NotoSans-Bold.ttf")
         .then((res) => res.arrayBuffer());
 
-    return new ImageResponse(
+    const response = new ImageResponse(
         OGImage({ date, name, description, icon, dataURL }) as ReactElement,
         {
             width: 1200,
@@ -27,6 +28,17 @@ export const GET: APIRoute = async request => {
                     weight: 700
                 }
             ]
+        }
+    );
+
+    // Transform .png image to .jpeg to limit file size, required for custom images
+    return new Response(
+        await sharp(await response.arrayBuffer()).jpeg({ quality: 90 }).toBuffer(),
+        {
+            headers: {
+                "Content-Type": "image/jpeg"
+            },
+            status: 200
         }
     );
 };
