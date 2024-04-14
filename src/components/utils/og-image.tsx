@@ -40,34 +40,61 @@ const OGImage: React.FC<Props> = ({ date, name, description, icon, dataURL }) =>
         }
         <div
             style={{
-                backgroundImage: "linear-gradient(90deg, rgb(121, 40, 202), rgb(255, 0, 128))",
-                backgroundClip: "text",
-                color: "transparent",
-                fontSize: 60
+                display: "flex",
+                padding: "10px 20px",
+                backgroundColor: "rgb(255, 255, 255, .9)",
+                borderRadius: "25px"
             }}
         >
-            {date}
+            <div
+                style={{
+                    backgroundImage: "linear-gradient(90deg, rgb(121, 40, 202), rgb(255, 0, 128))",
+                    backgroundClip: "text",
+                    color: "transparent",
+                    fontSize: 60
+                }}
+            >
+                {date}
+            </div>
         </div>
         <div
             style={{
-                backgroundImage: "linear-gradient(90deg, rgb(0, 124, 240), rgb(0, 223, 216))",
-                backgroundClip: "text",
-                color: "transparent",
-                margin: "20px"
+                display: "flex",
+                margin: "20px",
+                padding: "10px 20px",
+                backgroundColor: "rgb(255, 255, 255, .9)",
+                borderRadius: "25px"
             }}
         >
-            {limitTextLength(name, description ? 15 : 30)}
+            <div
+                style={{
+                    backgroundImage: "linear-gradient(90deg, rgb(0, 124, 240), rgb(0, 223, 216))",
+                    backgroundClip: "text",
+                    color: "transparent"
+                }}
+            >
+                {limitTextLength(name, description ? 15 : 30)}
+            </div>
         </div>
         {description &&
             <div
                 style={{
-                    backgroundImage: "linear-gradient(90deg, rgb(255, 77, 77), rgb(249, 203, 40))",
-                    backgroundClip: "text",
-                    color: "transparent",
-                    fontSize: 60,
+                    display: "flex",
+                    padding: "10px 20px",
+                    backgroundColor: "rgb(255, 255, 255, .9)",
+                    borderRadius: "25px"
                 }}
             >
-                {limitTextLength(description, 50)}
+                <div
+                    style={{
+                        backgroundImage: "linear-gradient(90deg, rgb(255, 77, 77), rgb(249, 203, 40))",
+                        backgroundClip: "text",
+                        color: "transparent",
+                        fontSize: 60,
+                    }}
+                >
+                    {limitTextLength(description, 50)}
+                </div>
             </div>
         }
         {icon &&
@@ -95,7 +122,7 @@ const OGImage: React.FC<Props> = ({ date, name, description, icon, dataURL }) =>
                     position: "absolute",
                     bottom: "25px",
                     padding: "10px 25px",
-                    color: "rgba(0, 0, 0, .8)",
+                    color: "rgb(0, 0, 0, .8)",
                     fontSize: 35,
                     backgroundColor: "white",
                     borderRadius: "20px",
