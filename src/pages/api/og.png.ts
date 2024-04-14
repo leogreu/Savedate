@@ -1,5 +1,3 @@
-import fs from "fs";
-import path from "path";
 import OGImage from "@/components/utils/og-image";
 import { db, eq, Image } from "astro:db";
 import { ImageResponse } from "@vercel/og";
@@ -13,6 +11,9 @@ export const GET: APIRoute = async request => {
     const image = imageId && await db.select().from(Image).where(eq(Image.id, imageId)).get();
     const dataURL = image && image.dataURL;
 
+    const fontData = await fetch("https://savedate.app/NotoSans-Bold.ttf")
+        .then((res) => res.arrayBuffer());
+
     return new ImageResponse(
         OGImage({ date, name, description, icon, dataURL }) as ReactElement,
         {
@@ -22,7 +23,7 @@ export const GET: APIRoute = async request => {
             fonts: [
                     {
                     name: "Noto Sans",
-                    data: fs.readFileSync(path.join(process.cwd(), "public", "NotoSans-Bold.ttf")),
+                    data: fontData,
                     weight: 700
                 }
             ]
