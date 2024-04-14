@@ -23,7 +23,7 @@ if (Astro.request.method === "POST") {
 
     try {
         if (typeof name === "string" && typeof startDate === "string") {
-            const image = typeof dataURL === "string"
+            const image = typeof dataURL === "string" && dataURL.length
                 && await db.insert(Image).values({
                     id: nanoid(24),
                     dataURL
