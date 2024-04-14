@@ -1,6 +1,15 @@
-<header class="relative block w-full h-40 bg-slate-50">
+<header class="relative md:max-w-xl md:mx-auto md:mt-8">
+    <div class="flex flex-col justify-center aspect-[1200/630] bg-slate-50 overflow-hidden md:rounded-2xl">
+        <slot name="image"></slot>
+    </div>
+    <div class="absolute top-0 right-0 m-4">
+        <slot name="action"></slot>
+    </div>
     <div class="mx-auto px-6 max-w-xl">
-        <span class="absolute bottom-0 text-6xl translate-y-[50%]">
+        <span class="absolute bottom-0 translate-y-[50%] flex items-center gap-6">
+            <div class="p-4 text-6xl bg-white/80 backdrop-blur-sm rounded-xl border shadow-lg">
+                <slot name="icon"></slot>    
+            </div>
             <slot></slot>
         </span>
     </div>

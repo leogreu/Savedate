@@ -6,6 +6,7 @@ const Event = defineTable({
         name: column.text(),
         description: column.text({ optional: true }),
         icon: column.text({ optional: true }),
+        imageId: column.text({ references: () => Image.columns.id, optional: true }),
         startDate: column.text(),
         startTime: column.text({ optional: true }),
         endDate: column.text(),
@@ -29,7 +30,14 @@ const Participant = defineTable({
     }
 });
 
+const Image = defineTable({
+    columns: {
+        id: column.text({ primaryKey: true }),
+        dataURL: column.text()
+    }
+});
+
 // https://astro.build/db/config
 export default defineDb({
-    tables: { Event, Participant }
+    tables: { Event, Participant, Image }
 });
