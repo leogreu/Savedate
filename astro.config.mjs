@@ -7,9 +7,7 @@ import vercel from "@astrojs/vercel/serverless";
 // https://astro.build/config
 export default defineConfig({
     output: "server",
-    adapter: vercel({
-        includeFiles: ["./assets/NotoSans-Bold.ttf"]
-    }),
+    adapter: vercel(),
     i18n: {
         defaultLocale: "en",
         locales: ["en", "de"]
