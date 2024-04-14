@@ -18,17 +18,23 @@ import Label from "@/components/custom/label.astro";
 const defaultIcon = "🎉";
 
 if (Astro.request.method === "POST") {
-    const { name, description, startDate, startTime, endDate, endTime, icon, image, timezone, response, visible }
+    const { name, description, startDate, startTime, endDate, endTime, icon, image: dataURL, timezone, response, visible }
         = Object.fromEntries((await Astro.request.formData()).entries());
 
     try {
         if (typeof name === "string" && typeof startDate === "string") {
+            const image = typeof dataURL === "string"
+                && await db.insert(Image).values({
+                    id: nanoid(24),
+                    dataURL
+                }).returning().get();
+
             const event = await db.insert(Event).values({
                 id: nanoid(8),
                 name: name,
                 description: typeof description === "string" ? description : null,
                 icon: icon && typeof icon === "string" ? icon : defaultIcon,
-                image: typeof image === "string" ? nanoid(24) : undefined,
+                imageId: image ? image.id : undefined,
                 startDate: startDate,
                 startTime: typeof startTime === "string" ? startTime : null,
                 endDate: typeof endDate === "string" ? endDate : startDate,
@@ -48,13 +54,6 @@ if (Astro.request.method === "POST") {
                 createdDate: new Date(),
                 cookie: Astro.cookies.get("savedate")?.value
             }).returning().get();
-
-            if (event.image && typeof image === "string") {
-                await db.insert(Image).values({
-                    id: event.image,
-                    dataURL: image
-                });
-            }
 
             return Astro.redirect(`/participant/${participant.id}`);
         }

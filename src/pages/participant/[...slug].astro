@@ -36,8 +36,8 @@ if (!participant) return;
 const event = await db.select().from(Event).where(eq(Event.id, participant.eventId)).get();
 if (!event) return;
 
-const image = event.image
-    && await db.select().from(Image).where(eq(Image.id, event.image)).get();
+const image = event.imageId
+    && await db.select().from(Image).where(eq(Image.id, event.imageId)).get();
 
 const locale = getPreferredLocale(Astro.request.headers);
 const i18n = getTranslations(locale);

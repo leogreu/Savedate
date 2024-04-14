@@ -63,8 +63,8 @@ if (Astro.request.method === "POST") {
     }
 }
 
-const image = event.image
-    && await db.select().from(Image).where(eq(Image.id, event.image)).get();
+const image = event.imageId
+    && await db.select().from(Image).where(eq(Image.id, event.imageId)).get();
 
 const locale = getPreferredLocale(Astro.request.headers);
 const date = formatDateParts(locale, event.startDate, event.startTime, event.timezone);
