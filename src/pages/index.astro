@@ -233,7 +233,7 @@ const i18n = getTranslations(locale);
     imageButton.addEventListener("input", ({ target }) => {
         if (target instanceof HTMLInputElement && target?.files?.[0]) {
             const file = target.files[0];
-            resize(file, 1200, dataURL => {
+            resize(file, 800, dataURL => {
                 imageElement.src = dataURL;
                 imageInput.value = dataURL;
             });

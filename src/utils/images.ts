@@ -17,7 +17,10 @@ export const resize = (file: File, maxWidth: number, callback: (dataURL: string)
         // Draw the resized image
         context?.drawImage(img, 0, 0, maxWidth, newHeight);
 
-        const dataURL = canvas.toDataURL("image/jpeg", 0.9);
+        // Handle differences in jpeg qualities between browsers
+        const quality = navigator.userAgent.match(/Version\/\d+.+Safari/) ? 0.6 : 0.8;
+
+        const dataURL = canvas.toDataURL("image/jpeg", quality);
         callback(dataURL);
     };
 
