@@ -2,7 +2,7 @@
 import "@/styles/globals.css";
 import { db, Event, Participant, Image } from "astro:db";
 import { nanoid } from "nanoid";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, ImageIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -73,7 +73,8 @@ const i18n = getTranslations(locale);
     <Banner>
         <img slot="image" />
         <label slot="action">
-            <Badge class="cursor-pointer">
+            <Badge class="cursor-pointer animate-in fade-in duration-1000 [animation-delay:2s] fill-mode-backwards">
+                <ImageIcon size="14"></ImageIcon>
                 <span>{i18n("upload-image")}</span>
             </Badge>
             <input class="hidden" type="file">
