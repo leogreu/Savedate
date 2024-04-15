@@ -5,7 +5,7 @@ import { nanoid } from "nanoid";
 import { CircleAlert } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { getPreferredLocale, getTranslations } from "@/utils/i18n.ts";
+import { defaultLocale, getPreferredLocale, getTranslations } from "@/utils/i18n.ts";
 import { formatDateParts } from "@/utils/temporal.ts";
 
 import Layout from "@/components/custom/layout.astro";
@@ -66,7 +66,7 @@ if (Astro.request.method === "POST") {
 const image = event.imageId
     && await db.select().from(Image).where(eq(Image.id, event.imageId)).get();
 
-const locale = getPreferredLocale(Astro.request.headers);
+const locale = getPreferredLocale(Astro.request.headers) ?? defaultLocale;
 const date = formatDateParts(locale, event.startDate, event.startTime, event.timezone);
 const i18n = getTranslations(locale);
 ---

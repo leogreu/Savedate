@@ -1,8 +1,7 @@
 import { Temporal } from "temporal-polyfill";
-import { defaultLocale } from "./i18n.ts";
 
 export const formatDateParts = (
-    locale = defaultLocale,
+    locale: string,
     plainDate: string,
     plainTime?: string | null,
     timezone?: string | null,
