@@ -84,7 +84,7 @@ const i18n = getTranslations(locale);
     <meta slot="head" property="og:image:height" content="630" />
     <Banner>
         {image &&
-            <img slot="image" src={image.dataURL} alt={event.name} />
+            <img slot="image" src={image.dataURL} />
         }
         <div slot="icon">
             {event.icon}

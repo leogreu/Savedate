@@ -46,7 +46,7 @@ const i18n = getTranslations(locale);
 <Layout title={event.name} description={event.description ?? event.name} locale={locale}>
     <Banner>
         {image &&
-            <img slot="image" src={image.dataURL} alt={event.name} />
+            <img slot="image" src={image.dataURL} />
         }
         <div slot="icon">
             {event.icon}
