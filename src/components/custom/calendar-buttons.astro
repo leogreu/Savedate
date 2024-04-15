@@ -12,7 +12,17 @@ interface Props {
 const { event, linktext } = Astro.props;
 ---
 
-<div id="add-to-calendar" class="flex gap-2" data-linktext={linktext}>
+<div
+    id="add-to-calendar"
+    class="flex gap-2"
+    data-linktext={linktext}
+    data-desc={event.description}
+    data-start-date={event.startDate}
+    data-start-time={event.startTime}
+    data-end-date={event.endDate}
+    data-end-time={event.endTime}
+    data-time-zone={event.timezone}
+>
     <Button id="Apple" variant="outline" className="w-full">
         <div class="flex h-5 w-5">
             <Fragment set:html={AppleIcon} />
@@ -28,29 +38,22 @@ const { event, linktext } = Astro.props;
             <Fragment set:html={MicrosoftIcon} />
         </div>
     </Button>
-    <time id="start-date" class="hidden" datetime={event.startDate}></time>
-    <time id="start-time" class="hidden" datetime={event.startTime}></time>
-    <time id="end-date" class="hidden" datetime={event.endDate}></time>
-    <time id="end-time" class="hidden" datetime={event.endTime}></time>
-    <input id="timezone" class="hidden" value={event.timezone}></time>
 </div>
 
 <script>
-    import { atcb_action } from "add-to-calendar-button";
+    const container = document.querySelector("#add-to-calendar") as HTMLElement;
 
-    const container = document.querySelector<HTMLElement>("#add-to-calendar");
-    for (const button of container?.querySelectorAll("button") ?? []) {
+    const { linktext, desc, startDate, startTime, endDate, endTime, timeZone } = container.dataset;
+    const description = desc + (desc ? "[br][br]" : "") + linktext + ": " + location.href;
+
+    for (const button of container.querySelectorAll("button") ?? []) {
         button.addEventListener("click", () => {
-            atcb_action({
-                name: document.title,
-                description: document.querySelector('meta[name="description"]')?.getAttribute("content")
-                    + "[br][br]" + container?.dataset.linktext + ": " + location.href,
-                startDate: document.querySelector<HTMLTimeElement>("time#start-date")?.dateTime,
-                endDate: document.querySelector<HTMLTimeElement>("time#end-date")?.dateTime,
-                startTime: document.querySelector<HTMLTimeElement>("time#start-time")?.dateTime,
-                endTime: document.querySelector<HTMLTimeElement>("time#end-time")?.dateTime,
-                timeZone: document.querySelector<HTMLInputElement>("#timezone")?.value,
-                options: [button.id as "Apple" | "Google" | "Microsoft365"]
+            import("add-to-calendar-button").then(({ atcb_action }) => {
+                atcb_action({
+                    name: document.title,
+                    description, startDate, endDate, startTime, endTime, timeZone,
+                    options: [button.id as "Apple" | "Google" | "Microsoft365"]
+                });
             });
         });
     }
