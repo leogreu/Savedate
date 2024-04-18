@@ -126,7 +126,9 @@ const i18n = getTranslations(locale);
 
     document.querySelector("#share button")?.addEventListener("click", () => {
         const url = document.querySelector<HTMLInputElement>("#share input")?.value;
-        if (navigator.share) {
+
+        // On iOS Safari, WhatsApp does not fully load OG preview images
+        if (navigator.share && !navigator.userAgent.match(/Version\/\d+.+Safari/)) {
             navigator.share({ url });
         } else if (url) {
             addToClipboard(url);
