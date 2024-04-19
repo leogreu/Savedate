@@ -23,13 +23,14 @@ if (Astro.request.method === "POST") {
 
     try {
         if (typeof name === "string" && typeof startDate === "string") {
-            const image = typeof dataURL === "string" && dataURL.length
-                && await db.insert(Image).values({
+            const [image] = typeof dataURL === "string" && dataURL.length
+                ? await db.insert(Image).values({
                     id: nanoid(24),
                     dataURL
-                }).returning().get();
+                }).returning()
+                : [];
 
-            const event = await db.insert(Event).values({
+            const [event] = await db.insert(Event).values({
                 id: nanoid(8),
                 name: name,
                 description: typeof description === "string" ? description : null,
@@ -44,16 +45,16 @@ if (Astro.request.method === "POST") {
                 allowResponse: response ? true : false,
                 participantsVisible: response && visible ? true : false,
                 createdDate: new Date()
-            }).returning().get();
+            }).returning();
 
-            const participant = await db.insert(Participant).values({
+            const [participant] = await db.insert(Participant).values({
                 id: nanoid(24),
                 eventId: event.id,
                 isAdmin: true,
                 response: "yes",
                 createdDate: new Date(),
                 cookie: Astro.cookies.get("savedate")?.value
-            }).returning().get();
+            }).returning();
 
             return Astro.redirect(`/participant/${participant.id}`);
         }
