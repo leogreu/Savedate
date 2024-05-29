@@ -21,6 +21,7 @@ const Event = defineTable({
         timezone: column.text({ optional: true }),
         allowResponse: column.boolean({ default: false }),
         participantsVisible: column.boolean({ default: false }),
+        previewOptions: column.json({ default: {} }),
         createdDate: column.date()
     }
 });

@@ -4,9 +4,11 @@ import { db, eq, Event, Participant, Image } from "astro:db";
 import { CircleCheck, Share } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Toggle } from "@/components/ui/toggle";
 import { Toaster } from "@/components/ui/toaster";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { getPreferredLocale, getTranslations, getClientTranslations } from "@/utils/i18n.ts";
+import { defaultLocale, getPreferredLocale, getTranslations, getClientTranslations } from "@/utils/i18n.ts";
+import { getOGImageURL } from "@/utils/og-url.ts";
 
 import Layout from "@/components/custom/layout.astro";
 import Banner from "@/components/custom/banner.astro";
@@ -20,26 +22,40 @@ import ParticipantsList from "@/components/custom/participants-list.astro";
 const { slug } = Astro.params;
 if (!slug) return;
 
-let participant;
+let participant = await db.select().from(Participant).where(eq(Participant.id, slug)).get();
+if (!participant) return;
+
+let event = await db.select().from(Event).where(eq(Event.id, participant.eventId)).get();
+if (!event) return;
+
+let hideElements: string[] | undefined;
 if (Astro.request.method === "POST") {
     const formData = await Astro.request.formData();
     const response = formData.get("response");
+    const preview = formData.get("preview");
 
     if (typeof response === "string") {
         participant = await db.update(Participant).set({ response }).where(eq(Participant.id, slug)).returning().get();
-    }
-} else {
-    participant = await db.select().from(Participant).where(eq(Participant.id, slug)).get();
-}
-if (!participant) return;
+    } else if (typeof preview === "string") {
+        const previewOptions = (event.previewOptions as Record<string, unknown>);
+        hideElements = (previewOptions.hideElements ??= []) as string[];
+        
+        if (hideElements.includes(preview)) {
+            const index = hideElements.indexOf(preview);
+            if (index >= 0) hideElements.splice(index, 1);
+        } else {
+            hideElements.push(preview);
+        }
 
-const event = await db.select().from(Event).where(eq(Event.id, participant.eventId)).get();
-if (!event) return;
+        event.previewOptions = previewOptions;
+        event = await db.update(Event).set(event).where(eq(Event.id, event.id)).returning().get();
+    }
+}
 
 const image = event.imageId
     && await db.select().from(Image).where(eq(Image.id, event.imageId)).get();
 
-const locale = getPreferredLocale(Astro.request.headers);
+const locale = getPreferredLocale(Astro.request.headers) ?? defaultLocale;
 const i18n = getTranslations(locale);
 ---
 
@@ -102,6 +118,36 @@ const i18n = getTranslations(locale);
         {event.allowResponse && (event.participantsVisible || participant.isAdmin) &&
             <hr />
             <ParticipantsList eventId={event.id} participantId={participant.id} />
+        }
+        {participant.isAdmin &&
+            <hr />
+            <section id="link-preview" class="flex flex-col gap-4">
+                <h2 class="text-2xl font-medium">
+                    {i18n("link-preview")}
+                </h2>
+                <p class="text-base text-gray-500">
+                    {i18n("link-preview-subtitle")}
+                </p>
+                <img class="rounded-lg" src={getOGImageURL(Astro.url.origin, locale, event)} />
+                <form class="flex gap-2" method="POST">
+                    {["date", "name", "description", "icon"]
+                        .filter(element => element === "date" || Reflect.get(event, element))
+                        .map(element =>
+                            <Toggle
+                                type="submit"
+                                name="preview"
+                                className="w-full"
+                                variant="outline"
+                                value={element}
+                                data-state={hideElements?.includes(element) ? "on" : "off"}
+                                client:idle
+                            >
+                                {i18n(element)}
+                            </Toggle>
+                        )
+                    }
+                </form>
+            </section>
         }
         {!participant.isAdmin &&
             <hr />

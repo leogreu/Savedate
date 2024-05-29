@@ -38,44 +38,48 @@ const OGImage: React.FC<Props> = ({ date, name, description, icon, dataURL }) =>
                 src={dataURL}
             />
         }
-        <div
-            style={{
-                display: "flex",
-                padding: "10px 20px",
-                backgroundColor: "rgb(255, 255, 255, .9)",
-                borderRadius: "25px"
-            }}
-        >
+        {date &&
             <div
                 style={{
-                    backgroundImage: "linear-gradient(90deg, rgb(121, 40, 202), rgb(255, 0, 128))",
-                    backgroundClip: "text",
-                    color: "transparent",
-                    fontSize: 60
+                    display: "flex",
+                    padding: "10px 20px",
+                    backgroundColor: "rgb(255, 255, 255, .9)",
+                    borderRadius: "25px"
                 }}
             >
-                {date}
+                <div
+                    style={{
+                        backgroundImage: "linear-gradient(90deg, rgb(121, 40, 202), rgb(255, 0, 128))",
+                        backgroundClip: "text",
+                        color: "transparent",
+                        fontSize: 60
+                    }}
+                >
+                    {date}
+                </div>
             </div>
-        </div>
-        <div
-            style={{
-                display: "flex",
-                margin: "20px",
-                padding: "10px 20px",
-                backgroundColor: "rgb(255, 255, 255, .9)",
-                borderRadius: "25px"
-            }}
-        >
+        }
+        {name &&
             <div
                 style={{
-                    backgroundImage: "linear-gradient(90deg, rgb(0, 124, 240), rgb(0, 223, 216))",
-                    backgroundClip: "text",
-                    color: "transparent"
+                    display: "flex",
+                    margin: "20px",
+                    padding: "10px 20px",
+                    backgroundColor: "rgb(255, 255, 255, .9)",
+                    borderRadius: "25px"
                 }}
             >
-                {limitTextLength(name, description ? 15 : 30)}
+                <div
+                    style={{
+                        backgroundImage: "linear-gradient(90deg, rgb(0, 124, 240), rgb(0, 223, 216))",
+                        backgroundClip: "text",
+                        color: "transparent"
+                    }}
+                >
+                    {limitTextLength(name, description ? 15 : 30)}
+                </div>
             </div>
-        </div>
+        }
         {description &&
             <div
                 style={{
