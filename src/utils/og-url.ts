@@ -10,7 +10,7 @@ export const getOGImageURL = (
     let url = `${origin}/api/og.jpeg?`;
     for (const element of ["date", "name", "description", "icon", "imageId"] as const) {
         const hide = event.previewOptions.hideElements?.includes(element);
-        url += `&${element}=${hide ? "" : event[element]}`;
+        url += `&${element}=${hide ? "" : (event[element] ?? "")}`;
     }
 
     return encodeURI(url);

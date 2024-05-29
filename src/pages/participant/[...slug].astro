@@ -130,19 +130,22 @@ const i18n = getTranslations(locale);
                 </p>
                 <img class="rounded-lg" src={getOGImageURL(Astro.url.origin, locale, event)} />
                 <form class="flex gap-2" method="POST">
-                    {["date", "name", "description"].map(element =>
-                        <Toggle
-                            type="submit"
-                            name="preview"
-                            className="w-full"
-                            variant="outline"
-                            value={element}
-                            data-state={hideElements?.includes(element) ? "on" : "off"}
-                            client:idle
-                        >
-                            {i18n(element)}
-                        </Toggle>
-                    )}
+                    {["date", "name", "description", "icon"]
+                        .filter(element => element === "date" || Reflect.get(event, element))
+                        .map(element =>
+                            <Toggle
+                                type="submit"
+                                name="preview"
+                                className="w-full"
+                                variant="outline"
+                                value={element}
+                                data-state={hideElements?.includes(element) ? "on" : "off"}
+                                client:idle
+                            >
+                                {i18n(element)}
+                            </Toggle>
+                        )
+                    }
                 </form>
             </section>
         }
