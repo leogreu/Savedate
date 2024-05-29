@@ -34,7 +34,7 @@ if (Astro.request.method === "POST") {
                 id: nanoid(8),
                 name: name,
                 description: typeof description === "string" ? description : null,
-                icon: icon && typeof icon === "string" ? icon : defaultIcon,
+                icon: icon && typeof icon === "string" ? icon : null,
                 imageId: image ? image.id : undefined,
                 startDate: startDate,
                 startTime: typeof startTime === "string" ? startTime : null,
@@ -134,12 +134,16 @@ const i18n = getTranslations(locale);
             </p>
             <Switch name="visible" client:idle></Switch>
         </label>
-        <input class="hidden" name="icon" />
+        <input class="hidden" name="icon" value={defaultIcon} />
         <input class="hidden" name="image" />
         <input class="hidden" name="timezone" />
         <Button type="submit">{i18n("save")}</Button>
     </form>
-    <dialog id="emoji-dialog" class="rounded-lg"></dialog>
+    <dialog id="emoji-dialog" class="rounded-lg">
+        <Button className="w-full" size="sm" variant="ghost">
+            {i18n("remove-emoji")}
+        </Button>
+    </dialog>
 </Layout>
 
 <script>
@@ -210,11 +214,17 @@ const i18n = getTranslations(locale);
                 perLine: 8
             });
 
-            emojiDialog.append(picker as unknown as HTMLElement);
+            emojiDialog.prepend(picker as unknown as HTMLElement);
             emojiTooltip.classList.add("hidden");
         }
 
         emojiDialog.showModal();
+    });
+
+    emojiDialog.querySelector("button")?.addEventListener("click", () => {
+        emojiButton.textContent = " ";
+        emojiInput.value = "";
+        emojiDialog.close();
     });
 
     emojiDialog.addEventListener("click", event => {

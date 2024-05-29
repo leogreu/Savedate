@@ -7,10 +7,16 @@
     </div>
     <div class="mx-auto px-6 max-w-xl">
         <span class="absolute bottom-0 translate-y-[50%] flex items-center gap-6">
-            <div class="p-4 text-6xl bg-white/80 backdrop-blur-sm rounded-xl border shadow-lg">
+            <div id="icon" class="p-4 text-6xl bg-white/80 backdrop-blur-sm rounded-xl border shadow-lg">
                 <slot name="icon"></slot>    
             </div>
             <slot></slot>
         </span>
     </div>
 </header>
+
+<style>
+    #icon:not(:has(*)) {
+        display: none;
+    }
+</style>
