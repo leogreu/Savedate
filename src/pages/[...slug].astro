@@ -86,9 +86,11 @@ const i18n = getTranslations(locale);
         {image &&
             <img slot="image" src={image.dataURL} />
         }
-        <div slot="icon">
-            {event.icon}
-        </div>
+        {event.icon &&
+            <div slot="icon">
+                {event.icon}
+            </div>
+        }
     </Banner>
     <main class="flex flex-col gap-12 my-16 mx-auto px-6 max-w-xl">
         <section class="flex flex-col gap-8">
