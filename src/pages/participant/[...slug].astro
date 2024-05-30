@@ -128,8 +128,13 @@ const i18n = getTranslations(locale);
                 <p class="text-base text-gray-500">
                     {i18n("link-preview-subtitle")}
                 </p>
-                <img class="rounded-lg" src={getOGImageURL(Astro.url.origin, locale, event)} />
-                <form class="flex gap-2" method="POST">
+                <img
+                    width="1200"
+                    height="630"
+                    class="rounded-lg"
+                    src={getOGImageURL(Astro.url.origin, locale, event)}
+                />
+                <form class="flex gap-2" method="POST" action="#link-preview">
                     {["date", "name", "description", "icon"]
                         .filter(element => element === "date" || Reflect.get(event, element))
                         .map(element =>
