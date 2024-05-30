@@ -28,7 +28,6 @@ if (!participant) return;
 let event = await db.select().from(Event).where(eq(Event.id, participant.eventId)).get();
 if (!event) return;
 
-let hideElements: string[] | undefined;
 if (Astro.request.method === "POST") {
     const formData = await Astro.request.formData();
     const response = formData.get("response");
@@ -38,7 +37,7 @@ if (Astro.request.method === "POST") {
         participant = await db.update(Participant).set({ response }).where(eq(Participant.id, slug)).returning().get();
     } else if (typeof preview === "string") {
         const previewOptions = (event.previewOptions as Record<string, unknown>);
-        hideElements = (previewOptions.hideElements ??= []) as string[];
+        const hideElements = (previewOptions.hideElements ??= []) as string[];
         
         if (hideElements.includes(preview)) {
             const index = hideElements.indexOf(preview);
@@ -47,8 +46,7 @@ if (Astro.request.method === "POST") {
             hideElements.push(preview);
         }
 
-        event.previewOptions = previewOptions;
-        event = await db.update(Event).set(event).where(eq(Event.id, event.id)).returning().get();
+        event = await db.update(Event).set({ previewOptions }).where(eq(Event.id, event.id)).returning().get();
     }
 }
 
@@ -144,7 +142,9 @@ const i18n = getTranslations(locale);
                                 className="w-full"
                                 variant="outline"
                                 value={element}
-                                data-state={hideElements?.includes(element) ? "on" : "off"}
+                                data-state={(event.previewOptions as any)
+                                    .hideElements?.includes(element) ? "on" : "off"
+                                }
                                 client:idle
                             >
                                 {i18n(element)}
