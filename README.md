@@ -3,15 +3,15 @@
 Send calendar invitations without registration. Using Astro DB, Temporal API, and Satori for social media image generation. Supports RSVP, response editing, optional image upload, and direct calendar import for Apple, Google, and Microsoft.
 
 <div align="center">
-    <img src="./img/phone-1.jpeg" width="300">
-    <img src="./img/phone-2.jpeg" width="300">
-    <img src="./img/phone-3.jpeg" width="300">
+    <img src="./img/phone-1.jpeg" width="250">
+    <img src="./img/phone-2.jpeg" width="250">
+    <img src="./img/phone-3.jpeg" width="250">
 </div>
 
 <div align="center">
-    <img src="./img/phone-4.jpeg" width="300">
-    <img src="./img/phone-5.jpeg" width="300">
-    <img src="./img/phone-6.jpeg" width="300">
+    <img src="./img/phone-4.jpeg" width="250">
+    <img src="./img/phone-5.jpeg" width="250">
+    <img src="./img/phone-6.jpeg" width="250">
 </div>
 
 ## Development
